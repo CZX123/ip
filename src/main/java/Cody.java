@@ -1,6 +1,5 @@
 import java.util.Scanner;
 
-
 public class Cody {
     private static final String WELCOME_MSG = "\n👋 Hello! I'm Cody. 🤖\nWhat can I do for you? 🌈\n";
     private static final String GOODBYE_MSG = "👋 Bye. Hope to see you again soon! ✨";
@@ -10,28 +9,6 @@ public class Cody {
     private static final Scanner input = new Scanner(System.in);
     private static final Task[] tasks = new Task[100];
     private static int taskCount = 0;
-
-    private static class Task {
-        private final String name;
-        private boolean done = false;
-
-        public Task(String desc) {
-            this.name = desc;
-        }
-
-        public void markDone() {
-            done = true;
-        }
-
-        public void unmarkDone() {
-            done = false;
-        }
-
-        @Override
-        public String toString() {
-            return String.format("[%s] %s", done ? "X" : " ", name);
-        }
-    }
 
     public static void main(String[] args) {
         System.out.println(WELCOME_MSG + DIVIDER);
