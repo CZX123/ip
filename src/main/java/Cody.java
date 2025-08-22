@@ -21,9 +21,13 @@ public class Cody {
             if (inputTxt.equals("list")) {
                 listTasks();
             } else if (inputTxt.startsWith("mark ") || inputTxt.startsWith("unmark ")) {
-                markTask(inputTxt.split(" ")[1], inputTxt.startsWith("mark "));
-            } else {
+                markTask(inputTxt.split(" ", 2)[1], inputTxt.startsWith("mark "));
+            } else if (inputTxt.startsWith("todo ") ||
+                       inputTxt.startsWith("deadline ")||
+                       inputTxt.startsWith("event ")) {
                 addTask(inputTxt);
+            } else {
+                System.out.println("💣 Invalid command!");
             }
             System.out.println(DIVIDER);
             inputTxt = input.nextLine().trim();
@@ -52,16 +56,28 @@ public class Cody {
         }
         if (done) {
             tasks[index].markDone();
-            System.out.printf("Marked task as done: ✅\n%s%s\n", INDENT, tasks[index]);
+            System.out.printf("✅ Marked task as done:\n%s%s\n", INDENT, tasks[index]);
         } else {
             tasks[index].unmarkDone();
-            System.out.printf("Marked task as not done yet: ❌\n%s%s\n", INDENT, tasks[index]);
+            System.out.printf("↩️ Marked task as not done:\n%s%s\n", INDENT, tasks[index]);
         }
     }
 
-    private static void addTask(String name) {
-        tasks[taskCount] = new Task(name);
+    private static void addTask(String inputTxt) {
+        String taskDetails = inputTxt.split(" ", 2)[1];
+        if (inputTxt.startsWith("todo ")) {
+            tasks[taskCount] = new Todo(taskDetails);
+        } else if (inputTxt.startsWith("deadline ")) {
+            String[] split = taskDetails.split(" /by ", 2);
+            tasks[taskCount] = new Deadline(split[0], split[1]);
+        } else {
+            String[] split1 = taskDetails.split(" /from ", 2);
+            String[] split2 = split1[1].split(" /to ", 2);
+            tasks[taskCount] = new Event(split1[0], split2[0], split2[1]);
+        }
+        System.out.println("➕ Added task:\n" + INDENT + tasks[taskCount]);
         taskCount++;
-        System.out.println("added: " + name);
+        System.out.printf("%s📋 Now there are %d task%s!\n",
+                          INDENT, taskCount, taskCount > 1 ? "s" : "");
     }
 }
