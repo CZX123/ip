@@ -38,10 +38,10 @@ public class Cody {
 
     private static void listTasks() {
         if (taskCount == 0) {
-            System.out.println("You have no tasks for today! 😎");
+            System.out.println("You have no tasks for today! \uD83D\uDE0E");
         }
         else {
-            System.out.printf("You have %d task%s! 💪📝\n", taskCount, taskCount > 1 ? "s" : "");
+            System.out.printf("You have %d task%s! \uD83D\uDCAA\uD83D\uDCDD\n", taskCount, taskCount > 1 ? "s" : "");
         }
         for (int i = 0; i < taskCount; i++) {
             System.out.printf("%s%d. %s\n", INDENT, i+1, tasks[i]);
@@ -51,7 +51,7 @@ public class Cody {
     private static void markTask(String taskId, boolean done) {
         int index = Integer.parseInt(taskId) - 1;
         if (index >= taskCount) {
-            System.out.printf("There is no task numbered %d! 😵\n", index + 1);
+            System.out.printf("There is no task numbered %d! \uD83D\uDE35\n", index + 1);
             return;
         }
         if (done) {
@@ -59,7 +59,7 @@ public class Cody {
             System.out.printf("✅ Marked task as done:\n%s%s\n", INDENT, tasks[index]);
         } else {
             tasks[index].unmarkDone();
-            System.out.printf("↩️ Marked task as not done:\n%s%s\n", INDENT, tasks[index]);
+            System.out.printf("↩\uFE0F Marked task as not done:\n%s%s\n", INDENT, tasks[index]);
         }
     }
 
@@ -77,7 +77,7 @@ public class Cody {
         }
         System.out.println("➕ Added task:\n" + INDENT + tasks[taskCount]);
         taskCount++;
-        System.out.printf("%s📋 Now there are %d task%s!\n",
+        System.out.printf("%s\uD83D\uDCCB Now there are %d task%s!\n",
                           INDENT, taskCount, taskCount > 1 ? "s" : "");
     }
 }

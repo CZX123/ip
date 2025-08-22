@@ -1,0 +1,12 @@
+list
+mark 3
+todo task 1
+deadline deadline 2 /by 25 Aug
+event event 3 /from 24 Aug /to 26 Aug
+list
+mark 1
+list
+mark 2
+unmark 1
+list
+bye
