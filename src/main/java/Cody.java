@@ -46,9 +46,7 @@ public class Cody {
             } else if (inputTxt.startsWith("mark ") || inputTxt.startsWith("unmark ")) {
                 markTask(inputTxt.split(" ")[1], inputTxt.startsWith("mark "));
             } else {
-                tasks[taskCount] = new Task(inputTxt);
-                taskCount++;
-                System.out.println("added: " + inputTxt);
+                addTask(inputTxt);
             }
             System.out.println(DIVIDER);
             inputTxt = input.nextLine().trim();
@@ -82,5 +80,11 @@ public class Cody {
             tasks[index].unmarkDone();
             System.out.printf("Marked task as not done yet: ❌\n%s%s\n", INDENT, tasks[index]);
         }
+    }
+
+    private static void addTask(String name) {
+        tasks[taskCount] = new Task(name);
+        taskCount++;
+        System.out.println("added: " + name);
     }
 }
