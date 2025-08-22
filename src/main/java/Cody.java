@@ -1,41 +1,86 @@
 import java.util.Scanner;
 
+
 public class Cody {
     private static final String WELCOME_MSG = "\n👋 Hello! I'm Cody. 🤖\nWhat can I do for you? 🌈\n";
     private static final String GOODBYE_MSG = "👋 Bye. Hope to see you again soon! ✨";
     private static final String DIVIDER = "\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯\n";
     private static final String INDENT = "  ";
+
     private static final Scanner input = new Scanner(System.in);
-    private static final String[] tasks = new String[100];
+    private static final Task[] tasks = new Task[100];
     private static int taskCount = 0;
+
+    private static class Task {
+        private final String name;
+        private boolean done = false;
+
+        public Task(String desc) {
+            this.name = desc;
+        }
+
+        public void markDone() {
+            done = true;
+        }
+
+        public void unmarkDone() {
+            done = false;
+        }
+
+        @Override
+        public String toString() {
+            return String.format("[%s] %s", done ? "X" : " ", name);
+        }
+    }
 
     public static void main(String[] args) {
         System.out.println(WELCOME_MSG + DIVIDER);
 
-        String inputTxt = input.nextLine();
+        String inputTxt = input.nextLine().trim();
 
         while (!inputTxt.equals("bye")) {
+            System.out.println();
+            System.out.print(INDENT);
             if (inputTxt.equals("list")) {
-                System.out.println();
-                if (taskCount == 0) {
-                    System.out.println(INDENT + "You have no tasks for today! 😎");
-                }
-                else {
-                    System.out.printf("%sYou have %d task%s! 💪📝\n",
-                                      INDENT, taskCount, taskCount > 1 ? "s" : "");
-                }
-                for (int i = 0; i < taskCount; i++) {
-                    System.out.printf("%s%d. %s\n", INDENT, i+1, tasks[i]);
-                }
-                System.out.println(DIVIDER);
+                listTasks();
+            } else if (inputTxt.startsWith("mark ") || inputTxt.startsWith("unmark ")) {
+                markTask(inputTxt.split(" ")[1], inputTxt.startsWith("mark "));
             } else {
-                tasks[taskCount] = inputTxt;
+                tasks[taskCount] = new Task(inputTxt);
                 taskCount++;
-                System.out.println("\n" + INDENT + "added: " + inputTxt + "\n" + DIVIDER);
+                System.out.println("added: " + inputTxt);
             }
-            inputTxt = input.nextLine();
+            System.out.println(DIVIDER);
+            inputTxt = input.nextLine().trim();
         }
 
         System.out.println(DIVIDER + "\n" + GOODBYE_MSG);
+    }
+
+    private static void listTasks() {
+        if (taskCount == 0) {
+            System.out.println("You have no tasks for today! 😎");
+        }
+        else {
+            System.out.printf("You have %d task%s! 💪📝\n", taskCount, taskCount > 1 ? "s" : "");
+        }
+        for (int i = 0; i < taskCount; i++) {
+            System.out.printf("%s%d. %s\n", INDENT, i+1, tasks[i]);
+        }
+    }
+
+    private static void markTask(String taskId, boolean done) {
+        int index = Integer.parseInt(taskId) - 1;
+        if (index >= taskCount) {
+            System.out.printf("There is no task numbered %d! 😵\n", index + 1);
+            return;
+        }
+        if (done) {
+            tasks[index].markDone();
+            System.out.printf("Marked task as done: ✅\n%s%s\n", INDENT, tasks[index]);
+        } else {
+            tasks[index].unmarkDone();
+            System.out.printf("Marked task as not done yet: ❌\n%s%s\n", INDENT, tasks[index]);
+        }
     }
 }
