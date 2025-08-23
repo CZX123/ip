@@ -1,0 +1,24 @@
+public enum Command {
+    LIST("list"),
+    TODO("todo"),
+    DEADLINE("deadline"),
+    EVENT("event"),
+    MARK("mark"),
+    UNMARK("unmark"),
+    DELETE("delete");
+    private final String text;
+
+    Command(String text) {
+        this.text = text;
+    }
+
+    public static Command of(String input) throws CodyException {
+        if (input.equals("list")) return LIST;
+        for (Command command : Command.values()) {
+            if (input.startsWith(command.text)) {
+                return command;
+            }
+        }
+        throw new CodyException("⚠\uFE0F Invalid command!");
+    }
+}

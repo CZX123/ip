@@ -20,20 +20,14 @@ public class Cody {
             System.out.println();
             System.out.print(INDENT);
             try {
-                if (inputTxt.equals("list")) {
-                    listTasks();
-                } else if (inputTxt.startsWith("mark") || inputTxt.startsWith("unmark")) {
-                    markTask(inputTxt);
-                } else if (inputTxt.startsWith("todo")) {
-                    addTodo(inputTxt);
-                } else if (inputTxt.startsWith("deadline")) {
-                    addDeadline(inputTxt);
-                } else if (inputTxt.startsWith("event")) {
-                    addEvent(inputTxt);
-                } else if (inputTxt.startsWith("delete")) {
-                    deleteTask(inputTxt);
-                } else {
-                    throw new CodyException("⚠\uFE0F Invalid command!");
+                switch (Command.of(inputTxt)) {
+                    case LIST -> listTasks();
+                    case TODO -> addTodo(inputTxt);
+                    case DEADLINE -> addDeadline(inputTxt);
+                    case EVENT -> addEvent(inputTxt);
+                    case MARK, UNMARK -> markTask(inputTxt);
+                    case DELETE -> deleteTask(inputTxt);
+                    default -> throw new CodyException("⚠\uFE0F Invalid command!");
                 }
             } catch (CodyException e) {
                 System.out.println(e.getMessage());
