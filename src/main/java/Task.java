@@ -18,4 +18,13 @@ abstract class Task {
     public String toString() {
         return String.format("[%s] %s", done ? "X" : " ", name);
     }
+
+    public static Task fromString(String str) throws CodyException {
+        return switch (str.charAt(1)) {
+            case 'T' -> Todo.fromString(str);
+            case 'D' -> Deadline.fromString(str);
+            case 'E' -> Event.fromString(str);
+            default -> throw new CodyException("Invalid task format!");
+        };
+    }
 }
