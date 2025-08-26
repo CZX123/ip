@@ -1,3 +1,8 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -8,11 +13,15 @@ public class Cody {
     private static final String WELCOME_MSG = "\n👋 Hello! I'm Cody. 🤖\nWhat can I do for you? 🌈\n";
     private static final String GOODBYE_MSG = "👋 Bye. Hope to see you again soon! ✨";
     private static final String DIVIDER = "\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯\n";
+
+    private static final File file = new File("data/tasks.txt");
+    static { System.out.println(file.getAbsolutePath()); }
     private static final Scanner input = new Scanner(System.in);
     private static final List<Task> tasks = new ArrayList<>();
 
     public static void main(String[] args) {
         System.out.println(WELCOME_MSG + DIVIDER);
+        loadTasks();
 
         String inputTxt = input.nextLine().trim();
         while (!inputTxt.equals("bye")) {
@@ -35,6 +44,39 @@ public class Cody {
         }
 
         System.out.println(DIVIDER + "\n" + GOODBYE_MSG);
+    }
+
+    private static void loadTasks() {
+        try {
+            Scanner s = new Scanner(file);
+            StringBuilder corruptedData = new StringBuilder();
+            while (s.hasNext()) {
+                String line = s.nextLine();
+                try {
+                    tasks.add(Task.fromString(line));
+                } catch (CodyException e) {
+                    corruptedData.append("   ").append(line).append("\n");
+                }
+            }
+            if (!corruptedData.isEmpty()) {
+                System.out.println("\uD83D\uDCA5 There's something wrong with the saved data below: \n");
+                System.out.println(corruptedData);
+                System.out.println("\uD83D\uDD04 Please re-add the tasks manually.");
+                System.out.println(DIVIDER);
+            }
+        } catch (FileNotFoundException ignored) {
+            try {
+                file.getParentFile().mkdirs();
+                file.createNewFile();
+            } catch(IOException e) {
+                System.out.println("Error while creating save file: " + e.getMessage());
+                System.out.println(DIVIDER);
+            }
+        }
+    }
+
+    private static void saveTasks() {
+
     }
 
     private static void listTasks() {
