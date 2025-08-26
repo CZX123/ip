@@ -14,7 +14,6 @@ public class Cody {
     private static final String DIVIDER = "\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯\n";
 
     private static final File file = new File("data/tasks.txt");
-    static { System.out.println(file.getAbsolutePath()); }
     private static final Scanner input = new Scanner(System.in);
     private static final List<Task> tasks = new ArrayList<>();
 
