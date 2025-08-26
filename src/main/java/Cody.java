@@ -2,7 +2,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -76,7 +75,17 @@ public class Cody {
     }
 
     private static void saveTasks() {
-
+        StringBuilder taskData = new StringBuilder();
+        for (Task task : tasks) {
+            taskData.append(task.toString()).append("\n");
+        }
+        try {
+            FileWriter fw = new FileWriter(file);
+            fw.write(taskData.toString());
+            fw.close();
+        } catch (IOException e) {
+            System.out.println("\nError while saving tasks: " + e.getMessage());
+        }
     }
 
     private static void listTasks() {
@@ -102,6 +111,7 @@ public class Cody {
         tasks.add(task);
         System.out.println("➕ Added task:\n   " + INDENT + task);
         printTaskAmount();
+        saveTasks();
     }
 
     private static void markTask(Command command, String inputTxt) throws CodyException {
@@ -113,6 +123,7 @@ public class Cody {
             tasks.get(index).unmarkDone();
             System.out.printf("↩\uFE0F Marked task as not done:\n%s%s\n", INDENT, tasks.get(index));
         }
+        saveTasks();
     }
 
     private static void deleteTask(String inputTxt) throws CodyException {
@@ -121,6 +132,7 @@ public class Cody {
         tasks.remove(index);
         System.out.println("\uD83E\uDDFA Deleted task:\n   " + INDENT + task);
         printTaskAmount();
+        saveTasks();
     }
 
     private static int getTaskIndex(String inputTxt) throws CodyException {
