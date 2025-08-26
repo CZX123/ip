@@ -13,7 +13,7 @@ public class Event extends Task {
     }
 
     public static Event fromString(String str) throws CodyException {
-        if (!str.matches("\\[E]\\[[X| ]] .+ (from: .+ to: .+)")) {
+        if (!str.matches("\\[E]\\[[X| ]] .+ \\(from: .+ to: .+\\)")) {
             throw new CodyException("Invalid event format!");
         }
         String[] split1 = str.split("] ", 2); // "[E][X" & "<desc> (from: <start> to: <end>)"

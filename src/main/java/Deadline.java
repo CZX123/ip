@@ -11,7 +11,7 @@ public class Deadline extends Task {
     }
 
     public static Deadline fromString(String str) throws CodyException {
-        if (!str.matches("\\[D]\\[[X| ]] .+ (by: .+)")) {
+        if (!str.matches("\\[D]\\[[X| ]] .+ \\(by: .+\\)")) {
             throw new CodyException("Invalid deadline format!");
         }
         String[] split1 = str.split("] ", 2); // "[D][X" & "<desc> (by: <due>)"
