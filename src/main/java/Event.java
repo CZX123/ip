@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -9,6 +10,11 @@ public class Event extends Task {
         super(desc);
         this.from = from;
         this.to = to;
+    }
+
+    @Override
+    public boolean fallsOn(LocalDate date) {
+        return !date.isBefore(from.toLocalDate()) && !date.isAfter(to.toLocalDate());
     }
 
     @Override
