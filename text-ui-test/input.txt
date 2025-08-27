@@ -3,22 +3,29 @@ blah
 todo
 todo task 1
 list
-deadline deadline 1 25 Aug
-deadline deadline 2 /by 25 Aug
+deadline Deadline 1 25 Aug
+deadline Deadline 1 /by 2025-08-25 1200
 list
-event event 1
-event event 2 /from 24 Aug
-event event 3 /from 24 Aug /to 26 Aug
+event Event 1
+event Event 1 /from 24 Aug
+event Event 1 /from 24 Aug /to 26 Aug
+event Event 1 /from 2025-08-24 0800 /to 2025-08-26 1800
+event Event 2 /from 2025-08-25 0800 /to 2025-08-27 1800
 list
+list 2025-08-24
+list 2025-08-25
+list 2025-08-27
+list 2025-08-28
 mark 0
 mark task 1
 mark 1
 list
 mark 2
-unmark 1
 list
+unmark 1
 delete 2
 list
+delete 1
 delete 1
 delete 1
 list

@@ -1,3 +1,5 @@
+import java.time.LocalDate;
+
 abstract class Task {
     private final String name;
     private boolean done = false;
@@ -12,6 +14,10 @@ abstract class Task {
 
     public void unmarkDone() {
         done = false;
+    }
+
+    public boolean fallsOn(LocalDate date) {
+        return false;
     }
 
     @Override

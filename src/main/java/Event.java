@@ -1,15 +1,27 @@
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
 public class Event extends Task {
-    private final String from;
-    private final String to;
-    public Event(String desc, String from, String to) {
+    private final LocalDateTime from;
+    private final LocalDateTime to;
+    public Event(String desc, LocalDateTime from, LocalDateTime to) {
         super(desc);
         this.from = from;
         this.to = to;
     }
 
     @Override
+    public boolean fallsOn(LocalDate date) {
+        return !date.isBefore(from.toLocalDate()) && !date.isAfter(to.toLocalDate());
+    }
+
+    @Override
     public String toString() {
-        return String.format("[E]%s (from: %s to: %s)", super.toString(), from, to);
+        return String.format("[E]%s (from: %s to: %s)", super.toString(),
+                from.format(DateTimeFormatter.ofPattern("d MMM yyyy h:mma")),
+                to.format(DateTimeFormatter.ofPattern("d MMM yyyy h:mma")));
     }
 
     public static Event fromString(String str) throws CodyException {
@@ -19,7 +31,15 @@ public class Event extends Task {
         String[] split1 = str.split("] ", 2); // "[E][X" & "<desc> (from: <start> to: <end>)"
         String[] split2 = split1[1].split(" \\(from: ", 2); // "<desc>" & "<start> to: <end>)"
         String[] split3 = split2[1].split(" to: ", 2); // "<start>" & "<end>)"
-        Event event = new Event(split2[0], split3[0], split3[1].substring(0, split3[1].length() - 1));
+        LocalDateTime from, to;
+        try {
+            from = LocalDateTime.parse(split3[0], DateTimeFormatter.ofPattern("d MMM yyyy h:mma"));
+            to = LocalDateTime.parse(split3[1].substring(0, split3[1].length() - 1),
+                    DateTimeFormatter.ofPattern("d MMM yyyy h:mma"));
+        } catch (DateTimeParseException e) {
+            throw new CodyException("Invalid event format!");
+        }
+        Event event = new Event(split2[0], from,  to);
         if (split1[0].charAt(4) == 'X') {
             event.markDone();
         }
@@ -29,10 +49,16 @@ public class Event extends Task {
     public static Event fromCommand(String cmd) throws CodyException {
         if (!cmd.matches("event .+ /from .+ /to .+")) {
             throw new CodyException("Events should follow this format:\n"
-                    + Cody.INDENT + "event <description> /from <start date> /to <end date>");
+                    + Cody.INDENT + "event <description> /from YYYY-MM-DD HHmm /to YYYY-MM-DD HHmm");
         }
         String[] fromSplit = cmd.split(" ", 2)[1].split(" /from ", 2);
         String[] toSplit = fromSplit[1].split(" /to ", 2);
-        return new Event(fromSplit[0], toSplit[0], toSplit[1]);
+        try {
+            LocalDateTime from = LocalDateTime.parse(toSplit[0], DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"));
+            LocalDateTime to = LocalDateTime.parse(toSplit[1], DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"));
+            return new Event(fromSplit[0], from, to);
+        } catch (DateTimeParseException e) {
+            throw new CodyException("The dates should be in this format: YYYY-MM-DD HHmm\n");
+        }
     }
 }

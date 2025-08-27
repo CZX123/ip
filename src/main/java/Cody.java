@@ -2,6 +2,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -28,7 +31,7 @@ public class Cody {
             try {
                 Command command = Command.of(inputTxt);
                 switch (command) {
-                    case LIST -> listTasks();
+                    case LIST -> listTasks(inputTxt);
                     case TODO, DEADLINE, EVENT -> addTask(command, inputTxt);
                     case MARK, UNMARK -> markTask(command, inputTxt);
                     case DELETE -> deleteTask(inputTxt);
@@ -87,15 +90,42 @@ public class Cody {
         }
     }
 
-    private static void listTasks() {
-        if (tasks.isEmpty()) {
-            System.out.println("You have no tasks for today! \uD83D\uDE0E");
+    private static void listTasks(String inputTxt) throws CodyException {
+        boolean hasDateFilter = !inputTxt.trim().equals("list");
+        if (hasDateFilter) {
+            try {
+                LocalDate date = LocalDate.parse(inputTxt.split(" ", 2)[1],
+                        DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                int count = 0;
+                StringBuilder output = new StringBuilder();
+                for (int i = 0; i < tasks.size(); i++) {
+                    Task task = tasks.get(i);
+                    if (task.fallsOn(date)) {
+                        output.append(String.format("%s%d. %s\n", INDENT, i + 1, task));
+                        count++;
+                    }
+                }
+                if (count == 0) {
+                    output.append(String.format("You have no tasks occurring on %s! \uD83D\uDE0E\n",
+                            date.format(DateTimeFormatter.ofPattern("d MMM yyyy"))));
+                } else {
+                    output.insert(0, String.format("You have %d task%s occurring on %s! \uD83D\uDCAA\uD83D\uDCDD\n",
+                            count, count == 1 ? "" : "s", date.format(DateTimeFormatter.ofPattern("d MMM yyyy"))));
+                }
+                System.out.print(output);
+            } catch (DateTimeParseException e) {
+                throw new CodyException("The date filter should be in this format: YYYY-MM-DD");
+            }
         } else {
-            System.out.printf("You have %d task%s! \uD83D\uDCAA\uD83D\uDCDD\n",
-                    tasks.size(), tasks.size() == 1 ? "" : "s");
-        }
-        for (int i = 0; i < tasks.size(); i++) {
-            System.out.printf("%s%d. %s\n", INDENT, i+1, tasks.get(i));
+            if (tasks.isEmpty()) {
+                System.out.println("You have no tasks saved! \uD83D\uDE0E");
+            } else {
+                System.out.printf("You have %d task%s! \uD83D\uDCAA\uD83D\uDCDD\n",
+                        tasks.size(), tasks.size() == 1 ? "" : "s");
+            }
+            for (int i = 0; i < tasks.size(); i++) {
+                System.out.printf("%s%d. %s\n", INDENT, i + 1, tasks.get(i));
+            }
         }
     }
 
@@ -143,15 +173,13 @@ public class Cody {
                     + INDENT + "To view task number, type \"list\".");
         }
         if (index < 0 || index >= tasks.size()) {
-            throw new CodyException(String.format(
-                    "There is no task numbered %d! \uD83D\uDE35", index + 1));
+            throw new CodyException(String.format("There is no task numbered %d! \uD83D\uDE35", index + 1));
         }
         return index;
     }
 
     private static void printTaskAmount() {
-        System.out.printf("\n%s\uD83D\uDCCB Now there %s %d task%s!\n",
-                INDENT, tasks.size() == 1 ? "is" : "are",
+        System.out.printf("\n%s\uD83D\uDCCB Now there %s %d task%s!\n", INDENT, tasks.size() == 1 ? "is" : "are",
                 tasks.size(), tasks.size() == 1 ? "" : "s");
     }
 }

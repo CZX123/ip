@@ -13,9 +13,9 @@ public enum Command {
     }
 
     public static Command of(String input) throws CodyException {
-        if (input.equals("list")) return LIST;
+        String firstWord = input.split(" ", 2)[0];
         for (Command command : Command.values()) {
-            if (input.startsWith(command.text)) {
+            if (firstWord.equals(command.text)) {
                 return command;
             }
         }
