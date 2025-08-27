@@ -143,15 +143,13 @@ public class Cody {
                     + INDENT + "To view task number, type \"list\".");
         }
         if (index < 0 || index >= tasks.size()) {
-            throw new CodyException(String.format(
-                    "There is no task numbered %d! \uD83D\uDE35", index + 1));
+            throw new CodyException(String.format("There is no task numbered %d! \uD83D\uDE35", index + 1));
         }
         return index;
     }
 
     private static void printTaskAmount() {
-        System.out.printf("\n%s\uD83D\uDCCB Now there %s %d task%s!\n",
-                INDENT, tasks.size() == 1 ? "is" : "are",
+        System.out.printf("\n%s\uD83D\uDCCB Now there %s %d task%s!\n", INDENT, tasks.size() == 1 ? "is" : "are",
                 tasks.size(), tasks.size() == 1 ? "" : "s");
     }
 }
