@@ -2,11 +2,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class Cody {
@@ -18,7 +13,7 @@ public class Cody {
 
     private static final File file = new File("data/tasks.txt");
     private static final Scanner input = new Scanner(System.in);
-    private static final List<Task> tasks = new ArrayList<>();
+    private static final TaskList tasks = new TaskList();
 
     public static void main(String[] args) {
         System.out.println(WELCOME_MSG + DIVIDER);
@@ -45,6 +40,15 @@ public class Cody {
         }
 
         System.out.println(DIVIDER + "\n" + GOODBYE_MSG);
+    }
+
+    // Temporary method for use in Ui class later
+    private static String indent(String text, String indent) {
+        text = indent + text.replaceAll("\n", "\n" + indent);
+        if (text.endsWith(indent)) {
+            text = text.substring(0, text.length() - indent.length());
+        }
+        return text;
     }
 
     private static void loadTasks() {
@@ -92,41 +96,13 @@ public class Cody {
 
     private static void listTasks(String inputTxt) throws CodyException {
         boolean hasDateFilter = !inputTxt.trim().equals("list");
-        if (hasDateFilter) {
-            try {
-                LocalDate date = LocalDate.parse(inputTxt.split(" ", 2)[1],
-                        DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-                int count = 0;
-                StringBuilder output = new StringBuilder();
-                for (int i = 0; i < tasks.size(); i++) {
-                    Task task = tasks.get(i);
-                    if (task.fallsOn(date)) {
-                        output.append(String.format("%s%d. %s\n", INDENT, i + 1, task));
-                        count++;
-                    }
-                }
-                if (count == 0) {
-                    output.append(String.format("You have no tasks occurring on %s! \uD83D\uDE0E\n",
-                            date.format(DateTimeFormatter.ofPattern("d MMM yyyy"))));
-                } else {
-                    output.insert(0, String.format("You have %d task%s occurring on %s! \uD83D\uDCAA\uD83D\uDCDD\n",
-                            count, count == 1 ? "" : "s", date.format(DateTimeFormatter.ofPattern("d MMM yyyy"))));
-                }
-                System.out.print(output);
-            } catch (DateTimeParseException e) {
-                throw new CodyException("The date filter should be in this format: YYYY-MM-DD");
-            }
-        } else {
-            if (tasks.isEmpty()) {
+        if (tasks.isEmpty()) {
                 System.out.println("You have no tasks saved! \uD83D\uDE0E");
-            } else {
-                System.out.printf("You have %d task%s! \uD83D\uDCAA\uD83D\uDCDD\n",
-                        tasks.size(), tasks.size() == 1 ? "" : "s");
-            }
-            for (int i = 0; i < tasks.size(); i++) {
-                System.out.printf("%s%d. %s\n", INDENT, i + 1, tasks.get(i));
-            }
+        } else {
+            System.out.printf("You have %d task%s! \uD83D\uDCAA\uD83D\uDCDD\n",
+                    tasks.size(), tasks.isSingular() ? "" : "s");
         }
+        System.out.print(indent(tasks.toString(), INDENT));
     }
 
     private static void addTask(Command command, String inputTxt) throws CodyException {
