@@ -1,7 +1,3 @@
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.Scanner;
 
 public class Cody {
@@ -11,13 +7,19 @@ public class Cody {
     private static final String GOODBYE_MSG = "👋 Bye. Hope to see you again soon! ✨";
     private static final String DIVIDER = "\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯\n";
 
-    private static final File file = new File("data/tasks.txt");
+    private static final Storage storage = new Storage();
     private static final Scanner input = new Scanner(System.in);
-    private static final TaskList tasks = new TaskList();
+    private static TaskList tasks;
 
     public static void main(String[] args) {
         System.out.println(WELCOME_MSG + DIVIDER);
-        loadTasks();
+        try {
+            tasks = storage.load();
+        } catch (Storage.StorageOperationException e) {
+            System.out.println(e.getMessage());
+            System.out.println(DIVIDER);
+            tasks = new TaskList();
+        }
 
         String inputTxt = input.nextLine().trim();
         while (!inputTxt.equals("bye")) {
@@ -51,50 +53,7 @@ public class Cody {
         return text;
     }
 
-    private static void loadTasks() {
-        try {
-            Scanner s = new Scanner(file);
-            StringBuilder corruptedData = new StringBuilder();
-            while (s.hasNext()) {
-                String line = s.nextLine();
-                try {
-                    tasks.add(Task.fromString(line));
-                } catch (CodyException e) {
-                    corruptedData.append("   ").append(line).append("\n");
-                }
-            }
-            if (!corruptedData.isEmpty()) {
-                System.out.println("\uD83D\uDCA5 There's something wrong with the saved data below: \n");
-                System.out.println(corruptedData);
-                System.out.println("\uD83D\uDD04 Please re-add the tasks manually.");
-                System.out.println(DIVIDER);
-            }
-        } catch (FileNotFoundException ignored) {
-            try {
-                file.getParentFile().mkdirs();
-                file.createNewFile();
-            } catch(IOException e) {
-                System.out.println("Error while creating save file: " + e.getMessage());
-                System.out.println(DIVIDER);
-            }
-        }
-    }
-
-    private static void saveTasks() {
-        StringBuilder taskData = new StringBuilder();
-        for (Task task : tasks) {
-            taskData.append(task.toString()).append("\n");
-        }
-        try {
-            FileWriter fw = new FileWriter(file);
-            fw.write(taskData.toString());
-            fw.close();
-        } catch (IOException e) {
-            System.out.println("\nError while saving tasks: " + e.getMessage());
-        }
-    }
-
-    private static void listTasks(String inputTxt) throws CodyException {
+    private static void listTasks(String inputTxt) {
         boolean hasDateFilter = !inputTxt.trim().equals("list");
         if (tasks.isEmpty()) {
                 System.out.println("You have no tasks saved! \uD83D\uDE0E");
@@ -116,7 +75,7 @@ public class Cody {
         tasks.add(task);
         System.out.println("➕ Added task:\n   " + INDENT + task);
         printTaskAmount();
-        saveTasks();
+        storage.save(tasks);
     }
 
     private static void markTask(Command command, String inputTxt) throws CodyException {
@@ -128,7 +87,7 @@ public class Cody {
             tasks.get(index).unmarkDone();
             System.out.printf("↩\uFE0F Marked task as not done:\n%s%s\n", INDENT, tasks.get(index));
         }
-        saveTasks();
+        storage.save(tasks);
     }
 
     private static void deleteTask(String inputTxt) throws CodyException {
@@ -137,7 +96,7 @@ public class Cody {
         tasks.remove(index);
         System.out.println("\uD83E\uDDFA Deleted task:\n   " + INDENT + task);
         printTaskAmount();
-        saveTasks();
+        storage.save(tasks);
     }
 
     private static int getTaskIndex(String inputTxt) throws CodyException {

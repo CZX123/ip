@@ -1,36 +1,35 @@
 import java.time.LocalDate;
 
-abstract class Task {
-    private final String name;
-    private boolean done = false;
+public abstract class Task {
+    private final String description;
+    private boolean isDone = false;
 
-    public Task(String desc) {
-        this.name = desc;
+    public Task(String description) {
+        this.description = description;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public void markDone() {
-        done = true;
+        isDone = true;
     }
 
     public void unmarkDone() {
-        done = false;
+        isDone = false;
     }
 
-    public boolean fallsOn(LocalDate date) {
-        return false;
+    public boolean isDone() {
+        return isDone;
     }
+
+    public abstract char getLetter();
+
+    public abstract boolean fallsOn(LocalDate date);
 
     @Override
     public String toString() {
-        return String.format("[%s] %s", done ? "X" : " ", name);
-    }
-
-    public static Task fromString(String str) throws CodyException {
-        return switch (str.charAt(1)) {
-            case 'T' -> Todo.fromString(str);
-            case 'D' -> Deadline.fromString(str);
-            case 'E' -> Event.fromString(str);
-            default -> throw new CodyException("Invalid task format!");
-        };
+        return String.format("[%s][%s] %s", getLetter(), isDone ? "X" : " ", description);
     }
 }

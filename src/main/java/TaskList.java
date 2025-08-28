@@ -1,12 +1,13 @@
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Iterator;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.IntStream;
 
-class TaskList implements Iterable<Task> {
+public class TaskList implements Iterable<Task> {
     private final List<Task> internalList = new ArrayList<>();
 
     public TaskList() {}
@@ -41,6 +42,10 @@ class TaskList implements Iterable<Task> {
 
     public TaskList filter(Predicate<Task> predicate) {
         return new TaskList(internalList.stream().filter(predicate).toList());
+    }
+
+    public List<Task> immutableListView() {
+        return Collections.unmodifiableList(internalList);
     }
 
     @Override

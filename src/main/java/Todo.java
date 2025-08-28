@@ -1,21 +1,18 @@
-public class Todo extends Task {
-    public Todo(String desc) { super(desc); }
+import java.time.LocalDate;
 
-    @Override
-    public String toString() {
-        return "[T]" + super.toString();
+public class Todo extends Task {
+    public Todo(String description) {
+        super(description);
     }
 
-    public static Todo fromString(String str) throws CodyException {
-        if (!str.matches("\\[T]\\[[X| ]] .+")) {
-            throw new CodyException("Invalid todo format!");
-        }
-        String[] split = str.split("] ", 2); // "[T][X" & "<desc>"
-        Todo todo = new Todo(split[1]);
-        if (split[0].charAt(4) == 'X') {
-            todo.markDone();
-        }
-        return todo;
+    @Override
+    public char getLetter() {
+        return 'T';
+    }
+
+    @Override
+    public boolean fallsOn(LocalDate date) {
+        return false;
     }
 
     public static Todo fromCommand(String cmd) throws CodyException {

@@ -6,10 +6,23 @@ import java.time.format.DateTimeParseException;
 public class Event extends Task {
     private final LocalDateTime from;
     private final LocalDateTime to;
-    public Event(String desc, LocalDateTime from, LocalDateTime to) {
-        super(desc);
+    public Event(String description, LocalDateTime from, LocalDateTime to) {
+        super(description);
         this.from = from;
         this.to = to;
+    }
+
+    public LocalDateTime getFrom() {
+        return from;
+    }
+
+    public LocalDateTime getTo() {
+        return to;
+    }
+
+    @Override
+    public char getLetter() {
+        return 'E';
     }
 
     @Override
@@ -19,7 +32,7 @@ public class Event extends Task {
 
     @Override
     public String toString() {
-        return String.format("[E]%s (from: %s to: %s)", super.toString(),
+        return String.format("%s (from: %s to: %s)", super.toString(),
                 from.format(DateTimeFormatter.ofPattern("d MMM yyyy h:mma")),
                 to.format(DateTimeFormatter.ofPattern("d MMM yyyy h:mma")));
     }

@@ -5,9 +5,18 @@ import java.time.format.DateTimeParseException;
 
 public class Deadline extends Task {
     private final LocalDateTime by;
-    public Deadline(String desc, LocalDateTime by) {
-        super(desc);
+    public Deadline(String description, LocalDateTime by) {
+        super(description);
         this.by = by;
+    }
+
+    public LocalDateTime getBy() {
+        return by;
+    }
+
+    @Override
+    public char getLetter() {
+        return 'D';
     }
 
     @Override
@@ -17,28 +26,8 @@ public class Deadline extends Task {
 
     @Override
     public String toString() {
-        return String.format("[D]%s (by: %s)", super.toString(),
+        return String.format("%s (by: %s)", super.toString(),
                 by.format(DateTimeFormatter.ofPattern("d MMM yyyy h:mma")));
-    }
-
-    public static Deadline fromString(String str) throws CodyException {
-        if (!str.matches("\\[D]\\[[X| ]] .+ \\(by: .+\\)")) {
-            throw new CodyException("Invalid deadline format!");
-        }
-        String[] split1 = str.split("] ", 2); // "[D][X" & "<desc> (by: <due>)"
-        String[] split2 = split1[1].split(" \\(by: ", 2); // "<desc>" and "<due>)"
-        LocalDateTime by;
-        try {
-            by = LocalDateTime.parse(split2[1].substring(0, split2[1].length() - 1),
-                    DateTimeFormatter.ofPattern("d MMM yyyy h:mma"));
-        } catch (DateTimeParseException e) {
-            throw new CodyException("Invalid deadline format!");
-        }
-        Deadline deadline = new Deadline(split2[0], by);
-        if (split1[0].charAt(4) == 'X') {
-            deadline.markDone();
-        }
-        return deadline;
     }
 
     public static Deadline fromCommand(String cmd) throws CodyException {
