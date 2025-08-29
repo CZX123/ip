@@ -22,65 +22,73 @@ public class Parser {
     public Command parse(String fullCommand) throws UserInputException {
         String[] nameDescSplit = fullCommand.split(" ", 2);
         CommandName commandName = getName(fullCommand);
-        switch (commandName) {
-        case BYE, EXIT:
-            return new ExitCommand();
-        case MARK:
-            return new MarkCommand(getIndex(fullCommand));
-        case UNMARK:
-            return new UnmarkCommand(getIndex(fullCommand));
-        case DELETE:
-            return new DeleteCommand(getIndex(fullCommand));
-        case LIST:
-            if (fullCommand.trim().equals(CommandName.LIST.getName())) {
-                return new ListCommand();
-            } else {
-                LocalDate date;
-                try {
-                    date = LocalDate.parse(nameDescSplit[1], DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-                } catch (DateTimeParseException e) {
-                    throw new UserInputException("The date filter should be in this format: YYYY-MM-DD");
-                }
-                return new ListCommand(date);
-            }
-        case TODO:
-            if (nameDescSplit.length < 2) {
-                throw new UserInputException("The description of a todo cannot be empty!");
-            }
-            return new TodoCommand(nameDescSplit[1]);
-        case DEADLINE:
-            if (!fullCommand.matches("deadline .+ /by .+")) {
-                throw new UserInputException("Deadlines should follow this format:\n"
-                        + "deadline <description> /by YYYY-MM-DD HHmm");
-            }
-            String[] descDateSplit = nameDescSplit[1].split(" /by ", 2);
-            LocalDateTime by;
+        return switch (commandName) {
+            case BYE, EXIT -> new ExitCommand();
+            case MARK -> new MarkCommand(getIndex(fullCommand));
+            case UNMARK -> new UnmarkCommand(getIndex(fullCommand));
+            case DELETE -> new DeleteCommand(getIndex(fullCommand));
+            case LIST -> parseListCommand(fullCommand);
+            case TODO -> parseTodoCommand(fullCommand);
+            case DEADLINE -> parseDeadlineCommand(fullCommand);
+            case EVENT -> parseEventCommand(fullCommand);
+        };
+    }
+
+    private Command parseListCommand(String fullCommand) throws UserInputException {
+        if (fullCommand.trim().equals(CommandName.LIST.getName())) {
+            return new ListCommand();
+        } else {
+            LocalDate date;
             try {
-                by = LocalDateTime.parse(descDateSplit[1], DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"));
+                date = LocalDate.parse(fullCommand.split(" ", 2)[1], DateTimeFormatter.ofPattern("yyyy-MM-dd"));
             } catch (DateTimeParseException e) {
-                throw new UserInputException("The due date should be in this format: YYYY-MM-DD HHmm");
+                throw new UserInputException("The date filter should be in this format: YYYY-MM-DD");
             }
-            return new DeadlineCommand(descDateSplit[0], by);
-        case EVENT:
-            if (!fullCommand.matches("event .+ /from .+ /to .+")) {
-                throw new UserInputException("Events should follow this format:\n"
-                        + "event <description> /from YYYY-MM-DD HHmm /to YYYY-MM-DD HHmm");
-            }
-            String[] descDatesSplit = nameDescSplit[1].split(" /from ", 2);
-            String[] fromToSplit = descDatesSplit[1].split(" /to ", 2);
-            LocalDateTime from, to;
-            try {
-                from = LocalDateTime.parse(fromToSplit[0], DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"));
-                to = LocalDateTime.parse(fromToSplit[1], DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"));
-            } catch (DateTimeParseException e) {
-                throw new UserInputException("The dates should be in this format: YYYY-MM-DD HHmm");
-            }
-            return new EventCommand(descDatesSplit[0], from, to);
-        default:
-            throw new UserInputException("⚠\uFE0F Invalid command!");
+            return new ListCommand(date);
         }
     }
 
+    private Command parseTodoCommand(String fullCommand) throws UserInputException {
+        String[] nameDescSplit = fullCommand.split(" ", 2);
+        if (nameDescSplit.length < 2) {
+            throw new UserInputException("The description of a todo cannot be empty!");
+        }
+        return new TodoCommand(nameDescSplit[1]);
+    }
+
+    private Command parseDeadlineCommand(String fullCommand) throws UserInputException {
+        String[] nameOthersSplit = fullCommand.split(" ", 2);
+        if (!fullCommand.matches("deadline .+ /by .+")) {
+            throw new UserInputException("Deadlines should follow this format:\n"
+                    + "deadline <description> /by YYYY-MM-DD HHmm");
+        }
+        String[] descDateSplit = nameOthersSplit[1].split(" /by ", 2);
+        LocalDateTime by;
+        try {
+            by = LocalDateTime.parse(descDateSplit[1], DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"));
+        } catch (DateTimeParseException e) {
+            throw new UserInputException("The due date should be in this format: YYYY-MM-DD HHmm");
+        }
+        return new DeadlineCommand(descDateSplit[0], by);
+    }
+
+    private Command parseEventCommand(String fullCommand) throws UserInputException {
+        String[] nameOthersSplit = fullCommand.split(" ", 2);
+        if (!fullCommand.matches("event .+ /from .+ /to .+")) {
+            throw new UserInputException("Events should follow this format:\n"
+                    + "event <description> /from YYYY-MM-DD HHmm /to YYYY-MM-DD HHmm");
+        }
+        String[] descDatesSplit = nameOthersSplit[1].split(" /from ", 2);
+        String[] fromToSplit = descDatesSplit[1].split(" /to ", 2);
+        LocalDateTime from, to;
+        try {
+            from = LocalDateTime.parse(fromToSplit[0], DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"));
+            to = LocalDateTime.parse(fromToSplit[1], DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"));
+        } catch (DateTimeParseException e) {
+            throw new UserInputException("The dates should be in this format: YYYY-MM-DD HHmm");
+        }
+        return new EventCommand(descDatesSplit[0], from, to);
+    }
 
     private static CommandName getName(String fullCommand) throws UserInputException {
         String firstWord = fullCommand.split(" ", 2)[0];

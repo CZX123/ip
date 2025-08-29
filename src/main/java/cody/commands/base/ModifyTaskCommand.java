@@ -2,6 +2,8 @@ package cody.commands.base;
 
 import cody.data.TaskList;
 
+import java.util.Objects;
+
 public abstract class ModifyTaskCommand extends Command {
     private final int index;
 
@@ -21,5 +23,17 @@ public abstract class ModifyTaskCommand extends Command {
     @Override
     public boolean isExit() {
         return false;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this
+                || (other instanceof ModifyTaskCommand)
+                && super.equals(other) && Objects.equals(index, ((ModifyTaskCommand) other).index);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), index);
     }
 }

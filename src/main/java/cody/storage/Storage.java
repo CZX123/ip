@@ -101,6 +101,7 @@ public class Storage {
 
     public void save(TaskList tasks) throws StorageOperationException {
         try {
+            Files.createDirectories(path.getParent());
             Files.write(path, encode(tasks));
         } catch (IOException e) {
             throw new StorageOperationException("Error writing to file: " + path);

@@ -6,6 +6,8 @@ import cody.exceptions.CodyException;
 import cody.storage.Storage;
 import cody.ui.Ui;
 
+import java.util.Objects;
+
 public abstract class AddTaskCommand extends Command {
     private final String description;
 
@@ -33,5 +35,17 @@ public abstract class AddTaskCommand extends Command {
     @Override
     public boolean isExit() {
         return false;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this
+                || (other instanceof AddTaskCommand)
+                && super.equals(other) && Objects.equals(description, ((AddTaskCommand) other).description);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), description);
     }
 }

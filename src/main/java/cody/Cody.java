@@ -1,3 +1,5 @@
+package cody;
+
 import cody.commands.base.Command;
 import cody.data.TaskList;
 import cody.exceptions.CodyException;
