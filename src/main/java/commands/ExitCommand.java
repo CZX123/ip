@@ -13,7 +13,7 @@ public class ExitCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) throws CodyException {
+    public void execute(TaskList tasks, Ui ui, Storage storage) {
         // do nothing
     }
 

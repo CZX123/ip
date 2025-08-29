@@ -2,15 +2,12 @@ package commands;
 
 import commands.base.Command;
 import commands.base.CommandName;
-import data.Task;
 import data.TaskList;
-import exceptions.CodyException;
 import storage.Storage;
 import ui.Ui;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Optional;
 
 public class ListCommand extends Command {
     private final LocalDate date;
@@ -26,7 +23,7 @@ public class ListCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) throws CodyException {
+    public void execute(TaskList tasks, Ui ui, Storage storage) {
         String result;
         if (date == null) {
             if (tasks.isEmpty()) {

@@ -12,6 +12,10 @@ public abstract class Command {
         this.name = name;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public abstract void execute(TaskList tasks, Ui ui, Storage storage) throws CodyException;
 
     public abstract boolean isExit();
