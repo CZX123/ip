@@ -12,6 +12,7 @@ import commands.ListCommand;
 import commands.TodoCommand;
 import exceptions.UserInputException;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -24,14 +25,24 @@ public class Parser {
         switch (commandName) {
         case BYE, EXIT:
             return new ExitCommand();
-        case LIST:
-            return new ListCommand();
         case MARK:
             return new MarkCommand(getIndex(fullCommand));
         case UNMARK:
             return new UnmarkCommand(getIndex(fullCommand));
         case DELETE:
             return new DeleteCommand(getIndex(fullCommand));
+        case LIST:
+            if (fullCommand.trim().equals(CommandName.LIST.getName())) {
+                return new ListCommand();
+            } else {
+                LocalDate date;
+                try {
+                    date = LocalDate.parse(nameDescSplit[1], DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                } catch (DateTimeParseException e) {
+                    throw new UserInputException("The date filter should be in this format: YYYY-MM-DD");
+                }
+                return new ListCommand(date);
+            }
         case TODO:
             if (nameDescSplit.length < 2) {
                 throw new UserInputException("The description of a todo cannot be empty!");

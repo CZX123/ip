@@ -9,7 +9,7 @@ public class Ui {
     private static final String INDENT = "  ";
     private static final String WELCOME_MSG = "👋 Hello! I'm Cody. 🤖\nWhat can I do for you? 🌈";
     private static final String GOODBYE_MSG = "👋 Bye. Hope to see you again soon! ✨";
-    private static final char DIVIDER_CHAR = '⎯';
+    private static final String DIVIDER_SYMBOL = "⎯";
 
     private final Scanner input = new Scanner(System.in);
 
@@ -42,6 +42,11 @@ public class Ui {
         showDivider(longestLength(output));
     }
 
+    public String removeNumberingFromTasks(String text) {
+        return Arrays.stream(text.split("\n")).map(line -> line.substring(line.indexOf('.') + 2))
+                .reduce((a, b) -> a + "\n" + b).orElse("");
+    }
+
     private String indent(String text) {
         text = INDENT + text.replaceAll("\n", "\n" + INDENT);
         if (text.endsWith(INDENT)) {
@@ -55,6 +60,6 @@ public class Ui {
     }
 
     private void showDivider(int length) {
-        System.out.println("\n" + String.valueOf(DIVIDER_CHAR).repeat(length) + "\n");
+        System.out.println("\n" + DIVIDER_SYMBOL.repeat(length) + "\n");
     }
 }
