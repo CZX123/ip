@@ -1,4 +1,4 @@
-package ui;
+package cody.ui;
 
 import java.util.Arrays;
 import java.util.Scanner;

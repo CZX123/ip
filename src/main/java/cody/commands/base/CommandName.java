@@ -1,4 +1,4 @@
-package commands.base;
+package cody.commands.base;
 
 public enum CommandName {
     BYE("bye"),

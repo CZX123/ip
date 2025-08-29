@@ -1,9 +1,9 @@
-package commands;
+package cody.commands;
 
-import commands.base.AddTaskCommand;
-import commands.base.CommandName;
-import data.Deadline;
-import data.Task;
+import cody.commands.base.AddTaskCommand;
+import cody.commands.base.CommandName;
+import cody.data.Deadline;
+import cody.data.Task;
 
 import java.time.LocalDateTime;
 

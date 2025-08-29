@@ -1,16 +1,16 @@
-package parser;
+package cody.parser;
 
-import commands.DeleteCommand;
-import commands.MarkCommand;
-import commands.UnmarkCommand;
-import commands.base.Command;
-import commands.base.CommandName;
-import commands.DeadlineCommand;
-import commands.EventCommand;
-import commands.ExitCommand;
-import commands.ListCommand;
-import commands.TodoCommand;
-import exceptions.UserInputException;
+import cody.commands.DeleteCommand;
+import cody.commands.MarkCommand;
+import cody.commands.UnmarkCommand;
+import cody.commands.base.Command;
+import cody.commands.base.CommandName;
+import cody.commands.DeadlineCommand;
+import cody.commands.EventCommand;
+import cody.commands.ExitCommand;
+import cody.commands.ListCommand;
+import cody.commands.TodoCommand;
+import cody.exceptions.UserInputException;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

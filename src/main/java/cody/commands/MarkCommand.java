@@ -1,13 +1,13 @@
-package commands;
+package cody.commands;
 
-import commands.base.CommandName;
-import commands.base.ModifyTaskCommand;
-import data.Task;
-import data.TaskList;
-import exceptions.CodyException;
-import exceptions.UserInputException;
-import storage.Storage;
-import ui.Ui;
+import cody.commands.base.CommandName;
+import cody.commands.base.ModifyTaskCommand;
+import cody.data.Task;
+import cody.data.TaskList;
+import cody.exceptions.CodyException;
+import cody.exceptions.UserInputException;
+import cody.storage.Storage;
+import cody.ui.Ui;
 
 public class MarkCommand extends ModifyTaskCommand {
     public MarkCommand(int index) {

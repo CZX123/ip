@@ -1,9 +1,9 @@
-package commands;
+package cody.commands;
 
-import commands.base.AddTaskCommand;
-import commands.base.CommandName;
-import data.Task;
-import data.Todo;
+import cody.commands.base.AddTaskCommand;
+import cody.commands.base.CommandName;
+import cody.data.Task;
+import cody.data.Todo;
 
 public class TodoCommand extends AddTaskCommand {
     public TodoCommand(String description) {

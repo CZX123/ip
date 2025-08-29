@@ -1,10 +1,10 @@
-package commands;
+package cody.commands;
 
-import commands.base.Command;
-import commands.base.CommandName;
-import data.TaskList;
-import storage.Storage;
-import ui.Ui;
+import cody.commands.base.Command;
+import cody.commands.base.CommandName;
+import cody.data.TaskList;
+import cody.storage.Storage;
+import cody.ui.Ui;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;

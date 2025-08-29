@@ -1,6 +1,6 @@
-package commands.base;
+package cody.commands.base;
 
-import data.TaskList;
+import cody.data.TaskList;
 
 public abstract class ModifyTaskCommand extends Command {
     private final int index;

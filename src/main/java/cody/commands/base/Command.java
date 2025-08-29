@@ -1,9 +1,9 @@
-package commands.base;
+package cody.commands.base;
 
-import data.TaskList;
-import exceptions.CodyException;
-import storage.Storage;
-import ui.Ui;
+import cody.data.TaskList;
+import cody.exceptions.CodyException;
+import cody.storage.Storage;
+import cody.ui.Ui;
 
 public abstract class Command {
     private final String name;

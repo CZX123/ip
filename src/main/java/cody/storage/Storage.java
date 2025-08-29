@@ -1,7 +1,7 @@
-package storage;
+package cody.storage;
 
-import data.*;
-import exceptions.StorageOperationException;
+import cody.data.*;
+import cody.exceptions.StorageOperationException;
 
 import java.io.IOException;
 import java.nio.file.Files;

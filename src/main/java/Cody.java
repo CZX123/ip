@@ -1,10 +1,10 @@
-import commands.base.Command;
-import data.TaskList;
-import exceptions.CodyException;
-import exceptions.StorageOperationException;
-import parser.Parser;
-import storage.Storage;
-import ui.Ui;
+import cody.commands.base.Command;
+import cody.data.TaskList;
+import cody.exceptions.CodyException;
+import cody.exceptions.StorageOperationException;
+import cody.parser.Parser;
+import cody.storage.Storage;
+import cody.ui.Ui;
 
 public class Cody {
     private final Storage storage;

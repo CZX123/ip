@@ -1,10 +1,10 @@
-package commands.base;
+package cody.commands.base;
 
-import data.Task;
-import data.TaskList;
-import exceptions.CodyException;
-import storage.Storage;
-import ui.Ui;
+import cody.data.Task;
+import cody.data.TaskList;
+import cody.exceptions.CodyException;
+import cody.storage.Storage;
+import cody.ui.Ui;
 
 public abstract class AddTaskCommand extends Command {
     private final String description;
