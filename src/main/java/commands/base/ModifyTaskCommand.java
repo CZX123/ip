@@ -14,8 +14,8 @@ public abstract class ModifyTaskCommand extends Command {
         return index;
     }
 
-    public boolean isIndexValid(TaskList tasks, int index) {
-        return 0 <= index && index < tasks.size();
+    public boolean isIndexInvalid(TaskList tasks, int index) {
+        return 0 > index || index >= tasks.size();
     }
 
     @Override

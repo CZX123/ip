@@ -46,10 +46,6 @@ public class TaskList implements Iterable<Task> {
         return new TaskList(internalList.stream().filter(predicate).toList());
     }
 
-    public List<Task> immutableListView() {
-        return Collections.unmodifiableList(internalList);
-    }
-
     @Override
     public Iterator<Task> iterator() {
         return internalList.iterator();
