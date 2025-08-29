@@ -1,3 +1,8 @@
+package storage;
+
+import data.*;
+import exceptions.StorageOperationException;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -91,8 +96,6 @@ public class Storage {
             return decode(Files.readAllLines(path));
         } catch (IOException e) {
             throw new StorageOperationException("Error loading file: " + path);
-        } catch (TaskDecodeException e) {
-            throw new StorageOperationException(e.getMessage());
         }
     }
 
@@ -101,24 +104,16 @@ public class Storage {
             Files.write(path, encode(tasks));
         } catch (IOException e) {
             throw new StorageOperationException("Error writing to file: " + path);
-        } catch (TaskEncodeException e) {
-            throw new StorageOperationException(e.getMessage());
         }
     }
 
-    public static class StorageOperationException extends CodyException {
-        public StorageOperationException(String message) {
-            super(message);
-        }
-    }
-
-    private static class TaskEncodeException extends CodyException {
+    private static class TaskEncodeException extends StorageOperationException {
         public TaskEncodeException(String message) {
             super(message);
         }
     }
 
-    private static class TaskDecodeException extends CodyException {
+    private static class TaskDecodeException extends StorageOperationException {
         public TaskDecodeException(String message) {
             super(message);
         }

@@ -1,3 +1,5 @@
+package ui;
+
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -8,7 +10,6 @@ public class Ui {
     private static final String WELCOME_MSG = "👋 Hello! I'm Cody. 🤖\nWhat can I do for you? 🌈";
     private static final String GOODBYE_MSG = "👋 Bye. Hope to see you again soon! ✨";
     private static final char DIVIDER_CHAR = '⎯';
-    private static final String DIVIDER = "\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯\n";
 
     private final Scanner input = new Scanner(System.in);
 
