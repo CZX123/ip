@@ -1,7 +1,7 @@
 list
 blah
 todo
-todo task 1
+todo Task 1
 list
 deadline Deadline 1 25 Aug
 deadline Deadline 1 /by 2025-08-25 1200
