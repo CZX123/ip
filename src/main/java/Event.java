@@ -62,7 +62,7 @@ public class Event extends Task {
     public static Event fromCommand(String cmd) throws CodyException {
         if (!cmd.matches("event .+ /from .+ /to .+")) {
             throw new CodyException("Events should follow this format:\n"
-                    + Cody.INDENT + "event <description> /from YYYY-MM-DD HHmm /to YYYY-MM-DD HHmm");
+                    + "event <description> /from YYYY-MM-DD HHmm /to YYYY-MM-DD HHmm");
         }
         String[] fromSplit = cmd.split(" ", 2)[1].split(" /from ", 2);
         String[] toSplit = fromSplit[1].split(" /to ", 2);

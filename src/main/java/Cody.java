@@ -1,70 +1,59 @@
-import java.util.Scanner;
-
 public class Cody {
-    public static final String INDENT = "  ";
+    private final Storage storage;
+    private final TaskList tasks;
+    private final Ui ui;
 
-    private static final String WELCOME_MSG = "\n👋 Hello! I'm Cody. 🤖\nWhat can I do for you? 🌈\n";
-    private static final String GOODBYE_MSG = "👋 Bye. Hope to see you again soon! ✨";
-    private static final String DIVIDER = "\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯\n";
-
-    private static final Storage storage = new Storage();
-    private static final Scanner input = new Scanner(System.in);
-    private static TaskList tasks;
-
-    public static void main(String[] args) {
-        System.out.println(WELCOME_MSG + DIVIDER);
+    public Cody() {
+        storage = new Storage();
+        ui = new Ui();
+        TaskList tasks;
         try {
             tasks = storage.load();
         } catch (Storage.StorageOperationException e) {
-            System.out.println(e.getMessage());
-            System.out.println(DIVIDER);
+            ui.showError(e.getMessage());
             tasks = new TaskList();
         }
+        this.tasks = tasks;
+    }
 
-        String inputTxt = input.nextLine().trim();
-        while (!inputTxt.equals("bye")) {
-            System.out.println();
-            System.out.print(INDENT);
+    private void run() {
+        ui.showWelcome();
+        boolean isExit = false;
+        while (!isExit) {
             try {
-                Command command = Command.of(inputTxt);
+                String fullCommand = ui.readCommand();
+                Command command = Command.of(fullCommand);
                 switch (command) {
-                    case LIST -> listTasks(inputTxt);
-                    case TODO, DEADLINE, EVENT -> addTask(command, inputTxt);
-                    case MARK, UNMARK -> markTask(command, inputTxt);
-                    case DELETE -> deleteTask(inputTxt);
-                    default -> throw new CodyException("⚠\uFE0F Invalid command!");
+                case BYE, EXIT -> isExit = true;
+                case LIST -> listTasks(fullCommand);
+                case TODO, DEADLINE, EVENT -> addTask(command, fullCommand);
+                case MARK, UNMARK -> markTask(command, fullCommand);
+                case DELETE -> deleteTask(fullCommand);
+                default -> throw new CodyException("⚠\uFE0F Invalid command!");
                 }
             } catch (CodyException e) {
-                System.out.println(e.getMessage());
+                ui.showError(e.getMessage());
             }
-            System.out.println(DIVIDER);
-            inputTxt = input.nextLine().trim();
         }
-
-        System.out.println(DIVIDER + "\n" + GOODBYE_MSG);
+        ui.showGoodbye();
     }
 
-    // Temporary method for use in Ui class later
-    private static String indent(String text, String indent) {
-        text = indent + text.replaceAll("\n", "\n" + indent);
-        if (text.endsWith(indent)) {
-            text = text.substring(0, text.length() - indent.length());
-        }
-        return text;
+    public static void main(String[] args) {
+        new Cody().run();
     }
 
-    private static void listTasks(String inputTxt) {
-        boolean hasDateFilter = !inputTxt.trim().equals("list");
+    private void listTasks(String inputTxt) {
+        String result;
         if (tasks.isEmpty()) {
-                System.out.println("You have no tasks saved! \uD83D\uDE0E");
+            result = "You have no tasks saved! \uD83D\uDE0E";
         } else {
-            System.out.printf("You have %d task%s! \uD83D\uDCAA\uD83D\uDCDD\n",
-                    tasks.size(), tasks.isSingular() ? "" : "s");
+            result = String.format("You have %d task%s! \uD83D\uDCAA\uD83D\uDCDD\n%s",
+                    tasks.size(), tasks.isSingular() ? "" : "s", tasks);
         }
-        System.out.print(indent(tasks.toString(), INDENT));
+        ui.showCommandResult(result);
     }
 
-    private static void addTask(Command command, String inputTxt) throws CodyException {
+    private void addTask(Command command, String inputTxt) throws CodyException {
         Task task;
         switch (command) {
             case TODO -> task = Todo.fromCommand(inputTxt);
@@ -73,48 +62,47 @@ public class Cody {
             default -> throw new Error("addTask called incorrectly!"); // should never happen
         }
         tasks.add(task);
-        System.out.println("➕ Added task:\n   " + INDENT + task);
-        printTaskAmount();
+        String result = String.format("➕ Added task:\n   %s\n\n\uD83D\uDCCB Now there %s %d task%s!",
+                task, tasks.isSingular() ? "is" : "are", tasks.size(), tasks.isSingular() ? "" : "s");
+        ui.showCommandResult(result);
         storage.save(tasks);
     }
 
-    private static void markTask(Command command, String inputTxt) throws CodyException {
+    private void markTask(Command command, String inputTxt) throws CodyException {
         int index = getTaskIndex(inputTxt);
+        String result;
         if (command == Command.MARK) {
             tasks.get(index).markDone();
-            System.out.printf("✅ Marked task as done:\n%s%s\n", INDENT, tasks.get(index));
+            result = "✅ Marked task as done:\n   " + tasks.get(index);
         } else {
             tasks.get(index).unmarkDone();
-            System.out.printf("↩\uFE0F Marked task as not done:\n%s%s\n", INDENT, tasks.get(index));
+            result = "↩\uFE0F Marked task as not done:\n   " + tasks.get(index);
         }
+        ui.showCommandResult(result);
         storage.save(tasks);
     }
 
-    private static void deleteTask(String inputTxt) throws CodyException {
+    private void deleteTask(String inputTxt) throws CodyException {
         int index = getTaskIndex(inputTxt);
         Task task = tasks.get(index);
         tasks.remove(index);
-        System.out.println("\uD83E\uDDFA Deleted task:\n   " + INDENT + task);
-        printTaskAmount();
+        String result = String.format("\uD83D\uDDD1️ Removed task:\n   %s\n\n\uD83D\uDCCB Now there %s %d task%s!",
+                task, tasks.isSingular() ? "is" : "are", tasks.size(), tasks.isSingular() ? "" : "s");
+        ui.showCommandResult(result);
         storage.save(tasks);
     }
 
-    private static int getTaskIndex(String inputTxt) throws CodyException {
+    private int getTaskIndex(String inputTxt) throws CodyException {
         int index;
         try {
             index = Integer.parseInt(inputTxt.split(" ", 2)[1]) - 1;
         } catch (Exception e) {
             throw new CodyException("Please enter a valid task number! \uD83E\uDD74\n"
-                    + INDENT + "To view task number, type \"list\".");
+                    + "To view task number, type \"list\".");
         }
         if (index < 0 || index >= tasks.size()) {
             throw new CodyException(String.format("There is no task numbered %d! \uD83D\uDE35", index + 1));
         }
         return index;
-    }
-
-    private static void printTaskAmount() {
-        System.out.printf("\n%s\uD83D\uDCCB Now there %s %d task%s!\n", INDENT, tasks.size() == 1 ? "is" : "are",
-                tasks.size(), tasks.size() == 1 ? "" : "s");
     }
 }

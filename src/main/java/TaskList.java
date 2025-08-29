@@ -61,7 +61,7 @@ public class TaskList implements Iterable<Task> {
     @Override
     public String toString() {
         return IntStream.range(0, internalList.size())
-                .mapToObj(i -> String.format("%d. %s\n", i + 1, internalList.get(i)))
-                .reduce("", (a, b) -> a + b);
+                .mapToObj(i -> String.format("%d. %s", i + 1, internalList.get(i)))
+                .reduce((a, b) -> a + "\n" + b).orElse("");
     }
 }

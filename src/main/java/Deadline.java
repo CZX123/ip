@@ -33,7 +33,7 @@ public class Deadline extends Task {
     public static Deadline fromCommand(String cmd) throws CodyException {
         if (!cmd.matches("deadline .+ /by .+")) {
             throw new CodyException("Deadlines should follow this format:\n"
-                    + Cody.INDENT + "deadline <description> /by YYYY-MM-DD HHmm");
+                    + "deadline <description> /by YYYY-MM-DD HHmm");
         }
         String[] split = cmd.split(" ", 2)[1].split(" /by ", 2);
         try {

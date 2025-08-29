@@ -1,4 +1,6 @@
 public enum Command {
+    BYE("bye"),
+    EXIT("exit"),
     LIST("list"),
     TODO("todo"),
     DEADLINE("deadline"),
