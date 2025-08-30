@@ -24,11 +24,18 @@ public class EventCommand extends AddTaskCommand {
     }
 
     @Override
-    public boolean equals(Object other) {
-        return other == this
-                || (other instanceof EventCommand)
-                && super.equals(other)
-                && Objects.equals(from, ((EventCommand) other).from) && Objects.equals(to, ((EventCommand) other).to);
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+        EventCommand that = (EventCommand) o;
+        return Objects.equals(from, that.from) && Objects.equals(to, that.to);
     }
 
     @Override

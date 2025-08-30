@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Iterator;
+import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.IntStream;
@@ -60,5 +61,22 @@ public class TaskList implements Iterable<Task> {
         return IntStream.range(0, internalList.size())
                 .mapToObj(i -> String.format("%d. %s", i + 1, internalList.get(i)))
                 .reduce((a, b) -> a + "\n" + b).orElse("");
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        TaskList tasks = (TaskList) o;
+        return Objects.equals(internalList, tasks.internalList);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(internalList);
     }
 }

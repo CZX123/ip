@@ -26,10 +26,18 @@ public abstract class ModifyTaskCommand extends Command {
     }
 
     @Override
-    public boolean equals(Object other) {
-        return other == this
-                || (other instanceof ModifyTaskCommand)
-                && super.equals(other) && Objects.equals(index, ((ModifyTaskCommand) other).index);
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+        ModifyTaskCommand that = (ModifyTaskCommand) o;
+        return index == that.index;
     }
 
     @Override

@@ -38,10 +38,18 @@ public abstract class AddTaskCommand extends Command {
     }
 
     @Override
-    public boolean equals(Object other) {
-        return other == this
-                || (other instanceof AddTaskCommand)
-                && super.equals(other) && Objects.equals(description, ((AddTaskCommand) other).description);
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+        AddTaskCommand that = (AddTaskCommand) o;
+        return Objects.equals(description, that.description);
     }
 
     @Override

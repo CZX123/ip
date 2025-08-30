@@ -13,9 +13,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Storage {
-    private static final String FILEPATH = "data/tasks.txt";
+    private static final String DEFAULT_FILEPATH = "data/tasks.txt";
 
-    private final Path path = Paths.get(FILEPATH);
+    private final Path path;
+
+    public Storage() {
+        this(DEFAULT_FILEPATH);
+    }
+
+    public Storage(String filePath) {
+        path = Paths.get(filePath);
+    }
 
     private List<String> encode(TaskList tasks) throws TaskEncodeException {
         List<String> lines = new ArrayList<>();

@@ -24,10 +24,15 @@ public abstract class Command {
     public abstract boolean isExit();
 
     @Override
-    public boolean equals(Object other) {
-        return other == this
-                || (other instanceof Command)
-                && Objects.equals(name, ((Command) other).name);
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Command command = (Command) o;
+        return Objects.equals(name, command.name);
     }
 
     @Override

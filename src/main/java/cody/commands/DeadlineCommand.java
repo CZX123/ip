@@ -22,14 +22,22 @@ public class DeadlineCommand extends AddTaskCommand {
     }
 
     @Override
-    public boolean equals(Object other) {
-        return other == this
-                || (other instanceof DeadlineCommand)
-                && super.equals(other) && Objects.equals(by, ((DeadlineCommand) other).by);
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+        DeadlineCommand that = (DeadlineCommand) o;
+        return Objects.equals(by, that.by);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getName(), getDescription(), by);
+        return Objects.hash(super.hashCode(), by);
     }
 }
