@@ -1,12 +1,11 @@
 package cody.commands.base;
 
-import cody.commands.DeadlineCommand;
+import java.util.Objects;
+
 import cody.data.TaskList;
 import cody.exceptions.CodyException;
 import cody.storage.Storage;
 import cody.ui.Ui;
-
-import java.util.Objects;
 
 public abstract class Command {
     private final String name;

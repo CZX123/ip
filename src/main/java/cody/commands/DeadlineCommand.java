@@ -1,12 +1,12 @@
 package cody.commands;
 
+import java.time.LocalDateTime;
+import java.util.Objects;
+
 import cody.commands.base.AddTaskCommand;
 import cody.commands.base.CommandName;
 import cody.data.Deadline;
 import cody.data.Task;
-
-import java.time.LocalDateTime;
-import java.util.Objects;
 
 public class DeadlineCommand extends AddTaskCommand {
     private final LocalDateTime by;

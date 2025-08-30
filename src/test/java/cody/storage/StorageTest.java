@@ -1,11 +1,8 @@
 package cody.storage;
 
-import cody.data.Deadline;
-import cody.data.Event;
-import cody.data.TaskList;
-import cody.data.Todo;
-import cody.exceptions.StorageOperationException;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -14,9 +11,13 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import org.junit.jupiter.api.Test;
+
+import cody.data.Deadline;
+import cody.data.Event;
+import cody.data.TaskList;
+import cody.data.Todo;
+import cody.exceptions.StorageOperationException;
 
 class StorageTest {
     private static final String TEST_FILEPATH = "storage-test/storage-test.txt";

@@ -1,8 +1,8 @@
 package cody.commands.base;
 
-import cody.data.TaskList;
-
 import java.util.Objects;
+
+import cody.data.TaskList;
 
 public abstract class ModifyTaskCommand extends Command {
     private final int index;

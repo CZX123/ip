@@ -1,12 +1,12 @@
 package cody.commands.base;
 
+import java.util.Objects;
+
 import cody.data.Task;
 import cody.data.TaskList;
 import cody.exceptions.CodyException;
 import cody.storage.Storage;
 import cody.ui.Ui;
-
-import java.util.Objects;
 
 public abstract class AddTaskCommand extends Command {
     private final String description;
