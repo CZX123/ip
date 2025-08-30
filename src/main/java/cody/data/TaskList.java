@@ -9,39 +9,75 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.IntStream;
 
+/**
+ * A list of tasks.
+ */
 public class TaskList implements Iterable<Task> {
     private final List<Task> internalList = new ArrayList<>();
 
+    /**
+     * Constructs an empty task list.
+     */
     public TaskList() {}
 
+    /**
+     * Constructs a task list that contains the given initial tasks.
+     *
+     * @param tasks a collection of initial tasks
+     */
     public TaskList(Collection<Task> tasks) {
         internalList.addAll(tasks);
     }
 
+    /**
+     * Adds a task to the list.
+     */
     public void add(Task task) {
         internalList.add(task);
     }
 
+
+    /**
+     * Removes a task from the list based on given id.
+     */
     public void remove(int id) {
         internalList.remove(id);
     }
 
+    /**
+     * Retrieves a task from the list based on given id.
+     */
     public Task get(int id) {
         return internalList.get(id);
     }
 
+    /**
+     * Returns whether task list is empty.
+     */
     public boolean isEmpty() {
         return internalList.isEmpty();
     }
 
+    /**
+     * Returns whether task list only contains one task.
+     */
     public boolean isSingular() {
         return internalList.size() == 1;
     }
 
+    /**
+     * Returns size of the task list.
+     */
     public int size() {
         return internalList.size();
     }
 
+    /**
+     * Filters the task list.
+     *
+     * @param predicate filter condition
+     * @return a new {@code TaskList} with the tasks filtered
+     */
     public TaskList filter(Predicate<Task> predicate) {
         return new TaskList(internalList.stream().filter(predicate).toList());
     }

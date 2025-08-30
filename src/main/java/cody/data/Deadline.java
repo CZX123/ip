@@ -5,8 +5,18 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
+/**
+ * Represents a deadline.
+ */
 public class Deadline extends Task {
     private final LocalDateTime by;
+
+    /**
+     * Constructs a deadline based on the given description and due date.
+     *
+     * @param description deadline description
+     * @param by deadline due date
+     */
     public Deadline(String description, LocalDateTime by) {
         super(description);
         this.by = by;

@@ -9,6 +9,9 @@ import cody.exceptions.UserInputException;
 import cody.storage.Storage;
 import cody.ui.Ui;
 
+/**
+ * Deletes a task based on its id.
+ */
 public class DeleteCommand extends ModifyTaskCommand {
     public DeleteCommand(int index) {
         super(CommandName.DELETE.getName(), index);

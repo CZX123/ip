@@ -4,6 +4,9 @@ import cody.data.TaskList;
 
 import java.util.Objects;
 
+/**
+ * Modifies task based on its command and index.
+ */
 public abstract class ModifyTaskCommand extends Command {
     private final int index;
 
@@ -16,7 +19,7 @@ public abstract class ModifyTaskCommand extends Command {
         return index;
     }
 
-    public boolean isIndexInvalid(TaskList tasks, int index) {
+    protected boolean isIndexInvalid(TaskList tasks, int index) {
         return 0 > index || index >= tasks.size();
     }
 

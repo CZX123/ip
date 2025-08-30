@@ -8,16 +8,25 @@ import cody.data.Task;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+/**
+ * Adds a deadline to the task list.
+ */
 public class DeadlineCommand extends AddTaskCommand {
     private final LocalDateTime by;
 
+    /**
+     * Constructs a deadline command
+     *
+     * @param description deadline description
+     * @param by deadline due date and time
+     */
     public DeadlineCommand(String description, LocalDateTime by) {
         super(CommandName.DEADLINE.getName(), description);
         this.by = by;
     }
 
     @Override
-    public Task createTask() {
+    protected Task createTask() {
         return new Deadline(getDescription(), by);
     }
 

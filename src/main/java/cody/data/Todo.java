@@ -2,7 +2,16 @@ package cody.data;
 
 import java.time.LocalDate;
 
+/**
+ * Represents a todo.
+ */
 public class Todo extends Task {
+
+    /**
+     * Constructs a todo based on the given description.
+     *
+     * @param description todo description
+     */
     public Todo(String description) {
         super(description);
     }

@@ -6,6 +6,9 @@ import cody.data.TaskList;
 import cody.storage.Storage;
 import cody.ui.Ui;
 
+/**
+ * Quits the program.
+ */
 public class ExitCommand extends Command {
     public ExitCommand() {
         super(CommandName.EXIT.getName());

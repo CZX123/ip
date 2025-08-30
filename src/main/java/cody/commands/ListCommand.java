@@ -9,14 +9,26 @@ import cody.ui.Ui;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Lists all tasks in the task list.
+ * If date is provided, lists tasks on that date instead.
+ */
 public class ListCommand extends Command {
     private final LocalDate date;
 
+    /**
+     * Constructs a list command that lists all tasks in the task list.
+     */
     public ListCommand() {
         super(CommandName.LIST.getName());
         date = null;
     }
 
+    /**
+     * Constructs a list command that lists all tasks on the given date.
+     *
+     * @param date the date that filters the tasks
+     */
     public ListCommand(LocalDate date) {
         super(CommandName.LIST.getName());
         this.date = date;
