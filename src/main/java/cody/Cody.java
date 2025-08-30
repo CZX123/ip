@@ -8,12 +8,18 @@ import cody.parser.Parser;
 import cody.storage.Storage;
 import cody.ui.Ui;
 
+/**
+ * Main class of Cody.
+ */
 public class Cody {
     private final Storage storage;
     private final TaskList tasks;
     private final Ui ui;
     private final Parser parser;
 
+    /**
+     * Constructs Cody class.
+     */
     public Cody() {
         storage = new Storage();
         ui = new Ui();

@@ -8,6 +8,9 @@ import cody.commands.base.CommandName;
 import cody.data.Event;
 import cody.data.Task;
 
+/**
+ * Adds an event to the task list.
+ */
 public class EventCommand extends AddTaskCommand {
     private final LocalDateTime from;
     private final LocalDateTime to;

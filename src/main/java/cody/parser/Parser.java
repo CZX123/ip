@@ -29,8 +29,8 @@ public class Parser {
      * @throws UserInputException when there is invalid input
      */
     public Command parse(String fullCommand) throws UserInputException {
-        //CHECKSTYLE.OFF: Indentation
-        // switch expression can have indentation, checkstyle does not differentiate switch expression and statement
+        // CHECKSTYLE OFF: Indentation
+        // switch expression can have indentation, checkstyle does not differ between switch expressions and statements
         return switch (getName(fullCommand)) {
             case BYE, EXIT -> new ExitCommand();
             case MARK -> new MarkCommand(getIndex(fullCommand));
@@ -42,7 +42,7 @@ public class Parser {
             case DEADLINE -> parseDeadlineCommand(fullCommand);
             case EVENT -> parseEventCommand(fullCommand);
         };
-        //CHECKSTYLE ON: Indentation
+        // CHECKSTYLE ON: Indentation
     }
 
     private Command parseListCommand(String fullCommand) throws UserInputException {

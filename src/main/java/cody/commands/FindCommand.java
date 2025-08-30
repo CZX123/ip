@@ -3,7 +3,6 @@ package cody.commands;
 import cody.commands.base.Command;
 import cody.commands.base.CommandName;
 import cody.data.TaskList;
-import cody.exceptions.CodyException;
 import cody.storage.Storage;
 import cody.ui.Ui;
 
@@ -24,7 +23,7 @@ public class FindCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) throws CodyException {
+    public void execute(TaskList tasks, Ui ui, Storage storage) {
         TaskList filteredTasks = tasks.filter(task -> task.getDescription().contains(keyword));
         if (filteredTasks.isEmpty()) {
             ui.showCommandResult("There are no tasks that match \"" + keyword + "\"");
