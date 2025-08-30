@@ -9,6 +9,7 @@ import cody.commands.DeadlineCommand;
 import cody.commands.DeleteCommand;
 import cody.commands.EventCommand;
 import cody.commands.ExitCommand;
+import cody.commands.FindCommand;
 import cody.commands.ListCommand;
 import cody.commands.MarkCommand;
 import cody.commands.TodoCommand;
@@ -36,6 +37,7 @@ public class Parser {
             case UNMARK -> new UnmarkCommand(getIndex(fullCommand));
             case DELETE -> new DeleteCommand(getIndex(fullCommand));
             case LIST -> parseListCommand(fullCommand);
+            case FIND -> parseFindCommand(fullCommand);
             case TODO -> parseTodoCommand(fullCommand);
             case DEADLINE -> parseDeadlineCommand(fullCommand);
             case EVENT -> parseEventCommand(fullCommand);
@@ -55,6 +57,14 @@ public class Parser {
             }
             return new ListCommand(date);
         }
+    }
+
+    private Command parseFindCommand(String fullCommand) throws UserInputException {
+        String[] nameKeywordSplit = fullCommand.split(" ", 2);
+        if (nameKeywordSplit.length == 1) {
+            throw new UserInputException("Please enter search keyword!");
+        }
+        return new FindCommand(nameKeywordSplit[1]);
     }
 
     private Command parseTodoCommand(String fullCommand) throws UserInputException {
