@@ -12,19 +12,37 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Handles saving and loading from storage.
+ */
 public class Storage {
     private static final String DEFAULT_FILEPATH = "data/tasks.txt";
 
     private final Path path;
 
+    /**
+     * Constructs storage with default filepath.
+     */
     public Storage() {
         this(DEFAULT_FILEPATH);
     }
 
+    /**
+     * Constructs storage with custom filepath.
+     *
+     * @param filePath path of file used to store tasks
+     */
     public Storage(String filePath) {
         path = Paths.get(filePath);
     }
 
+    /**
+     * Encodes the given task list into lines of text used for storage.
+     *
+     * @param tasks the task list to encode
+     * @return lines of text representing the task list
+     * @throws TaskEncodeException when a task cannot be encoded
+     */
     private List<String> encode(TaskList tasks) throws TaskEncodeException {
         List<String> lines = new ArrayList<>();
         for (Task task : tasks) {
@@ -49,6 +67,13 @@ public class Storage {
         return lines;
     }
 
+    /**
+     * Decodes lines of text representing the task list into a {@code TaskList} object.
+     *
+     * @param lines lines of text representing the task list
+     * @return a {@code TaskList} object containing all tasks from the lines of text
+     * @throws TaskDecodeException when a line cannot be decoded due to invalid format
+     */
     private TaskList decode(List<String> lines) throws TaskDecodeException {
         List<Task> tasks = new ArrayList<>();
         for (String line : lines) {
@@ -96,6 +121,12 @@ public class Storage {
         return new TaskList(tasks);
     }
 
+    /**
+     * Loads task list from storage.
+     *
+     * @return task list
+     * @throws StorageOperationException when an IO or decoding error occurs
+     */
     public TaskList load() throws StorageOperationException {
         if (!Files.exists(path) || !Files.isRegularFile(path)) {
             return new TaskList();
@@ -107,6 +138,12 @@ public class Storage {
         }
     }
 
+    /**
+     * Saves task list into storage.
+     *
+     * @param tasks the task list to save
+     * @throws StorageOperationException when an IO or encoding error occurs
+     */
     public void save(TaskList tasks) throws StorageOperationException {
         try {
             Files.createDirectories(path.getParent());

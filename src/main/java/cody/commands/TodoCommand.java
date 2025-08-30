@@ -11,7 +11,7 @@ public class TodoCommand extends AddTaskCommand {
     }
 
     @Override
-    public Task createTask() {
+    protected Task createTask() {
         return new Todo(getDescription());
     }
 }

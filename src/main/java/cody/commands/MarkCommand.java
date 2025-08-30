@@ -9,6 +9,9 @@ import cody.exceptions.UserInputException;
 import cody.storage.Storage;
 import cody.ui.Ui;
 
+/**
+ * Mark task as done based on its index.
+ */
 public class MarkCommand extends ModifyTaskCommand {
     public MarkCommand(int index) {
         super(CommandName.MARK.getName(), index);

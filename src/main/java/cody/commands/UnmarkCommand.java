@@ -9,6 +9,9 @@ import cody.exceptions.UserInputException;
 import cody.storage.Storage;
 import cody.ui.Ui;
 
+/**
+ * Marks task as not done based on its index.
+ */
 public class UnmarkCommand extends ModifyTaskCommand {
     public UnmarkCommand(int index) {
         super(CommandName.UNMARK.getName(), index);

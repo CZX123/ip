@@ -1,5 +1,8 @@
 package cody.commands.base;
 
+/**
+ * Name of the command
+ */
 public enum CommandName {
     BYE("bye"),
     EXIT("exit"),

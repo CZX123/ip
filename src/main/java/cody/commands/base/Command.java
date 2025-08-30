@@ -8,6 +8,9 @@ import cody.ui.Ui;
 
 import java.util.Objects;
 
+/**
+ * Represents an executable command
+ */
 public abstract class Command {
     private final String name;
 
@@ -19,8 +22,19 @@ public abstract class Command {
         return name;
     }
 
+    /**
+     * Executes the command.
+     *
+     * @param tasks the active {@code TaskList}
+     * @param ui the active {@code Ui}
+     * @param storage the active {@code Storage}
+     * @throws CodyException on any invalid user input or storage operation error
+     */
     public abstract void execute(TaskList tasks, Ui ui, Storage storage) throws CodyException;
 
+    /**
+     * Returns whether command is an exit command.
+     */
     public abstract boolean isExit();
 
     @Override

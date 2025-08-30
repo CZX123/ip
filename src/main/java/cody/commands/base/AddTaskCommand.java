@@ -8,10 +8,13 @@ import cody.ui.Ui;
 
 import java.util.Objects;
 
+/**
+ * Adds a task (i.e. todos, deadlines, events) to the task list.
+ */
 public abstract class AddTaskCommand extends Command {
     private final String description;
 
-    public AddTaskCommand(String name, String description) {
+    protected AddTaskCommand(String name, String description) {
         super(name);
         this.description = description;
     }
@@ -20,7 +23,7 @@ public abstract class AddTaskCommand extends Command {
         return description;
     }
 
-    public abstract Task createTask();
+    protected abstract Task createTask();
 
     @Override
     public void execute(TaskList tasks, Ui ui, Storage storage) throws CodyException {

@@ -17,12 +17,18 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
+/**
+ * Parses user input.
+ */
 public class Parser {
 
+    /**
+     * Parses user input, and returns the corresponding command.
+     *
+     * @throws UserInputException when there is invalid input
+     */
     public Command parse(String fullCommand) throws UserInputException {
-        String[] nameDescSplit = fullCommand.split(" ", 2);
-        CommandName commandName = getName(fullCommand);
-        return switch (commandName) {
+        return switch (getName(fullCommand)) {
             case BYE, EXIT -> new ExitCommand();
             case MARK -> new MarkCommand(getIndex(fullCommand));
             case UNMARK -> new UnmarkCommand(getIndex(fullCommand));
@@ -90,6 +96,13 @@ public class Parser {
         return new EventCommand(descDatesSplit[0], from, to);
     }
 
+    /**
+     * Gets the command name from user input.
+     *
+     * @param fullCommand user input
+     * @return the corresponding {@code CommandName} enum
+     * @throws UserInputException if command is invalid
+     */
     private static CommandName getName(String fullCommand) throws UserInputException {
         String firstWord = fullCommand.split(" ", 2)[0];
         for (CommandName commandName : CommandName.values()) {
@@ -100,6 +113,14 @@ public class Parser {
         throw new UserInputException("⚠\uFE0F Invalid command!");
     }
 
+    /**
+     * Gets task index from user input, for commands which include keying in
+     * task id.
+     *
+     * @param fullCommand user input
+     * @return index of the task in the task list
+     * @throws UserInputException if the task id given is invalid
+     */
     private int getIndex(String fullCommand) throws UserInputException {
         int index;
         try {
