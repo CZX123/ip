@@ -9,7 +9,9 @@ public enum CommandName {
     EVENT("event"),
     MARK("mark"),
     UNMARK("unmark"),
-    DELETE("delete");
+    DELETE("delete"),
+    FIND("find");
+
     private final String name;
 
     CommandName(String name) {
