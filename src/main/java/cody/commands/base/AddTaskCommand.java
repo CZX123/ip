@@ -1,12 +1,12 @@
 package cody.commands.base;
 
+import java.util.Objects;
+
 import cody.data.Task;
 import cody.data.TaskList;
 import cody.exceptions.CodyException;
 import cody.storage.Storage;
 import cody.ui.Ui;
-
-import java.util.Objects;
 
 /**
  * Adds a task (i.e. todos, deadlines, events) to the task list.

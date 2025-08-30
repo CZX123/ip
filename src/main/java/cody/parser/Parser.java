@@ -1,21 +1,21 @@
 package cody.parser;
 
-import cody.commands.DeleteCommand;
-import cody.commands.MarkCommand;
-import cody.commands.UnmarkCommand;
-import cody.commands.base.Command;
-import cody.commands.base.CommandName;
-import cody.commands.DeadlineCommand;
-import cody.commands.EventCommand;
-import cody.commands.ExitCommand;
-import cody.commands.ListCommand;
-import cody.commands.TodoCommand;
-import cody.exceptions.UserInputException;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+
+import cody.commands.DeadlineCommand;
+import cody.commands.DeleteCommand;
+import cody.commands.EventCommand;
+import cody.commands.ExitCommand;
+import cody.commands.ListCommand;
+import cody.commands.MarkCommand;
+import cody.commands.TodoCommand;
+import cody.commands.UnmarkCommand;
+import cody.commands.base.Command;
+import cody.commands.base.CommandName;
+import cody.exceptions.UserInputException;
 
 /**
  * Parses user input.
@@ -28,6 +28,8 @@ public class Parser {
      * @throws UserInputException when there is invalid input
      */
     public Command parse(String fullCommand) throws UserInputException {
+        //CHECKSTYLE.OFF: Indentation
+        // switch expression can have indentation, checkstyle does not differentiate switch expression and statement
         return switch (getName(fullCommand)) {
             case BYE, EXIT -> new ExitCommand();
             case MARK -> new MarkCommand(getIndex(fullCommand));
@@ -38,6 +40,7 @@ public class Parser {
             case DEADLINE -> parseDeadlineCommand(fullCommand);
             case EVENT -> parseEventCommand(fullCommand);
         };
+        //CHECKSTYLE ON: Indentation
     }
 
     private Command parseListCommand(String fullCommand) throws UserInputException {
@@ -86,7 +89,8 @@ public class Parser {
         }
         String[] descDatesSplit = nameOthersSplit[1].split(" /from ", 2);
         String[] fromToSplit = descDatesSplit[1].split(" /to ", 2);
-        LocalDateTime from, to;
+        LocalDateTime from;
+        LocalDateTime to;
         try {
             from = LocalDateTime.parse(fromToSplit[0], DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"));
             to = LocalDateTime.parse(fromToSplit[1], DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"));

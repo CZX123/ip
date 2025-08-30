@@ -1,12 +1,12 @@
 package cody.commands;
 
+import java.time.LocalDateTime;
+import java.util.Objects;
+
 import cody.commands.base.AddTaskCommand;
 import cody.commands.base.CommandName;
 import cody.data.Event;
 import cody.data.Task;
-
-import java.time.LocalDateTime;
-import java.util.Objects;
 
 public class EventCommand extends AddTaskCommand {
     private final LocalDateTime from;

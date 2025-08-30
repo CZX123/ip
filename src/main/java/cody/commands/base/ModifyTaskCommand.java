@@ -1,8 +1,8 @@
 package cody.commands.base;
 
-import cody.data.TaskList;
-
 import java.util.Objects;
+
+import cody.data.TaskList;
 
 /**
  * Modifies task based on its command and index.

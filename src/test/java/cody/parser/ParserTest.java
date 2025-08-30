@@ -1,22 +1,23 @@
 package cody.parser;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+import org.junit.jupiter.api.Test;
+
 import cody.commands.DeadlineCommand;
 import cody.commands.DeleteCommand;
 import cody.commands.EventCommand;
+import cody.commands.ExitCommand;
 import cody.commands.ListCommand;
 import cody.commands.MarkCommand;
 import cody.commands.TodoCommand;
 import cody.commands.UnmarkCommand;
 import cody.commands.base.Command;
-import cody.commands.ExitCommand;
 import cody.exceptions.UserInputException;
-import org.junit.jupiter.api.Test;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class ParserTest {
     private final String[] validInputs = {

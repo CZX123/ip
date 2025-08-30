@@ -1,8 +1,5 @@
 package cody.storage;
 
-import cody.data.*;
-import cody.exceptions.StorageOperationException;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -11,6 +8,13 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
+
+import cody.data.Deadline;
+import cody.data.Event;
+import cody.data.Task;
+import cody.data.TaskList;
+import cody.data.Todo;
+import cody.exceptions.StorageOperationException;
 
 /**
  * Handles saving and loading from storage.
@@ -101,7 +105,8 @@ public class Storage {
                 break;
             case 'E':
                 String[] split = line.substring(lastQuotePosition).split(" \\| ", 3);
-                LocalDateTime from, to;
+                LocalDateTime from;
+                LocalDateTime to;
                 try {
                     from = LocalDateTime.parse(split[1]);
                     to = LocalDateTime.parse(split[2]);
