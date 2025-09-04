@@ -139,7 +139,7 @@ public class Parser {
         int index;
         try {
             index = Integer.parseInt(fullCommand.split(" ", 2)[1]) - 1;
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             throw new UserInputException("Please enter a valid task number! \uD83E\uDD74\n"
                     + "To view task number, type \"list\".");
         }

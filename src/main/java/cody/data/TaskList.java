@@ -38,17 +38,17 @@ public class TaskList implements Iterable<Task> {
 
 
     /**
-     * Removes a task from the list based on given id.
+     * Removes a task from the list based on given index.
      */
-    public void remove(int id) {
-        internalList.remove(id);
+    public void remove(int index) {
+        internalList.remove(index);
     }
 
     /**
-     * Retrieves a task from the list based on given id.
+     * Retrieves a task from the list based on given index.
      */
-    public Task get(int id) {
-        return internalList.get(id);
+    public Task get(int index) {
+        return internalList.get(index);
     }
 
     /**

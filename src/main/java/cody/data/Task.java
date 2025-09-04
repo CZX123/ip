@@ -37,6 +37,9 @@ public abstract class Task {
         isDone = false;
     }
 
+    /**
+     * Returns whether task is done.
+     */
     public boolean isDone() {
         return isDone;
     }
