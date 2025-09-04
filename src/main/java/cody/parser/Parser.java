@@ -124,7 +124,7 @@ public class Parser {
                 return commandName;
             }
         }
-        throw new UserInputException("⚠\uFE0F Invalid command!");
+        throw new UserInputException("Invalid command!");
     }
 
     /**
@@ -139,12 +139,12 @@ public class Parser {
         int index;
         try {
             index = Integer.parseInt(fullCommand.split(" ", 2)[1]) - 1;
-        } catch (NumberFormatException e) {
-            throw new UserInputException("Please enter a valid task number! \uD83E\uDD74\n"
+        } catch (ArrayIndexOutOfBoundsException | NumberFormatException e) {
+            throw new UserInputException("Please enter a valid task number!\n"
                     + "To view task number, type \"list\".");
         }
         if (index < 0) {
-            throw new UserInputException(String.format("There is no task numbered %d! \uD83D\uDE35", index + 1));
+            throw new UserInputException(String.format("There is no task numbered %d!", index + 1));
         }
         return index;
     }

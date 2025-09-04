@@ -39,18 +39,18 @@ public class ListCommand extends Command {
         String result;
         if (date == null) {
             if (tasks.isEmpty()) {
-                result = "You have no tasks saved! \uD83D\uDE0E";
+                result = "You have no tasks saved!";
             } else {
-                result = String.format("You have %d task%s! \uD83D\uDCAA\uD83D\uDCDD\n%s",
+                result = String.format("You have %d task%s!\n%s",
                         tasks.size(), tasks.isSingular() ? "" : "s", tasks);
             }
         } else {
             TaskList filteredTasks = tasks.filter(task -> task.fallsOn(date));
             DateTimeFormatter format = DateTimeFormatter.ofPattern("d MMM yyyy");
             if (filteredTasks.isEmpty()) {
-                result = String.format("You have no tasks on %s! \uD83D\uDE0E", date.format(format));
+                result = String.format("You have no tasks on %s!", date.format(format));
             } else {
-                result = String.format("You have %d task%s on %s! \uD83D\uDCAA\uD83D\uDCDD\n%s",
+                result = String.format("You have %d task%s on %s!\n%s",
                         filteredTasks.size(), filteredTasks.isSingular() ? "" : "s", date.format(format),
                                 ui.removeNumberingFromTasks(filteredTasks.toString()));
             }

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:controller="cody.ui.MainWindow"
+            maxHeight="Infinity" maxWidth="Infinity" minHeight="100.0" minWidth="100.0" prefHeight="600.0"
+            prefWidth="400.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+    <ScrollPane fx:id="scrollPane"
+                AnchorPane.bottomAnchor="56.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                AnchorPane.topAnchor="0.0" fitToWidth="true">
+        <VBox fx:id="dialogContainer" spacing="16.0">
+            <padding>
+                <Insets bottom="16.0" left="8.0" right="8.0" top="16.0"/>
+            </padding>
+        </VBox>
+    </ScrollPane>
+    <AnchorPane prefHeight="56.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                AnchorPane.rightAnchor="0.0">
+        <padding>
+            <Insets bottom="12.0" left="8.0" right="8.0" top="12.0"/>
+        </padding>
+        <TextField fx:id="userInput" onAction="#handleUserInput" AnchorPane.bottomAnchor="0.0"
+                   AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="48.0"
+                   AnchorPane.topAnchor="0.0">
+            <font>
+                <Font name="Ubuntu Mono" size="14"/>
+            </font>
+        </TextField>
+        <Button onAction="#handleUserInput" contentDisplay="CENTER" mnemonicParsing="false"
+                prefWidth="40.0" AnchorPane.bottomAnchor="0.0"
+                AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <graphic>
+                <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@/images/send.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+    </AnchorPane>
+</AnchorPane>
