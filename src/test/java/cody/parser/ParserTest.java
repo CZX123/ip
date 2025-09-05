@@ -64,17 +64,15 @@ public class ParserTest {
 
     @Test
     public void parse_validInputs_returnsCorrectCommands() throws UserInputException {
-        Parser p = new Parser();
         for (int i = 0; i < validInputs.length; i++) {
-            assertEquals(p.parse(validInputs[i]), outputs[i]);
+            assertEquals(Parser.parse(validInputs[i]), outputs[i]);
         }
     }
 
     @Test
     public void parse_invalidInputs_throwsException() {
-        Parser p = new Parser();
         for (String invalidInput : invalidInputs) {
-            assertThrows(UserInputException.class, () -> p.parse(invalidInput));
+            assertThrows(UserInputException.class, () -> Parser.parse(invalidInput));
         }
     }
 }

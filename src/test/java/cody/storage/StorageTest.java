@@ -63,7 +63,9 @@ class StorageTest {
         // Resets the initial data file back to original.
         if (initialFileContents != null) {
             try {
-                Files.write(Paths.get(Storage.DEFAULT_FILEPATH), initialFileContents);
+                Path path = Paths.get(Storage.DEFAULT_FILEPATH);
+                Files.createDirectories(path.getParent());
+                Files.write(path, initialFileContents);
             } catch (IOException e) {
                 System.out.println("Error saving original data file! Dumping file contents here:");
                 for (String line : initialFileContents) {
