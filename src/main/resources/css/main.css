@@ -1,0 +1,48 @@
+.root {
+    main-bg-color: rgb(46, 49, 51);
+    main-text-color: rgba(255, 255, 255, .87);
+    -fx-background-color: main-bg-color;
+    -fx-font-family: "Ubuntu Mono";
+    -fx-font-size: 14px;
+}
+
+.text-field {
+    -fx-background-color: rgb(60, 64, 67);
+    -fx-text-fill: main-text-color;
+}
+
+.button {
+    -fx-background-color:rgb(41, 169, 148);
+}
+
+.button:hover {
+    -fx-background-color: rgb(48, 203, 177);
+}
+
+.button:pressed {
+    -fx-background-color: rgb(34, 124, 109);
+}
+
+.scroll-pane, .scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar {
+    -fx-font-size: 8px;  /* Change width of scroll bar. */
+    -fx-background-color: main-bg-color;
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: rgba(255,255,255,.15);
+    -fx-background-radius: 4px;
+}
+
+.scroll-bar .thumb:hover {
+    -fx-background-color: rgba(255,255,255,.2);
+}
+
+.scroll-bar .increment-button,
+.scroll-bar .decrement-button {
+    -fx-pref-height: 0;
+    -fx-opacity: 0;
+}

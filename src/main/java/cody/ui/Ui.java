@@ -11,8 +11,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.Separator;
 import javafx.scene.image.Image;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -26,6 +24,13 @@ public class Ui {
 
     private static Ui instance;
 
+    private MainWindow mainWindow;
+    private Font font;
+    private Image codyImage;
+    private Image userImage;
+
+    private Ui() {}
+
     /**
      * Gets the currently active {@code Ui} instance.
      */
@@ -35,13 +40,6 @@ public class Ui {
         }
         return instance;
     }
-
-    private Ui() {}
-
-    private MainWindow mainWindow;
-    private Font font;
-    private Image codyImage;
-    private Image userImage;
 
     /**
      * Starts the application and loads the UI.
@@ -117,24 +115,6 @@ public class Ui {
         alert.setContentText(message);
         return alert;
     }
-
-//    /**
-//     * Displays horizontal divider.
-//     */
-//    public void showDivider() {
-//        mainWindow.insertNode(new Separator());
-//    }
-//
-//    /**
-//     * Displays text.
-//     */
-//    public void showText(String text) {
-//        Label label = new Label(text);
-//        label.setFont(font);
-//        label.setWrapText(true);
-//        label.minWidth(100);
-//        mainWindow.insertNode(label);
-//    }
 
     /**
      * Displays welcome message.

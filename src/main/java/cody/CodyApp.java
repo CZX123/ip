@@ -50,7 +50,7 @@ public class CodyApp extends Application {
             c.execute(tasks);
             if (c.isExit()) {
                 Ui.getInstance().showGoodbye();
-                CompletableFuture.delayedExecutor(500, TimeUnit.MILLISECONDS).execute(Ui.getInstance()::close);
+                CompletableFuture.delayedExecutor(800, TimeUnit.MILLISECONDS).execute(Ui.getInstance()::close);
             }
         } catch (CodyException e) {
             Ui.getInstance().showCodyResponse(e.getMessage());

@@ -4,10 +4,11 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
-
 <?import javafx.scene.text.Font?>
-<fx:root alignment="TOP_RIGHT" spacing="8.0" type="javafx.scene.layout.HBox" xmlns="http://javafx.com/javafx/17"
-         xmlns:fx="http://javafx.com/fxml/1">
+
+<fx:root alignment="BOTTOM_RIGHT" styleClass="dialog-box" spacing="8.0" stylesheets="@../css/dialog-box.css"
+         type="javafx.scene.layout.HBox"
+         xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
     <Label fx:id="dialog" minHeight="-Infinity" text="Label" wrapText="true">
         <padding>
             <Insets bottom="4.0" left="4.0" right="4.0" top="4.0"/>
@@ -16,5 +17,5 @@
             <Font name="Ubuntu Mono" size="14"/>
         </font>
     </Label>
-    <ImageView fx:id="displayPicture" fitHeight="36.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true"/>
+    <ImageView fx:id="displayPicture" fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true"/>
 </fx:root>

@@ -24,6 +24,8 @@ public class Storage {
 
     private static Storage instance;
 
+    private Storage() {}
+
     /**
      * Gets the currently active {@code Storage} instance.
      */
@@ -33,8 +35,6 @@ public class Storage {
         }
         return instance;
     }
-
-    private Storage() {}
 
     /**
      * Encodes the given task list into lines of text used for storage.

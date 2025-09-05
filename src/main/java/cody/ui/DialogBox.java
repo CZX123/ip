@@ -14,6 +14,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
+/**
+ * Represents a dialog in the chat window, could be from either Cody or the user.
+ */
 public class DialogBox extends HBox {
     @FXML
     private Label dialog;
@@ -41,7 +44,8 @@ public class DialogBox extends HBox {
         ObservableList<Node> tmp = FXCollections.observableArrayList(this.getChildren());
         Collections.reverse(tmp);
         getChildren().setAll(tmp);
-        setAlignment(Pos.TOP_LEFT);
+        setAlignment(Pos.BOTTOM_LEFT);
+        getStyleClass().add("cody-dialog");
     }
 
     public static DialogBox getUserDialog(String text, Image img) {
