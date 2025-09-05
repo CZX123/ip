@@ -1,10 +1,12 @@
 package cody.ui;
 
 import cody.CodyApp;
+
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 
@@ -29,7 +31,7 @@ public class MainWindow extends AnchorPane {
      */
     @FXML
     public void initialize() {
-        // Auto-scrolls scrollPane to bottom
+        // Auto-scrolls scrollPane to bottom when height of content changes
         dialogContainer.heightProperty().addListener(ignored -> scrollPane.setVvalue(1));
     }
 

@@ -22,13 +22,14 @@ import cody.exceptions.UserInputException;
  * Parses user input.
  */
 public class Parser {
+    private Parser() {}
 
     /**
      * Parses user input, and returns the corresponding command.
      *
      * @throws UserInputException when there is invalid input
      */
-    public Command parse(String fullCommand) throws UserInputException {
+    public static Command parse(String fullCommand) throws UserInputException {
         // CHECKSTYLE OFF: Indentation
         // switch expression can have indentation, checkstyle does not differ between switch expressions and statements
         return switch (getName(fullCommand)) {
@@ -45,7 +46,7 @@ public class Parser {
         // CHECKSTYLE ON: Indentation
     }
 
-    private Command parseListCommand(String fullCommand) throws UserInputException {
+    private static Command parseListCommand(String fullCommand) throws UserInputException {
         if (fullCommand.trim().equals(CommandName.LIST.getName())) {
             return new ListCommand();
         } else {
@@ -59,7 +60,7 @@ public class Parser {
         }
     }
 
-    private Command parseFindCommand(String fullCommand) throws UserInputException {
+    private static Command parseFindCommand(String fullCommand) throws UserInputException {
         String[] nameKeywordSplit = fullCommand.split(" ", 2);
         if (nameKeywordSplit.length == 1) {
             throw new UserInputException("Please enter search keyword!");
@@ -67,7 +68,7 @@ public class Parser {
         return new FindCommand(nameKeywordSplit[1]);
     }
 
-    private Command parseTodoCommand(String fullCommand) throws UserInputException {
+    private static Command parseTodoCommand(String fullCommand) throws UserInputException {
         String[] nameDescSplit = fullCommand.split(" ", 2);
         if (nameDescSplit.length < 2) {
             throw new UserInputException("The description of a todo cannot be empty!");
@@ -75,7 +76,7 @@ public class Parser {
         return new TodoCommand(nameDescSplit[1]);
     }
 
-    private Command parseDeadlineCommand(String fullCommand) throws UserInputException {
+    private static Command parseDeadlineCommand(String fullCommand) throws UserInputException {
         String[] nameOthersSplit = fullCommand.split(" ", 2);
         if (!fullCommand.matches("deadline .+ /by .+")) {
             throw new UserInputException("Deadlines should follow this format:\n"
@@ -91,7 +92,7 @@ public class Parser {
         return new DeadlineCommand(descDateSplit[0], by);
     }
 
-    private Command parseEventCommand(String fullCommand) throws UserInputException {
+    private static Command parseEventCommand(String fullCommand) throws UserInputException {
         String[] nameOthersSplit = fullCommand.split(" ", 2);
         if (!fullCommand.matches("event .+ /from .+ /to .+")) {
             throw new UserInputException("Events should follow this format:\n"
@@ -135,7 +136,7 @@ public class Parser {
      * @return index of the task in the task list
      * @throws UserInputException if the task id given is invalid
      */
-    private int getIndex(String fullCommand) throws UserInputException {
+    private static int getIndex(String fullCommand) throws UserInputException {
         int index;
         try {
             index = Integer.parseInt(fullCommand.split(" ", 2)[1]) - 1;

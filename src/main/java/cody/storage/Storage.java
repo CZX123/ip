@@ -20,25 +20,21 @@ import cody.exceptions.StorageOperationException;
  * Handles saving and loading from storage.
  */
 public class Storage {
-    private static final String DEFAULT_FILEPATH = "data/tasks.txt";
+    public static final String DEFAULT_FILEPATH = "data/tasks.txt";
 
-    private final Path path;
-
-    /**
-     * Constructs storage with default filepath.
-     */
-    public Storage() {
-        this(DEFAULT_FILEPATH);
-    }
+    private static Storage instance;
 
     /**
-     * Constructs storage with custom filepath.
-     *
-     * @param filePath path of file used to store tasks
+     * Gets the currently active {@code Storage} instance.
      */
-    public Storage(String filePath) {
-        path = Paths.get(filePath);
+    public static Storage getInstance() {
+        if (instance == null) {
+            instance = new Storage();
+        }
+        return instance;
     }
+
+    private Storage() {}
 
     /**
      * Encodes the given task list into lines of text used for storage.
@@ -127,12 +123,24 @@ public class Storage {
     }
 
     /**
-     * Loads task list from storage.
+     * Loads task list from storage, located at default file path.
      *
      * @return task list
      * @throws StorageOperationException when an IO or decoding error occurs
      */
     public TaskList load() throws StorageOperationException {
+        return load(DEFAULT_FILEPATH);
+    }
+
+    /**
+     * Loads task list from storage, located at given file path.
+     *
+     * @param filePath path of the file
+     * @return task list
+     * @throws StorageOperationException when an IO or decoding error occurs
+     */
+    public TaskList load(String filePath) throws StorageOperationException {
+        Path path = Paths.get(filePath);
         if (!Files.exists(path) || !Files.isRegularFile(path)) {
             return new TaskList();
         }
@@ -144,12 +152,24 @@ public class Storage {
     }
 
     /**
-     * Saves task list into storage.
+     * Saves task list into storage, located at default file path.
      *
      * @param tasks the task list to save
      * @throws StorageOperationException when an IO or encoding error occurs
      */
     public void save(TaskList tasks) throws StorageOperationException {
+        save(tasks, DEFAULT_FILEPATH);
+    }
+
+    /**
+     * Saves task list into storage, located at given file path.
+     *
+     * @param tasks the task list to save
+     * @param filePath the path of the file
+     * @throws StorageOperationException when an IO or encoding error occurs
+     */
+    public void save(TaskList tasks, String filePath) throws StorageOperationException {
+        Path path = Paths.get(filePath);
         try {
             Files.createDirectories(path.getParent());
             Files.write(path, encode(tasks));

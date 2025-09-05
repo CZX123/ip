@@ -3,6 +3,7 @@ package cody.ui;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
+import java.util.Objects;
 
 import cody.CodyApp;
 import javafx.application.Platform;
@@ -12,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
+import javafx.scene.image.Image;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
@@ -22,8 +24,24 @@ public class Ui {
     private static final String WELCOME_MSG = "Hello! I'm Cody. \nWhat can I do for you?";
     private static final String GOODBYE_MSG = "Bye. Hope to see you again soon!";
 
+    private static Ui instance;
+
+    /**
+     * Gets the currently active {@code Ui} instance.
+     */
+    public static Ui getInstance() {
+        if (instance == null) {
+            instance = new Ui();
+        }
+        return instance;
+    }
+
+    private Ui() {}
+
     private MainWindow mainWindow;
     private Font font;
+    private Image codyImage;
+    private Image userImage;
 
     /**
      * Starts the application and loads the UI.
@@ -36,20 +54,21 @@ public class Ui {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/MainWindow.fxml"));
             mainNode = fxmlLoader.load();
             mainWindow = fxmlLoader.getController();
+            mainWindow.setCody(cody);
+
             InputStream fontStream = getClass().getResourceAsStream("/fonts/ubuntu-mono.ttf");
             font = Font.loadFont(fontStream, 14);
-            mainWindow.setCody(cody);
+
+            codyImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/cody.png")));
+            userImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/user.png")));
+
             Scene scene = new Scene(mainNode);
             stage.setScene(scene);
             stage.setTitle("Cody");
+            stage.getIcons().add(codyImage);
             stage.show();
         } catch (IOException e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Cody");
-            alert.setHeaderText("An error has occurred!");
-            alert.setContentText(e.getMessage());
-            alert.showAndWait();
-            close();
+            showFatalError(e.getMessage());
         }
     }
 
@@ -61,57 +80,74 @@ public class Ui {
     }
 
     /**
-     * Displays horizontal divider.
+     * Displays Cody's response to user command.
      */
-    public void showDivider() {
-        mainWindow.insertNode(new Separator());
+    public void showCodyResponse(String text) {
+        DialogBox dialog = DialogBox.getCodyDialog(text, codyImage);
+        mainWindow.insertNode(dialog);
     }
 
     /**
-     * Displays text.
+     * Displays user's command.
      */
-    public void showText(String text) {
-        Label label = new Label(text);
-        label.setFont(font);
-        label.setWrapText(true);
-        label.minWidth(100);
-        mainWindow.insertNode(label);
+    public void showUserCommand(String text) {
+        DialogBox dialog = DialogBox.getUserDialog(text, userImage);
+        mainWindow.insertNode(dialog);
     }
+
+    /**
+     * Displays an alert showing the error message. App continues to run after closing the alert.
+     */
+    public void showNonFatalError(String message) {
+        createAlert(message).show();
+    }
+
+    /**
+     * Displays an alert showing the error message. Closes the application after alert is closed.
+     */
+    public void showFatalError(String message) {
+        createAlert(message).showAndWait();
+        close();
+    }
+
+    private Alert createAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Cody");
+        alert.setHeaderText("An error has occurred!");
+        alert.setContentText(message);
+        return alert;
+    }
+
+//    /**
+//     * Displays horizontal divider.
+//     */
+//    public void showDivider() {
+//        mainWindow.insertNode(new Separator());
+//    }
+//
+//    /**
+//     * Displays text.
+//     */
+//    public void showText(String text) {
+//        Label label = new Label(text);
+//        label.setFont(font);
+//        label.setWrapText(true);
+//        label.minWidth(100);
+//        mainWindow.insertNode(label);
+//    }
 
     /**
      * Displays welcome message.
      */
     public void showWelcome() {
-        showText(WELCOME_MSG);
-        showDivider();
-    }
-
-    /**
-     * Displays error message.
-     *
-     * @param message the error message
-     */
-    public void showError(String message) {
-        showText(message);
-        showDivider();
+        showCodyResponse(WELCOME_MSG);
     }
 
     /**
      * Displays goodbye message.
      */
     public void showGoodbye() {
-        showDivider();
-        showText(GOODBYE_MSG);
-    }
-
-    /**
-     * Displays result from command execution.
-     *
-     * @param text the output from command execution
-     */
-    public void showCommandResult(String text) {
-        showText(text);
-        showDivider();
+        showCodyResponse(GOODBYE_MSG);
     }
 
     /**

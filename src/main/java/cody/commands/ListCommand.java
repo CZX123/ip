@@ -35,7 +35,7 @@ public class ListCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) {
+    public void execute(TaskList tasks) {
         String result;
         if (date == null) {
             if (tasks.isEmpty()) {
@@ -52,10 +52,10 @@ public class ListCommand extends Command {
             } else {
                 result = String.format("You have %d task%s on %s!\n%s",
                         filteredTasks.size(), filteredTasks.isSingular() ? "" : "s", date.format(format),
-                                ui.removeNumberingFromTasks(filteredTasks.toString()));
+                                Ui.getInstance().removeNumberingFromTasks(filteredTasks.toString()));
             }
         }
-        ui.showCommandResult(result);
+        Ui.getInstance().showCodyResponse(result);
     }
 
     @Override

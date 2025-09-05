@@ -23,15 +23,15 @@ public class FindCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) {
+    public void execute(TaskList tasks) {
         TaskList filteredTasks = tasks.filter(task -> task.getDescription().contains(keyword));
         if (filteredTasks.isEmpty()) {
-            ui.showCommandResult("There are no tasks that match \"" + keyword + "\"");
+            Ui.getInstance().showCodyResponse("There are no tasks that match \"" + keyword + "\"");
         } else {
-            ui.showCommandResult(
+            Ui.getInstance().showCodyResponse(
                     String.format("There %s %d matching task%s:\n%s", filteredTasks.isSingular() ? "is" : "are",
                             filteredTasks.size(), filteredTasks.isSingular() ? "" : "s",
-                            ui.removeNumberingFromTasks(filteredTasks.toString())));
+                            Ui.getInstance().removeNumberingFromTasks(filteredTasks.toString())));
         }
     }
 

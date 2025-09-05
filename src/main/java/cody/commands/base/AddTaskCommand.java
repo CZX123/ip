@@ -26,13 +26,13 @@ public abstract class AddTaskCommand extends Command {
     protected abstract Task createTask();
 
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) throws CodyException {
+    public void execute(TaskList tasks) throws CodyException {
         Task task = createTask();
         tasks.add(task);
-        String result = String.format("➕ Added task:\n%s\n\n Now there %s %d task%s!",
+        String result = String.format("Added task:\n%s\n\n Now there %s %d task%s!",
                 task, tasks.isSingular() ? "is" : "are", tasks.size(), tasks.isSingular() ? "" : "s");
-        ui.showCommandResult(result);
-        storage.save(tasks);
+        Ui.getInstance().showCodyResponse(result);
+        Storage.getInstance().save(tasks);
     }
 
     @Override

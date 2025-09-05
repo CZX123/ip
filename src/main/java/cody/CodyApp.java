@@ -17,32 +17,25 @@ import javafx.stage.Stage;
  * Main class of CodyApp.
  */
 public class CodyApp extends Application {
-    private final Storage storage;
-    private final Ui ui;
-    private final Parser parser;
     private TaskList tasks;
 
     /**
      * Constructs CodyApp class.
      */
-    public CodyApp() {
-        storage = new Storage();
-        ui = new Ui();
-        parser = new Parser();
-    }
+    public CodyApp() {}
 
     @Override
     public void start(Stage stage) {
-        ui.start(this, stage);
+        Ui.getInstance().start(this, stage);
         TaskList tasks;
         try {
-            tasks = storage.load();
+            tasks = Storage.getInstance().load();
         } catch (StorageOperationException e) {
-            ui.showError(e.getMessage());
+            Ui.getInstance().showNonFatalError(e.getMessage());
             tasks = new TaskList();
         }
         this.tasks = tasks;
-        ui.showWelcome();
+        Ui.getInstance().showWelcome();
     }
 
     /**
@@ -52,15 +45,15 @@ public class CodyApp extends Application {
      */
     public void run(String fullCommand) {
         try {
-            ui.showText(fullCommand);
-            Command c = parser.parse(fullCommand);
-            c.execute(tasks, ui, storage);
+            Ui.getInstance().showUserCommand(fullCommand);
+            Command c = Parser.parse(fullCommand);
+            c.execute(tasks);
             if (c.isExit()) {
-                ui.showGoodbye();
-                CompletableFuture.delayedExecutor(500, TimeUnit.MILLISECONDS).execute(ui::close);
+                Ui.getInstance().showGoodbye();
+                CompletableFuture.delayedExecutor(500, TimeUnit.MILLISECONDS).execute(Ui.getInstance()::close);
             }
         } catch (CodyException e) {
-            ui.showError(e.getMessage());
+            Ui.getInstance().showCodyResponse(e.getMessage());
         }
     }
 }

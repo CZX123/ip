@@ -25,11 +25,9 @@ public abstract class Command {
      * Executes the command.
      *
      * @param tasks the active {@code TaskList}
-     * @param ui the active {@code Ui}
-     * @param storage the active {@code Storage}
      * @throws CodyException on any invalid user input or storage operation error
      */
-    public abstract void execute(TaskList tasks, Ui ui, Storage storage) throws CodyException;
+    public abstract void execute(TaskList tasks) throws CodyException;
 
     /**
      * Returns whether command is an exit command.
