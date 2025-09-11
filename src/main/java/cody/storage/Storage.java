@@ -22,9 +22,16 @@ import cody.exceptions.StorageOperationException;
 public class Storage {
     public static final String DEFAULT_FILEPATH = "data/tasks.txt";
 
+    private static final String SEPARATOR = " | ";
+    private static final String SEPARATOR_REGEX = " \\| ";
+    private static final char DESCRIPTION_QUOTE = '\"';
+    private static final char STATUS_DONE = '1';
+    private static final char STATUS_NOT_DONE = '0';
+
     private static Storage instance;
 
-    private Storage() {}
+    private Storage() {
+    }
 
     /**
      * Gets the currently active {@code Storage} instance.
@@ -47,17 +54,24 @@ public class Storage {
         List<String> lines = new ArrayList<>();
         for (Task task : tasks) {
             char letter = task.getLetter();
-            String line = String.format("%s | %d | \"%s\"", letter, task.isDone() ? 1 : 0, task.getDescription());
+            char status = task.isDone() ? STATUS_DONE : STATUS_NOT_DONE;
+            String description = task.getDescription();
+            String line = letter + SEPARATOR
+                    + status + SEPARATOR
+                    + DESCRIPTION_QUOTE + description + DESCRIPTION_QUOTE;
             switch (letter) {
             case 'T':
+                assert task instanceof Todo;
                 break;
             case 'D':
+                assert task instanceof Deadline;
                 Deadline deadline = (Deadline) task;
-                line += String.format(" | %s", deadline.getBy());
+                line += SEPARATOR + deadline.getBy();
                 break;
             case 'E':
+                assert task instanceof Event;
                 Event event = (Event) task;
-                line += String.format(" | %s | %s", event.getFrom(), event.getTo());
+                line += SEPARATOR + event.getFrom() + SEPARATOR + event.getTo();
                 break;
             default:
                 throw new TaskEncodeException("Unable to encode this task: " + task);
@@ -80,46 +94,81 @@ public class Storage {
             if (line.isEmpty()) {
                 continue;
             }
-            int firstQuotePosition = line.indexOf('\"');
-            int lastQuotePosition = line.lastIndexOf('\"');
-            boolean isDone = line.charAt(4) != '0';
-            String description = line.substring(firstQuotePosition + 1, lastQuotePosition);
-            Task task;
-            switch (line.charAt(0)) {
-            case 'T':
-                task = new Todo(description);
-                break;
-            case 'D':
-                String byText = line.substring(lastQuotePosition).split(" \\| ", 2)[1];
-                LocalDateTime by;
-                try {
-                    by = LocalDateTime.parse(byText);
-                } catch (DateTimeParseException e) {
-                    throw new TaskDecodeException("Unable to parse date from this line:\n" + line);
-                }
-                task = new Deadline(description, by);
-                break;
-            case 'E':
-                String[] split = line.substring(lastQuotePosition).split(" \\| ", 3);
-                LocalDateTime from;
-                LocalDateTime to;
-                try {
-                    from = LocalDateTime.parse(split[1]);
-                    to = LocalDateTime.parse(split[2]);
-                } catch (DateTimeParseException e) {
-                    throw new TaskDecodeException("Unable to parse date from this line:\n" + line);
-                }
-                task = new Event(description, from, to);
-                break;
-            default:
-                throw new TaskDecodeException("Invalid task type: " + line.charAt(0));
+            if (!matchesTaskFormat(line)) {
+                throw new TaskDecodeException("Invalid task:\n" + line);
             }
+
+            int firstQuotePosition = line.indexOf(DESCRIPTION_QUOTE);
+            int lastQuotePosition = line.lastIndexOf(DESCRIPTION_QUOTE);
+            boolean isDone = line.charAt(4) == STATUS_DONE; // status is at index 4
+            String description = line.substring(firstQuotePosition + 1, lastQuotePosition);
+            // CHECKSTYLE OFF: Indentation
+            // switch expression can have indentation
+            Task task = switch (line.charAt(0)) {
+                case 'T' -> decodeTodo(line, description);
+                case 'D' -> decodeDeadline(line, description, lastQuotePosition);
+                case 'E' -> decodeEvent(line, description, lastQuotePosition);
+                default -> throw new TaskDecodeException("Invalid task type: " + line.charAt(0));
+            };
+            // CHECKSTYLE ON: Indentation
             if (isDone) {
                 task.markDone();
             }
             tasks.add(task);
         }
         return new TaskList(tasks);
+    }
+
+    /**
+     * Returns whether the given line matches the correct encoding format.
+     */
+    private boolean matchesTaskFormat(String line) {
+        return line.matches("[A-Z]"
+                + SEPARATOR_REGEX + "[" + STATUS_DONE + "|" + STATUS_NOT_DONE + "]"
+                + SEPARATOR_REGEX + ".+");
+    }
+
+    private Todo decodeTodo(String line, String description) {
+        assert line.charAt(0) == 'T';
+        return new Todo(description);
+    }
+
+    private Deadline decodeDeadline(String line, String description, int lastQuotePosition) throws TaskDecodeException {
+        assert line.charAt(0) == 'D';
+        boolean isCorrectFormat = line.substring(lastQuotePosition).matches(SEPARATOR_REGEX + ".+");
+        if (!isCorrectFormat) {
+            throw new TaskDecodeException("Invalid deadline format:\n" + line);
+        }
+
+        int byPosition = lastQuotePosition + 4;
+        String byText = line.substring(byPosition);
+        LocalDateTime by;
+        try {
+            by = LocalDateTime.parse(byText);
+        } catch (DateTimeParseException e) {
+            throw new TaskDecodeException("Unable to parse date from this line:\n" + line);
+        }
+        return new Deadline(description, by);
+    }
+
+    private Event decodeEvent(String line, String description, int lastQuotePosition) throws TaskDecodeException {
+        assert line.charAt(0) == 'E';
+        boolean isCorrectFormat = line.substring(lastQuotePosition)
+                .matches(SEPARATOR_REGEX + ".+" + SEPARATOR_REGEX + ".+");
+        if (!isCorrectFormat) {
+            throw new TaskDecodeException("Invalid event format:\n" + line);
+        }
+
+        String[] lineSplit = line.substring(lastQuotePosition).split(" \\| ", 3);
+        LocalDateTime from;
+        LocalDateTime to;
+        try {
+            from = LocalDateTime.parse(lineSplit[1]);
+            to = LocalDateTime.parse(lineSplit[2]);
+        } catch (DateTimeParseException e) {
+            throw new TaskDecodeException("Unable to parse date from this line:\n" + line);
+        }
+        return new Event(description, from, to);
     }
 
     /**
@@ -164,7 +213,7 @@ public class Storage {
     /**
      * Saves task list into storage, located at given file path.
      *
-     * @param tasks the task list to save
+     * @param tasks    the task list to save
      * @param filePath the path of the file
      * @throws StorageOperationException when an IO or encoding error occurs
      */

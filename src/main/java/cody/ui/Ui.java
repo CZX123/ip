@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.Arrays;
 
-import cody.CodyApp;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -15,8 +14,10 @@ import javafx.scene.image.Image;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
+import cody.CodyApp;
+
 /**
- * Handles output display.
+ * Handles the UI of the JavaFX application.
  */
 public class Ui {
     private static final String WELCOME_MSG = "Hello! I'm Cody. \nWhat can I do for you?";
@@ -28,7 +29,8 @@ public class Ui {
     private Image codyImage;
     private Image userImage;
 
-    private Ui() {}
+    private Ui() {
+    }
 
     /**
      * Gets the currently active {@code Ui} instance.
@@ -146,7 +148,8 @@ public class Ui {
      * @return task list string representation without numbering
      */
     public String removeNumberingFromTasks(String text) {
-        return Arrays.stream(text.split("\n")).map(line -> line.substring(line.indexOf('.') + 2))
+        return Arrays.stream(text.split("\n"))
+                .map(line -> line.substring(line.indexOf('.') + 2))
                 .reduce((a, b) -> a + "\n" + b).orElse("");
     }
 }
