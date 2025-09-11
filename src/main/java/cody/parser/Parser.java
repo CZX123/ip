@@ -158,20 +158,9 @@ public class Parser {
                 throw new UserInputException("Missing value after /" + name);
             }
             String value = nameValueSplit[1].trim();
-            options.add(new EditCommand.Option(nameValueSplit[0], nameValueSplit[1].trim()));
+            options.add(new EditCommand.Option(nameValueSplit[0], value));
         }
         return options;
-    }
-
-    /**
-     * Parses the given string into a date-time object.
-     *
-     * @param text the date and time written as a string, with the format following the default date-time pattern
-     * @return a {@code LocalDateTime} instance representing the given date and time
-     * @throws DateTimeParseException if the text cannot be parsed
-     */
-    public static LocalDateTime parseDateTimeFromString(String text) throws DateTimeParseException {
-        return LocalDateTime.parse(text, DateTimeFormatter.ofPattern(DEFAULT_DATE_TIME_PATTERN));
     }
 
     /**
@@ -209,5 +198,16 @@ public class Parser {
             throw new UserInputException(String.format("There is no task numbered %d!", index + 1));
         }
         return index;
+    }
+
+    /**
+     * Parses the given string into a date-time object.
+     *
+     * @param text the date and time written as a string, with the format following the default date-time pattern
+     * @return a {@code LocalDateTime} instance representing the given date and time
+     * @throws DateTimeParseException if the text cannot be parsed
+     */
+    public static LocalDateTime parseDateTimeFromString(String text) throws DateTimeParseException {
+        return LocalDateTime.parse(text, DateTimeFormatter.ofPattern(DEFAULT_DATE_TIME_PATTERN));
     }
 }

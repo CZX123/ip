@@ -91,11 +91,13 @@ public class EditCommand extends ModifyTaskCommand {
     private Deadline updateDeadline(Deadline original) throws UserInputException {
         String description = original.getDescription();
         LocalDateTime by = original.getBy();
+
         for (Option option : options) {
             if (option.name().equals(OPTION_DESC)) {
                 description = option.value();
                 continue;
             }
+
             assert option.name().equals(OPTION_BY);
             try {
                 by = Parser.parseDateTimeFromString(option.value());
@@ -103,6 +105,7 @@ public class EditCommand extends ModifyTaskCommand {
                 throw new UserInputException("The due date should be in this format: YYYY-MM-DD HHmm");
             }
         }
+
         return new Deadline(description, by);
     }
 
@@ -110,11 +113,13 @@ public class EditCommand extends ModifyTaskCommand {
         String description = original.getDescription();
         LocalDateTime from = original.getFrom();
         LocalDateTime to = original.getTo();
+
         for (Option option : options) {
             if (option.name().equals(OPTION_DESC)) {
                 description = option.value();
                 continue;
             }
+
             assert option.name().equals(OPTION_FROM) || option.name().equals(OPTION_TO);
             LocalDateTime dateTime;
             try {
@@ -128,10 +133,12 @@ public class EditCommand extends ModifyTaskCommand {
                 to = dateTime;
             }
         }
+
         if (from.isAfter(to)) {
             throw new UserInputException("Invalid dates provided!\n"
                     + "The starting date and time occurs after the ending date and time!");
         }
+
         return new Event(description, from, to);
     }
 
@@ -145,9 +152,10 @@ public class EditCommand extends ModifyTaskCommand {
         List<String> validOptionNames = VALID_OPTIONS.get(task.getLetter());
         for (Option option : options) {
             if (!validOptionNames.contains(option.name())) {
+                String taskType = task.getClass().getSimpleName().toLowerCase();
+                String validNames = validOptionNames.stream().reduce((a, b) -> a + ", " + b).orElse("");
                 String errorMessage = "Invalid option name: " + option.name()
-                        + "\nValid option names for " + task.getClass().getSimpleName().toLowerCase() + ":\n"
-                        + validOptionNames.stream().reduce((a, b) -> a + ", " + b).orElse("");
+                        + "\nValid option names for " + taskType + ":\n" + validNames;
                 throw new UserInputException(errorMessage);
             }
         }
