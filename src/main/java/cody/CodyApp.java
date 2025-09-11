@@ -3,6 +3,9 @@ package cody;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
+import javafx.application.Application;
+import javafx.stage.Stage;
+
 import cody.commands.base.Command;
 import cody.data.TaskList;
 import cody.exceptions.CodyException;
@@ -10,8 +13,6 @@ import cody.exceptions.StorageOperationException;
 import cody.parser.Parser;
 import cody.storage.Storage;
 import cody.ui.Ui;
-import javafx.application.Application;
-import javafx.stage.Stage;
 
 /**
  * Main class of CodyApp.

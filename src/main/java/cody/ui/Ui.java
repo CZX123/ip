@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Objects;
 
-import cody.CodyApp;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -14,6 +13,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+
+import cody.CodyApp;
 
 /**
  * Handles output display.
@@ -29,7 +30,8 @@ public class Ui {
     private Image codyImage;
     private Image userImage;
 
-    private Ui() {}
+    private Ui() {
+    }
 
     /**
      * Gets the currently active {@code Ui} instance.
