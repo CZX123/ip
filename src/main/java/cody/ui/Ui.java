@@ -2,8 +2,8 @@ package cody.ui;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.Arrays;
-import java.util.Objects;
 
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -50,16 +50,24 @@ public class Ui {
     public void start(CodyApp cody, Stage stage) {
         Parent mainNode;
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/MainWindow.fxml"));
+            URL fxmlUrl = getClass().getResource("/view/MainWindow.fxml");
+            InputStream fontStream = getClass().getResourceAsStream("/fonts/ubuntu-mono.ttf");
+            InputStream codyImageStream = getClass().getResourceAsStream("/images/cody.png");
+            InputStream userImageStream = getClass().getResourceAsStream("/images/user.png");
+
+            assert fxmlUrl != null;
+            assert fontStream != null;
+            assert codyImageStream != null;
+            assert userImageStream != null;
+
+            FXMLLoader fxmlLoader = new FXMLLoader(fxmlUrl);
             mainNode = fxmlLoader.load();
             mainWindow = fxmlLoader.getController();
             mainWindow.setCody(cody);
 
-            InputStream fontStream = getClass().getResourceAsStream("/fonts/ubuntu-mono.ttf");
             Font.loadFont(fontStream, 14);
-
-            codyImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/cody.png")));
-            userImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/user.png")));
+            codyImage = new Image(codyImageStream);
+            userImage = new Image(userImageStream);
 
             Scene scene = new Scene(mainNode);
             stage.setScene(scene);
