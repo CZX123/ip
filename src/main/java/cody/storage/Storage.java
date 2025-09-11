@@ -135,7 +135,7 @@ public class Storage {
 
     private Deadline decodeDeadline(String line, String description, int lastQuotePosition) throws TaskDecodeException {
         assert line.charAt(0) == 'D';
-        boolean isCorrectFormat = line.substring(lastQuotePosition).matches(SEPARATOR_REGEX + ".+");
+        boolean isCorrectFormat = line.substring(lastQuotePosition).matches(DESCRIPTION_QUOTE + SEPARATOR_REGEX + ".+");
         if (!isCorrectFormat) {
             throw new TaskDecodeException("Invalid deadline format:\n" + line);
         }
@@ -154,7 +154,7 @@ public class Storage {
     private Event decodeEvent(String line, String description, int lastQuotePosition) throws TaskDecodeException {
         assert line.charAt(0) == 'E';
         boolean isCorrectFormat = line.substring(lastQuotePosition)
-                .matches(SEPARATOR_REGEX + ".+" + SEPARATOR_REGEX + ".+");
+                .matches(DESCRIPTION_QUOTE + SEPARATOR_REGEX + ".+" + SEPARATOR_REGEX + ".+");
         if (!isCorrectFormat) {
             throw new TaskDecodeException("Invalid event format:\n" + line);
         }
