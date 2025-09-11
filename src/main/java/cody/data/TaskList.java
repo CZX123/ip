@@ -36,6 +36,15 @@ public class TaskList implements Iterable<Task> {
         internalList.add(task);
     }
 
+    /**
+     * Adds a task to the list at the specified position.
+     *
+     * @param index index at which the specified task is to be inserted
+     * @param task task to be inserted
+     */
+    public void add(int index, Task task) {
+        internalList.add(index, task);
+    }
 
     /**
      * Removes a task from the list based on given index.
