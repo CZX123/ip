@@ -1,5 +1,6 @@
 package cody.ui;
 
+import javafx.beans.Observable;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
@@ -24,14 +25,27 @@ public class MainWindow extends AnchorPane {
     private TextField userInput;
 
     private CodyApp codyApp;
+    private int childrenCount = 0;
 
     /**
      * Initializes the main window.
      */
     @FXML
     public void initialize() {
-        // Auto-scrolls scrollPane to bottom when height of content changes
-        dialogContainer.heightProperty().addListener(ignored -> scrollPane.setVvalue(1));
+        dialogContainer.heightProperty().addListener(this::handleHeightChange);
+    }
+
+    /**
+     * Scrolls {@code scrollPane} to bottom when height of content changes and
+     * number of child nodes are different.
+     */
+    private void handleHeightChange(Observable ignored) {
+        int size = dialogContainer.getChildrenUnmodifiable().size();
+        if (size == childrenCount) {
+            return;
+        }
+        childrenCount = size;
+        scrollPane.setVvalue(1);
     }
 
     /**
@@ -44,7 +58,7 @@ public class MainWindow extends AnchorPane {
     }
 
     /**
-     * Inserts a node at the bottom of the list.
+     * Inserts a node to the dialog container.
      *
      * @param node the node to insert
      */
@@ -54,7 +68,8 @@ public class MainWindow extends AnchorPane {
     }
 
     /**
-     * Handles user input. Called when user presses "Enter" or clicks the send button.
+     * Handles user input.
+     * Should be called when user presses "Enter" or clicks the send button.
      */
     @FXML
     public void handleUserInput() {
@@ -62,7 +77,7 @@ public class MainWindow extends AnchorPane {
         if (text.isEmpty()) {
             return;
         }
-        codyApp.run(text);
+        codyApp.respond(text);
         userInput.clear();
     }
 }

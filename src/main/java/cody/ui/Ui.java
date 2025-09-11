@@ -17,7 +17,7 @@ import javafx.stage.Stage;
 import cody.CodyApp;
 
 /**
- * Handles output display.
+ * Handles the UI of the JavaFX application.
  */
 public class Ui {
     private static final String WELCOME_MSG = "Hello! I'm Cody. \nWhat can I do for you?";
@@ -26,7 +26,6 @@ public class Ui {
     private static Ui instance;
 
     private MainWindow mainWindow;
-    private Font font;
     private Image codyImage;
     private Image userImage;
 
@@ -57,7 +56,7 @@ public class Ui {
             mainWindow.setCody(cody);
 
             InputStream fontStream = getClass().getResourceAsStream("/fonts/ubuntu-mono.ttf");
-            font = Font.loadFont(fontStream, 14);
+            Font.loadFont(fontStream, 14);
 
             codyImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/cody.png")));
             userImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/user.png")));
@@ -141,7 +140,8 @@ public class Ui {
      * @return task list string representation without numbering
      */
     public String removeNumberingFromTasks(String text) {
-        return Arrays.stream(text.split("\n")).map(line -> line.substring(line.indexOf('.') + 2))
+        return Arrays.stream(text.split("\n"))
+                .map(line -> line.substring(line.indexOf('.') + 2))
                 .reduce((a, b) -> a + "\n" + b).orElse("");
     }
 }

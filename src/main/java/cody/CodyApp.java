@@ -28,6 +28,7 @@ public class CodyApp extends Application {
     @Override
     public void start(Stage stage) {
         Ui.getInstance().start(this, stage);
+
         TaskList tasks;
         try {
             tasks = Storage.getInstance().load();
@@ -36,22 +37,25 @@ public class CodyApp extends Application {
             tasks = new TaskList();
         }
         this.tasks = tasks;
+
         Ui.getInstance().showWelcome();
     }
 
     /**
-     * Runs the given user command.
+     * Responds to the given user command.
      *
      * @param fullCommand the full command string the user typed out
      */
-    public void run(String fullCommand) {
+    public void respond(String fullCommand) {
+        Ui.getInstance().showUserCommand(fullCommand);
         try {
-            Ui.getInstance().showUserCommand(fullCommand);
             Command c = Parser.parse(fullCommand);
             c.execute(tasks);
             if (c.isExit()) {
                 Ui.getInstance().showGoodbye();
-                CompletableFuture.delayedExecutor(800, TimeUnit.MILLISECONDS).execute(Ui.getInstance()::close);
+                // slight delay before closing so goodbye message can be read
+                CompletableFuture.delayedExecutor(800, TimeUnit.MILLISECONDS)
+                        .execute(Ui.getInstance()::close);
             }
         } catch (CodyException e) {
             Ui.getInstance().showCodyResponse(e.getMessage());
