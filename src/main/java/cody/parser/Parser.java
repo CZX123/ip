@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Arrays;
 
 import cody.commands.DeadlineCommand;
 import cody.commands.DeleteCommand;
@@ -120,12 +121,10 @@ public class Parser {
      */
     private static CommandName getName(String fullCommand) throws UserInputException {
         String firstWord = fullCommand.split(" ", 2)[0];
-        for (CommandName commandName : CommandName.values()) {
-            if (firstWord.equals(commandName.getName())) {
-                return commandName;
-            }
-        }
-        throw new UserInputException("Invalid command!");
+        return Arrays.stream(CommandName.values())
+                .filter(name -> firstWord.equals(name.getName()))
+                .findFirst()
+                .orElseThrow(() -> new UserInputException("Invalid command!"));
     }
 
     /**
