@@ -7,13 +7,15 @@ public enum CommandName {
     BYE("bye"),
     EXIT("exit"),
     LIST("list"),
+    FIND("find"),
     TODO("todo"),
     DEADLINE("deadline"),
     EVENT("event"),
     MARK("mark"),
     UNMARK("unmark"),
     DELETE("delete"),
-    FIND("find");
+    EDIT("edit"),
+    UPDATE("update");
 
     private final String name;
 

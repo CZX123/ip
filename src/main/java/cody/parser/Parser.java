@@ -4,10 +4,13 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import cody.commands.DeadlineCommand;
 import cody.commands.DeleteCommand;
+import cody.commands.EditCommand;
 import cody.commands.EventCommand;
 import cody.commands.ExitCommand;
 import cody.commands.FindCommand;
@@ -23,6 +26,9 @@ import cody.exceptions.UserInputException;
  * Parses user input.
  */
 public class Parser {
+    private static final String DEFAULT_DATE_PATTERN = "yyyy-MM-dd";
+    private static final String DEFAULT_DATE_TIME_PATTERN = "yyyy-MM-dd HHmm";
+
     private Parser() {}
 
     /**
@@ -35,14 +41,15 @@ public class Parser {
         // switch expression can have indentation, checkstyle does not differ between switch expressions and statements
         return switch (getName(fullCommand)) {
             case BYE, EXIT -> getExitCommand();
-            case MARK -> parseMarkCommand(fullCommand);
-            case UNMARK -> parseUnmarkCommand(fullCommand);
-            case DELETE -> parseDeleteCommand(fullCommand);
             case LIST -> parseListCommand(fullCommand);
             case FIND -> parseFindCommand(fullCommand);
             case TODO -> parseTodoCommand(fullCommand);
             case DEADLINE -> parseDeadlineCommand(fullCommand);
             case EVENT -> parseEventCommand(fullCommand);
+            case MARK -> parseMarkCommand(fullCommand);
+            case UNMARK -> parseUnmarkCommand(fullCommand);
+            case DELETE -> parseDeleteCommand(fullCommand);
+            case EDIT, UPDATE -> parseEditCommand(fullCommand);
         };
         // CHECKSTYLE ON: Indentation
     }
@@ -51,25 +58,14 @@ public class Parser {
         return new ExitCommand();
     }
 
-    private static Command parseMarkCommand(String fullCommand) throws UserInputException {
-        return new MarkCommand(getIndex(fullCommand));
-    }
-
-    private static Command parseUnmarkCommand(String fullCommand) throws UserInputException {
-        return new UnmarkCommand(getIndex(fullCommand));
-    }
-
-    private static Command parseDeleteCommand(String fullCommand) throws UserInputException {
-        return new DeleteCommand(getIndex(fullCommand));
-    }
-
     private static Command parseListCommand(String fullCommand) throws UserInputException {
         if (fullCommand.trim().equals(CommandName.LIST.getName())) {
             return new ListCommand();
         } else {
             LocalDate date;
             try {
-                date = LocalDate.parse(fullCommand.split(" ", 2)[1], DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                date = LocalDate.parse(fullCommand.split(" ", 2)[1],
+                        DateTimeFormatter.ofPattern(DEFAULT_DATE_PATTERN));
             } catch (DateTimeParseException e) {
                 throw new UserInputException("The date filter should be in this format: YYYY-MM-DD");
             }
@@ -102,7 +98,7 @@ public class Parser {
         String[] descDateSplit = nameOthersSplit[1].split(" /by ", 2);
         LocalDateTime by;
         try {
-            by = LocalDateTime.parse(descDateSplit[1], DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"));
+            by = parseDateTimeFromString(descDateSplit[1]);
         } catch (DateTimeParseException e) {
             throw new UserInputException("The due date should be in this format: YYYY-MM-DD HHmm");
         }
@@ -120,12 +116,62 @@ public class Parser {
         LocalDateTime from;
         LocalDateTime to;
         try {
-            from = LocalDateTime.parse(fromToSplit[0], DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"));
-            to = LocalDateTime.parse(fromToSplit[1], DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"));
+            from = parseDateTimeFromString(fromToSplit[0]);
+            to = parseDateTimeFromString(fromToSplit[1]);
         } catch (DateTimeParseException e) {
             throw new UserInputException("The dates should be in this format: YYYY-MM-DD HHmm");
         }
         return new EventCommand(descDatesSplit[0], from, to);
+    }
+
+    private static Command parseMarkCommand(String fullCommand) throws UserInputException {
+        return new MarkCommand(getIndex(fullCommand));
+    }
+
+    private static Command parseUnmarkCommand(String fullCommand) throws UserInputException {
+        return new UnmarkCommand(getIndex(fullCommand));
+    }
+
+    private static Command parseDeleteCommand(String fullCommand) throws UserInputException {
+        return new DeleteCommand(getIndex(fullCommand));
+    }
+
+    private static Command parseEditCommand(String fullCommand) throws UserInputException {
+        return new EditCommand(getIndex(fullCommand), parseEditOptions(fullCommand));
+    }
+
+    private static List<EditCommand.Option> parseEditOptions(String fullCommand) throws UserInputException {
+        String[] commandIndexOptionsSplit = fullCommand.split(" ", 3);
+        if (commandIndexOptionsSplit.length < 3) {
+            throw new UserInputException("Missing edit options!\n"
+                    + "Edit options should follow this format: /option-name <new value>");
+        }
+        List<EditCommand.Option> options = new ArrayList<>();
+        String optionsText = commandIndexOptionsSplit[2];
+        for (String optionText : optionsText.split("/")) {
+            if (optionText.isEmpty()) {
+                continue;
+            }
+            String[] nameValueSplit = optionText.split(" ", 2);
+            String name = nameValueSplit[0];
+            if (nameValueSplit.length < 2) {
+                throw new UserInputException("Missing value after /" + name);
+            }
+            String value = nameValueSplit[1].trim();
+            options.add(new EditCommand.Option(nameValueSplit[0], nameValueSplit[1].trim()));
+        }
+        return options;
+    }
+
+    /**
+     * Parses the given string into a date-time object.
+     *
+     * @param text the date and time written as a string, with the format following the default date-time pattern
+     * @return a {@code LocalDateTime} instance representing the given date and time
+     * @throws DateTimeParseException if the text cannot be parsed
+     */
+    public static LocalDateTime parseDateTimeFromString(String text) throws DateTimeParseException {
+        return LocalDateTime.parse(text, DateTimeFormatter.ofPattern(DEFAULT_DATE_TIME_PATTERN));
     }
 
     /**
@@ -154,7 +200,7 @@ public class Parser {
     private static int getIndex(String fullCommand) throws UserInputException {
         int index;
         try {
-            index = Integer.parseInt(fullCommand.split(" ", 2)[1]) - 1;
+            index = Integer.parseInt(fullCommand.split(" ", 3)[1]) - 1;
         } catch (ArrayIndexOutOfBoundsException | NumberFormatException e) {
             throw new UserInputException("Please enter a valid task number!\n"
                     + "To view task number, type \"list\".");
