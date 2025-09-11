@@ -57,7 +57,7 @@ public class DialogBox extends HBox {
     }
 
     public static DialogBox getCodyDialog(String text, Image img) {
-        var dialog = new DialogBox(text, img);
+        DialogBox dialog = new DialogBox(text, img);
         dialog.flip();
         return dialog;
     }

@@ -34,10 +34,10 @@ public class Parser {
         // CHECKSTYLE OFF: Indentation
         // switch expression can have indentation, checkstyle does not differ between switch expressions and statements
         return switch (getName(fullCommand)) {
-            case BYE, EXIT -> new ExitCommand();
-            case MARK -> new MarkCommand(getIndex(fullCommand));
-            case UNMARK -> new UnmarkCommand(getIndex(fullCommand));
-            case DELETE -> new DeleteCommand(getIndex(fullCommand));
+            case BYE, EXIT -> getExitCommand();
+            case MARK -> parseMarkCommand(fullCommand);
+            case UNMARK -> parseUnmarkCommand(fullCommand);
+            case DELETE -> parseDeleteCommand(fullCommand);
             case LIST -> parseListCommand(fullCommand);
             case FIND -> parseFindCommand(fullCommand);
             case TODO -> parseTodoCommand(fullCommand);
@@ -45,6 +45,22 @@ public class Parser {
             case EVENT -> parseEventCommand(fullCommand);
         };
         // CHECKSTYLE ON: Indentation
+    }
+
+    private static Command getExitCommand() {
+        return new ExitCommand();
+    }
+
+    private static Command parseMarkCommand(String fullCommand) throws UserInputException {
+        return new MarkCommand(getIndex(fullCommand));
+    }
+
+    private static Command parseUnmarkCommand(String fullCommand) throws UserInputException {
+        return new UnmarkCommand(getIndex(fullCommand));
+    }
+
+    private static Command parseDeleteCommand(String fullCommand) throws UserInputException {
+        return new DeleteCommand(getIndex(fullCommand));
     }
 
     private static Command parseListCommand(String fullCommand) throws UserInputException {
