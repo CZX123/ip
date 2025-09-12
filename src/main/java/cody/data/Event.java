@@ -9,6 +9,11 @@ import java.util.Objects;
  * Represents an event.
  */
 public class Event extends Task {
+    /**
+     * Used to denote task type when storing task in plaintext.
+     */
+    public static final char LETTER = 'E';
+
     private final LocalDateTime from;
     private final LocalDateTime to;
 
@@ -35,7 +40,7 @@ public class Event extends Task {
 
     @Override
     public char getLetter() {
-        return 'E';
+        return LETTER;
     }
 
     @Override

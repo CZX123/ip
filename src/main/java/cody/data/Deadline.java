@@ -9,6 +9,11 @@ import java.util.Objects;
  * Represents a deadline.
  */
 public class Deadline extends Task {
+    /**
+     * Used to denote task type when storing task in plaintext.
+     */
+    public static final char LETTER = 'D';
+
     private final LocalDateTime by;
 
     /**
@@ -28,7 +33,7 @@ public class Deadline extends Task {
 
     @Override
     public char getLetter() {
-        return 'D';
+        return LETTER;
     }
 
     @Override

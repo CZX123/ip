@@ -4,16 +4,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
-import java.util.List;
 
-import cody.data.Deadline;
-import cody.data.Event;
-import cody.data.Task;
 import cody.data.TaskList;
-import cody.data.Todo;
 import cody.exceptions.StorageOperationException;
 
 /**
@@ -22,15 +14,11 @@ import cody.exceptions.StorageOperationException;
 public class Storage {
     public static final String DEFAULT_FILEPATH = "data/tasks.txt";
 
-    private static final String SEPARATOR = " | ";
-    private static final String SEPARATOR_REGEX = " \\| ";
-    private static final char DESCRIPTION_QUOTE = '\"';
-    private static final char STATUS_DONE = '1';
-    private static final char STATUS_NOT_DONE = '0';
-
     private static Storage instance;
+    private final Codec codec;
 
     private Storage() {
+        codec = new Codec();
     }
 
     /**
@@ -41,134 +29,6 @@ public class Storage {
             instance = new Storage();
         }
         return instance;
-    }
-
-    /**
-     * Encodes the given task list into lines of text used for storage.
-     *
-     * @param tasks the task list to encode
-     * @return lines of text representing the task list
-     * @throws TaskEncodeException when a task cannot be encoded
-     */
-    private List<String> encode(TaskList tasks) throws TaskEncodeException {
-        List<String> lines = new ArrayList<>();
-        for (Task task : tasks) {
-            char letter = task.getLetter();
-            char status = task.isDone() ? STATUS_DONE : STATUS_NOT_DONE;
-            String description = task.getDescription();
-            String line = letter + SEPARATOR
-                    + status + SEPARATOR
-                    + DESCRIPTION_QUOTE + description + DESCRIPTION_QUOTE;
-            switch (letter) {
-            case 'T':
-                assert task instanceof Todo;
-                break;
-            case 'D':
-                assert task instanceof Deadline;
-                Deadline deadline = (Deadline) task;
-                line += SEPARATOR + deadline.getBy();
-                break;
-            case 'E':
-                assert task instanceof Event;
-                Event event = (Event) task;
-                line += SEPARATOR + event.getFrom() + SEPARATOR + event.getTo();
-                break;
-            default:
-                throw new TaskEncodeException("Unable to encode this task: " + task);
-            }
-            lines.add(line);
-        }
-        return lines;
-    }
-
-    /**
-     * Decodes lines of text representing the task list into a {@code TaskList} object.
-     *
-     * @param lines lines of text representing the task list
-     * @return a {@code TaskList} object containing all tasks from the lines of text
-     * @throws TaskDecodeException when a line cannot be decoded due to invalid format
-     */
-    private TaskList decode(List<String> lines) throws TaskDecodeException {
-        List<Task> tasks = new ArrayList<>();
-        for (String line : lines) {
-            if (line.isEmpty()) {
-                continue;
-            }
-            if (!matchesTaskFormat(line)) {
-                throw new TaskDecodeException("Invalid task:\n" + line);
-            }
-
-            int firstQuotePosition = line.indexOf(DESCRIPTION_QUOTE);
-            int lastQuotePosition = line.lastIndexOf(DESCRIPTION_QUOTE);
-            boolean isDone = line.charAt(4) == STATUS_DONE; // status is at index 4
-            String description = line.substring(firstQuotePosition + 1, lastQuotePosition);
-            // CHECKSTYLE OFF: Indentation
-            // switch expression can have indentation
-            Task task = switch (line.charAt(0)) {
-                case 'T' -> decodeTodo(line, description);
-                case 'D' -> decodeDeadline(line, description, lastQuotePosition);
-                case 'E' -> decodeEvent(line, description, lastQuotePosition);
-                default -> throw new TaskDecodeException("Invalid task type: " + line.charAt(0));
-            };
-            // CHECKSTYLE ON: Indentation
-            if (isDone) {
-                task.markDone();
-            }
-            tasks.add(task);
-        }
-        return new TaskList(tasks);
-    }
-
-    /**
-     * Returns whether the given line matches the correct encoding format.
-     */
-    private boolean matchesTaskFormat(String line) {
-        return line.matches("[A-Z]"
-                + SEPARATOR_REGEX + "[" + STATUS_DONE + "|" + STATUS_NOT_DONE + "]"
-                + SEPARATOR_REGEX + ".+");
-    }
-
-    private Todo decodeTodo(String line, String description) {
-        assert line.charAt(0) == 'T';
-        return new Todo(description);
-    }
-
-    private Deadline decodeDeadline(String line, String description, int lastQuotePosition) throws TaskDecodeException {
-        assert line.charAt(0) == 'D';
-        boolean isCorrectFormat = line.substring(lastQuotePosition).matches(DESCRIPTION_QUOTE + SEPARATOR_REGEX + ".+");
-        if (!isCorrectFormat) {
-            throw new TaskDecodeException("Invalid deadline format:\n" + line);
-        }
-
-        int byPosition = lastQuotePosition + 4;
-        String byText = line.substring(byPosition);
-        LocalDateTime by;
-        try {
-            by = LocalDateTime.parse(byText);
-        } catch (DateTimeParseException e) {
-            throw new TaskDecodeException("Unable to parse date from this line:\n" + line);
-        }
-        return new Deadline(description, by);
-    }
-
-    private Event decodeEvent(String line, String description, int lastQuotePosition) throws TaskDecodeException {
-        assert line.charAt(0) == 'E';
-        boolean isCorrectFormat = line.substring(lastQuotePosition)
-                .matches(DESCRIPTION_QUOTE + SEPARATOR_REGEX + ".+" + SEPARATOR_REGEX + ".+");
-        if (!isCorrectFormat) {
-            throw new TaskDecodeException("Invalid event format:\n" + line);
-        }
-
-        String[] lineSplit = line.substring(lastQuotePosition).split(" \\| ", 3);
-        LocalDateTime from;
-        LocalDateTime to;
-        try {
-            from = LocalDateTime.parse(lineSplit[1]);
-            to = LocalDateTime.parse(lineSplit[2]);
-        } catch (DateTimeParseException e) {
-            throw new TaskDecodeException("Unable to parse date from this line:\n" + line);
-        }
-        return new Event(description, from, to);
     }
 
     /**
@@ -194,7 +54,11 @@ public class Storage {
             return new TaskList();
         }
         try {
-            return decode(Files.readAllLines(path));
+            return codec.decode(Files.readAllLines(path));
+        } catch (Codec.TaskDecodeException e) {
+            throw new StorageOperationException("Error loading file:\n\n" + e.getMessage()
+                    + "\n\nNote that adding any tasks now will overwrite the save file!"
+                    + "\nYou can recover your saved tasks at " + filePath);
         } catch (IOException e) {
             throw new StorageOperationException("Error loading file: " + path);
         }
@@ -221,21 +85,11 @@ public class Storage {
         Path path = Paths.get(filePath);
         try {
             Files.createDirectories(path.getParent());
-            Files.write(path, encode(tasks));
+            Files.write(path, codec.encode(tasks));
+        } catch (Codec.TaskEncodeException e) {
+            throw new StorageOperationException("Error writing to file:\n\n" + e.getMessage());
         } catch (IOException e) {
             throw new StorageOperationException("Error writing to file: " + path);
-        }
-    }
-
-    private static class TaskEncodeException extends StorageOperationException {
-        public TaskEncodeException(String message) {
-            super(message);
-        }
-    }
-
-    private static class TaskDecodeException extends StorageOperationException {
-        public TaskDecodeException(String message) {
-            super(message);
         }
     }
 }

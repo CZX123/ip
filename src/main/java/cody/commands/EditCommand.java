@@ -27,9 +27,9 @@ public class EditCommand extends ModifyTaskCommand {
     private static final String OPTION_FROM = "from";
     private static final String OPTION_TO = "to";
     private static final Map<Character, List<String>> VALID_OPTIONS = Map.of(
-            'T', List.of(OPTION_DESC),
-            'D', List.of(OPTION_DESC, OPTION_BY),
-            'E', List.of(OPTION_DESC, OPTION_FROM, OPTION_TO)
+            Todo.LETTER, List.of(OPTION_DESC),
+            Deadline.LETTER, List.of(OPTION_DESC, OPTION_BY),
+            Event.LETTER, List.of(OPTION_DESC, OPTION_FROM, OPTION_TO)
     );
 
     /**
@@ -62,9 +62,9 @@ public class EditCommand extends ModifyTaskCommand {
         // CHECKSTYLE OFF: Indentation
         // switch expression can have indentation
         Task newTask = switch (originalTask.getLetter()) {
-            case 'T' -> updateTodo();
-            case 'D' -> updateDeadline((Deadline) originalTask);
-            case 'E' -> updateEvent((Event) originalTask);
+            case Todo.LETTER -> updateTodo();
+            case Deadline.LETTER -> updateDeadline((Deadline) originalTask);
+            case Event.LETTER -> updateEvent((Event) originalTask);
             default -> throw new RuntimeException();
         };
         // CHECKSTYLE ON: Indentation
@@ -84,7 +84,7 @@ public class EditCommand extends ModifyTaskCommand {
 
     private Todo updateTodo() {
         assert options.size() == 1;
-        assert options.get(0).name().equals(VALID_OPTIONS.get('T').get(0)); // Option should only be "/desc"
+        assert options.get(0).name().equals(VALID_OPTIONS.get(Todo.LETTER).get(0)); // Option should only be "/desc"
         return new Todo(options.get(0).value());
     }
 

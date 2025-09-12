@@ -6,6 +6,10 @@ import java.time.LocalDate;
  * Represents a todo.
  */
 public class Todo extends Task {
+    /**
+     * Used to denote task type when storing task in plaintext.
+     */
+    public static final char LETTER = 'T';
 
     /**
      * Constructs a todo based on the given description.
@@ -18,7 +22,7 @@ public class Todo extends Task {
 
     @Override
     public char getLetter() {
-        return 'T';
+        return LETTER;
     }
 
     @Override
