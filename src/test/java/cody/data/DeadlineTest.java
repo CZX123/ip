@@ -28,10 +28,10 @@ public class DeadlineTest {
     }
 
     @Test
-    public void getLetter_alwaysReturnD() {
+    public void testGetLetter() {
         LocalDateTime by = LocalDateTime.of(2023, 10, 15, 14, 0);
         Deadline deadline = new Deadline("Submit assignment", by);
-        assertEquals('D', deadline.getLetter(), "getLetter should return 'D' for Deadline");
+        assertEquals('D', deadline.getLetter(), "getLetter should always return 'D' for Deadline");
     }
 
     @Test
@@ -55,16 +55,22 @@ public class DeadlineTest {
     }
 
     @Test
-    public void testEqualsAndHashCode() {
-        LocalDateTime by = LocalDateTime.of(2023, 10, 15, 14, 0);
-        Deadline deadline1 = new Deadline("Submit assignment", by);
-        Deadline deadline2 = new Deadline("Submit assignment", by);
-        Deadline deadline3 = new Deadline("Different task", by);
+    public void testEquals() {
+        Deadline deadline1 = new Deadline("Submit assignment", LocalDateTime.of(2023, 10, 15, 14, 0));
+        Deadline deadline2 = new Deadline("Submit assignment", LocalDateTime.of(2023, 10, 15, 14, 0));
+        Deadline deadline3 = new Deadline("Different task", LocalDateTime.of(2023, 10, 15, 14, 0));
+        Deadline deadline4 = new Deadline("Submit assignment", LocalDateTime.of(2023, 10, 15, 15, 0));
 
-        assertEquals(deadline1, deadline2, "Equal deadlines should be considered equal");
-        assertNotEquals(deadline1, deadline3, "Different deadlines should not be considered equal");
+        assertEquals(deadline1, deadline2, "Deadlines with the same description and date should be considered equal");
+        assertNotEquals(deadline1, deadline3, "Deadlines with different descriptions should not be considered equal");
+        assertNotEquals(deadline1, deadline4, "Deadlines with different dates should not be considered equal");
+    }
+
+    @Test
+    public void testHashCode() {
+        Deadline deadline1 = new Deadline("Submit assignment", LocalDateTime.of(2023, 10, 15, 14, 0));
+        Deadline deadline2 = new Deadline("Submit assignment", LocalDateTime.of(2023, 10, 15, 14, 0));
+
         assertEquals(deadline1.hashCode(), deadline2.hashCode(), "Equal deadlines should have the same hash code");
-        assertNotEquals(deadline1.hashCode(), deadline3.hashCode(),
-                "Different deadlines should have different hash codes");
     }
 }
