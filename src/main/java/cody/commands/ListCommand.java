@@ -2,6 +2,7 @@ package cody.commands;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 import cody.commands.base.Command;
 import cody.commands.base.CommandName;
@@ -60,5 +61,25 @@ public class ListCommand extends Command {
     @Override
     public boolean isExit() {
         return false;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+        ListCommand that = (ListCommand) o;
+        return Objects.equals(date, that.date);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), date);
     }
 }

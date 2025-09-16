@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import cody.commands.base.CommandName;
 import cody.commands.base.ModifyTaskCommand;
@@ -159,5 +160,25 @@ public class EditCommand extends ModifyTaskCommand {
                 throw new UserInputException(errorMessage);
             }
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+        EditCommand that = (EditCommand) o;
+        return Objects.equals(options, that.options);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), options);
     }
 }
