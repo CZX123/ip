@@ -1,8 +1,10 @@
 package cody.data;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
@@ -24,6 +26,24 @@ public class TodoTest {
     public void testFallsOn() {
         Todo todo = new Todo("Test description");
         assertFalse(todo.fallsOn(null), "Todo should always return false for fallsOn");
+    }
+
+    @Test
+    public void testMarkDoneAndUnmarkDone() {
+        Todo todo = new Todo("Test description");
+        assertFalse(todo.isDone(), "Todo should initially be not done");
+
+        todo.markDone();
+        assertTrue(todo.isDone(), "Todo should be marked as done");
+
+        assertDoesNotThrow(todo::markDone, "Marking an already done todo should not throw");
+        assertTrue(todo.isDone(), "Todo should still be marked as done");
+
+        todo.unmarkDone();
+        assertFalse(todo.isDone(), "Todo should be unmarked and be not done");
+
+        assertDoesNotThrow(todo::unmarkDone, "Unmarking an already not done todo should not throw");
+        assertFalse(todo.isDone(), "Todo should still be not done");
     }
 
     @Test

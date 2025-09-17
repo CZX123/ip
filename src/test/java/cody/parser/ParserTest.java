@@ -5,10 +5,12 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.FieldSource;
@@ -97,5 +99,18 @@ public class ParserTest {
     @FieldSource("INVALID_INPUTS")
     public void parse_invalidInput_throwsException(String input) {
         assertThrows(UserInputException.class, () -> Parser.parse(input));
+    }
+
+    @Test
+    public void parseDateTimeFromString_validInput_returnsCorrectDateTime() throws DateTimeParseException {
+        String input = "2025-09-01 2359";
+        LocalDateTime expected = LocalDateTime.of(2025, 9, 1, 23, 59);
+        assertEquals(expected, Parser.parseDateTimeFromString(input));
+    }
+
+    @Test
+    public void parseDateTimeFromString_inValidInput_throwsException() {
+        String input = "2025/09/01 23:59";
+        assertThrows(DateTimeParseException.class, () -> Parser.parseDateTimeFromString(input));
     }
 }

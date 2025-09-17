@@ -180,7 +180,7 @@ public class Parser {
     private static CommandName getName(String fullCommand) throws UserInputException {
         String firstWord = fullCommand.split(" ", 2)[0];
         return Arrays.stream(CommandName.values())
-                .filter(name -> firstWord.equals(name.getName()))
+                .filter(commandName -> firstWord.equals(commandName.getName()))
                 .findFirst()
                 .orElseThrow(() -> new UserInputException("Invalid command!"));
     }

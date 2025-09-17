@@ -1,5 +1,6 @@
 package cody.data;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -62,6 +63,24 @@ public class EventTest {
         assertTrue(event.fallsOn(withinRangeDate), "fallsOn should return true for a date within the range");
         assertTrue(event.fallsOn(matchingEndDate), "fallsOn should return true for the end date");
         assertFalse(event.fallsOn(afterEndDate), "fallsOn should return false for a date after the range");
+    }
+
+    @Test
+    public void testMarkDoneAndUnmarkDone() {
+        Event event = new Event("Team meeting", getDefaultStartDate(), getDefaultEndDate());
+        assertFalse(event.isDone(), "Event should initially be not done");
+
+        event.markDone();
+        assertTrue(event.isDone(), "Event should be marked as done");
+
+        assertDoesNotThrow(event::markDone, "Marking an already done event should not throw");
+        assertTrue(event.isDone(), "Event should still be marked as done");
+
+        event.unmarkDone();
+        assertFalse(event.isDone(), "Event should be unmarked and be not done");
+
+        assertDoesNotThrow(event::unmarkDone, "Unmarking an already not done event should not throw");
+        assertFalse(event.isDone(), "Event should still be not done");
     }
 
     @Test
