@@ -14,7 +14,6 @@ public class UiStub extends Ui {
     private final StringBuilder userCommands = new StringBuilder();
     private int startCallCount = 0;
     private int showWelcomeCallCount = 0;
-    private int showGoodbyeCallCount = 0;
 
     /**
      * Returns all command responses shown so far.
@@ -42,13 +41,6 @@ public class UiStub extends Ui {
      */
     public int getShowWelcomeCallCount() {
         return showWelcomeCallCount;
-    }
-
-    /**
-     * Returns the number of times the showGoodbye method has been called.
-     */
-    public int getShowGoodbyeCallCount() {
-        return showGoodbyeCallCount;
     }
 
     /**
@@ -102,6 +94,6 @@ public class UiStub extends Ui {
      */
     @Override
     public void showGoodbye() {
-        showGoodbyeCallCount++;
+        // No-op for goodbye in stub
     }
 }

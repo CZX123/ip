@@ -112,7 +112,7 @@ public class CodecTest {
         assertEquals(7, actual.size());
         for (int i = 0; i < 7; i++) {
             assertEquals(expected.get(i), actual.get(i));
-        };
+        }
     }
 
     @Test

@@ -26,6 +26,7 @@ class UnmarkCommandTest {
     void testGetIndex() {
         int index = 2;
         UnmarkCommand unmarkCommand = new UnmarkCommand(index);
+        assertEquals(index, unmarkCommand.getIndex(), "Command index should match the provided index");
     }
 
     @Test

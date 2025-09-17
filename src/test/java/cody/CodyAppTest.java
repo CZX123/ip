@@ -17,6 +17,7 @@ class CodyAppTest {
         StorageStub storage = new StorageStub();
 
         app.start(null, ui, storage);
+        assertEquals(1, ui.getStartCallCount(), "UI start should be called once");
         assertEquals(1, ui.getShowWelcomeCallCount(), "UI should show welcome message once");
         assertEquals(1, storage.getLoadCallCount(), "Storage load should be called once");
     }
