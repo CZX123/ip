@@ -2,10 +2,12 @@ package cody.commands;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 import cody.commands.base.Command;
 import cody.commands.base.CommandName;
 import cody.data.TaskList;
+import cody.storage.Storage;
 import cody.ui.Ui;
 
 /**
@@ -34,7 +36,7 @@ public class ListCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList tasks) {
+    public void execute(TaskList tasks, Ui ui, Storage storage) {
         String result;
         if (date == null) {
             if (tasks.isEmpty()) {
@@ -51,14 +53,40 @@ public class ListCommand extends Command {
             } else {
                 result = String.format("You have %d task%s on %s!\n%s",
                         filteredTasks.size(), filteredTasks.isSingular() ? "" : "s", date.format(format),
-                                Ui.getInstance().removeNumberingFromTasks(filteredTasks.toString()));
+                                ui.removeNumberingFromTasks(filteredTasks.toString()));
             }
         }
-        Ui.getInstance().showCodyResponse(result);
+        ui.showCodyResponse(result);
     }
 
     @Override
     public boolean isExit() {
         return false;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+        ListCommand that = (ListCommand) o;
+        return Objects.equals(date, that.date);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), date);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s, date=%s}",
+                super.toString().substring(0, super.toString().length() - 1), date);
     }
 }

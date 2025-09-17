@@ -121,6 +121,9 @@ public class Parser {
         } catch (DateTimeParseException e) {
             throw new UserInputException("The dates should be in this format: YYYY-MM-DD HHmm");
         }
+        if (!from.isBefore(to)) {
+            throw new UserInputException("Event start date should be before event end date!");
+        }
         return new EventCommand(descDatesSplit[0], from, to);
     }
 
@@ -148,6 +151,10 @@ public class Parser {
         }
         List<EditCommand.Option> options = new ArrayList<>();
         String optionsText = commandIndexOptionsSplit[2];
+        if (!optionsText.startsWith("/")) {
+            throw new UserInputException("Invalid edit option format!\n"
+                    + "Edit options should follow this format: /option-name <new value>");
+        }
         for (String optionText : optionsText.split("/")) {
             if (optionText.isEmpty()) {
                 continue;
@@ -173,7 +180,7 @@ public class Parser {
     private static CommandName getName(String fullCommand) throws UserInputException {
         String firstWord = fullCommand.split(" ", 2)[0];
         return Arrays.stream(CommandName.values())
-                .filter(name -> firstWord.equals(name.getName()))
+                .filter(commandName -> firstWord.equals(commandName.getName()))
                 .findFirst()
                 .orElseThrow(() -> new UserInputException("Invalid command!"));
     }

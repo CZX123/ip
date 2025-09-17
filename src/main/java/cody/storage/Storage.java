@@ -14,22 +14,7 @@ import cody.exceptions.StorageOperationException;
 public class Storage {
     public static final String DEFAULT_FILEPATH = "data/tasks.txt";
 
-    private static Storage instance;
-    private final Codec codec;
-
-    private Storage() {
-        codec = new Codec();
-    }
-
-    /**
-     * Gets the currently active {@code Storage} instance.
-     */
-    public static Storage getInstance() {
-        if (instance == null) {
-            instance = new Storage();
-        }
-        return instance;
-    }
+    private final Codec codec = new Codec();
 
     /**
      * Loads task list from storage, located at default file path.

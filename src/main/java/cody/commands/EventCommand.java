@@ -52,4 +52,10 @@ public class EventCommand extends AddTaskCommand {
     public int hashCode() {
         return Objects.hash(super.hashCode(), from, to);
     }
+
+    @Override
+    public String toString() {
+        return String.format("%s, from=%s, to=%s}",
+                super.toString().substring(0, super.toString().length() - 1), from, to);
+    }
 }

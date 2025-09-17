@@ -1,29 +1,26 @@
 package cody.commands.base;
 
 /**
- * Name of the command
+ * Represents the name of the command.
  */
 public enum CommandName {
-    BYE("bye"),
-    EXIT("exit"),
-    LIST("list"),
-    FIND("find"),
-    TODO("todo"),
-    DEADLINE("deadline"),
-    EVENT("event"),
-    MARK("mark"),
-    UNMARK("unmark"),
-    DELETE("delete"),
-    EDIT("edit"),
-    UPDATE("update");
+    BYE,
+    EXIT,
+    LIST,
+    FIND,
+    TODO,
+    DEADLINE,
+    EVENT,
+    MARK,
+    UNMARK,
+    DELETE,
+    EDIT,
+    UPDATE;
 
-    private final String name;
-
-    CommandName(String name) {
-        this.name = name;
-    }
-
+    /**
+     * Returns the command name in lowercase.
+     */
     public String getName() {
-        return name;
+        return name().toLowerCase();
     }
 }

@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import cody.commands.base.CommandName;
 import cody.commands.base.ModifyTaskCommand;
@@ -55,7 +56,10 @@ public class EditCommand extends ModifyTaskCommand {
     }
 
     @Override
-    public void execute(TaskList tasks) throws CodyException {
+    public void execute(TaskList tasks, Ui ui, Storage storage) throws CodyException {
+        if (isIndexInvalid(tasks)) {
+            throw new UserInputException(String.format("There is no task numbered %d!", getIndex() + 1));
+        }
         Task originalTask = tasks.get(getIndex());
         checkValidity(originalTask);
 
@@ -76,10 +80,10 @@ public class EditCommand extends ModifyTaskCommand {
         tasks.remove(getIndex());
         tasks.add(getIndex(), newTask);
 
-        Ui.getInstance().showCodyResponse("Task edited!\n"
+        ui.showCodyResponse("Task edited!\n"
                 + "\nOriginal:\n" + originalTask
                 + "\n\nUpdated:\n" + newTask);
-        Storage.getInstance().save(tasks);
+        storage.save(tasks);
     }
 
     private Todo updateTodo() {
@@ -134,7 +138,7 @@ public class EditCommand extends ModifyTaskCommand {
             }
         }
 
-        if (from.isAfter(to)) {
+        if (!from.isBefore(to)) {
             throw new UserInputException("Invalid dates provided!\n"
                     + "The starting date and time occurs after the ending date and time!");
         }
@@ -159,5 +163,30 @@ public class EditCommand extends ModifyTaskCommand {
                 throw new UserInputException(errorMessage);
             }
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+        EditCommand that = (EditCommand) o;
+        return Objects.equals(options, that.options);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), options);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s, options=%s}", super.toString().substring(0, super.toString().length() - 1), options);
     }
 }

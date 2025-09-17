@@ -19,7 +19,13 @@ public abstract class ModifyTaskCommand extends Command {
         return index;
     }
 
-    protected boolean isIndexInvalid(TaskList tasks, int index) {
+    /**
+     * Checks if the index is invalid for the given task list.
+     *
+     * @param tasks the active {@code TaskList} instance
+     * @return whether the index is out of bounds of the active task list.
+     */
+    protected boolean isIndexInvalid(TaskList tasks) {
         return 0 > index || index >= tasks.size();
     }
 
@@ -46,5 +52,11 @@ public abstract class ModifyTaskCommand extends Command {
     @Override
     public int hashCode() {
         return Objects.hash(super.hashCode(), index);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s, index=%d}",
+                super.toString().substring(0, super.toString().length() - 1), index);
     }
 }

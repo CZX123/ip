@@ -15,7 +15,7 @@ import cody.exceptions.StorageOperationException;
 /**
  * Handles encoding and decoding of task list from lines of text.
  */
-class Codec {
+public class Codec {
     private static final String SEPARATOR = " | ";
     private static final char QUOTE = '\"';
     private static final char STATUS_DONE = '1';
@@ -104,7 +104,7 @@ class Codec {
             }
             tasks.add(task);
         }
-        return new TaskList(tasks);
+        return new TaskList(tasks.toArray(Task[]::new));
     }
 
     private Todo decodeTodo(String line) throws TaskDecodeException {
@@ -143,6 +143,9 @@ class Codec {
         } catch (DateTimeParseException e) {
             throw new TaskDecodeException("Unable to parse date from this line:\n" + line);
         }
+        if (!from.isBefore(to)) {
+            throw new TaskDecodeException("Event start date should be before event end date:\n" + line);
+        }
         return new Event(getDescription(line), from, to);
     }
 
@@ -166,12 +169,18 @@ class Codec {
         return line.substring(firstQuotePosition + 1, lastQuotePosition);
     }
 
+    /**
+     * Indicates that a task cannot be encoded properly.
+     */
     public static class TaskEncodeException extends StorageOperationException {
         public TaskEncodeException(String message) {
             super(message);
         }
     }
 
+    /**
+     * Indicates that a task cannot be decoded properly.
+     */
     public static class TaskDecodeException extends StorageOperationException {
         public TaskDecodeException(String message) {
             super(message);

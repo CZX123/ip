@@ -4,6 +4,8 @@ import java.util.Objects;
 
 import cody.data.TaskList;
 import cody.exceptions.CodyException;
+import cody.storage.Storage;
+import cody.ui.Ui;
 
 /**
  * Represents an executable command
@@ -22,10 +24,12 @@ public abstract class Command {
     /**
      * Executes the command.
      *
-     * @param tasks the active {@code TaskList}
+     * @param tasks   the active {@code TaskList} instance
+     * @param ui      the active {@code Ui} instance
+     * @param storage the active {@code Storage} instance
      * @throws CodyException on any invalid user input or storage operation error
      */
-    public abstract void execute(TaskList tasks) throws CodyException;
+    public abstract void execute(TaskList tasks, Ui ui, Storage storage) throws CodyException;
 
     /**
      * Returns whether command is an exit command.
@@ -47,5 +51,10 @@ public abstract class Command {
     @Override
     public int hashCode() {
         return Objects.hash(name);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s{name='%s'}", getClass().getSimpleName(), name);
     }
 }

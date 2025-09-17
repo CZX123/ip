@@ -1,7 +1,6 @@
 package cody.data;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
@@ -20,13 +19,14 @@ public class TaskList implements Iterable<Task> {
      */
     public TaskList() {}
 
+
     /**
      * Constructs a task list that contains the given initial tasks.
      *
-     * @param tasks a collection of initial tasks
+     * @param tasks the initial tasks to add
      */
-    public TaskList(Collection<Task> tasks) {
-        internalList.addAll(tasks);
+    public TaskList(Task... tasks) {
+        internalList.addAll(List.of(tasks));
     }
 
     /**
@@ -88,7 +88,7 @@ public class TaskList implements Iterable<Task> {
      * @return a new {@code TaskList} with the tasks filtered
      */
     public TaskList filter(Predicate<Task> predicate) {
-        return new TaskList(internalList.stream().filter(predicate).toList());
+        return new TaskList(internalList.stream().filter(predicate).toArray(Task[]::new));
     }
 
     @Override

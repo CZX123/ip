@@ -18,15 +18,15 @@ public class DeleteCommand extends ModifyTaskCommand {
     }
 
     @Override
-    public void execute(TaskList tasks) throws CodyException {
-        if (isIndexInvalid(tasks, getIndex())) {
+    public void execute(TaskList tasks, Ui ui, Storage storage) throws CodyException {
+        if (isIndexInvalid(tasks)) {
             throw new UserInputException(String.format("There is no task numbered %d!", getIndex() + 1));
         }
         Task task = tasks.get(getIndex());
         tasks.remove(getIndex());
         String result = String.format("Removed task:\n%s\n\nNow there %s %d task%s!",
                 task, tasks.isSingular() ? "is" : "are", tasks.size(), tasks.isSingular() ? "" : "s");
-        Ui.getInstance().showCodyResponse(result);
-        Storage.getInstance().save(tasks);
+        ui.showCodyResponse(result);
+        storage.save(tasks);
     }
 }
