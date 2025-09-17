@@ -19,26 +19,26 @@ import cody.ui.Ui;
  */
 public class CodyApp extends Application {
     private TaskList tasks;
-
-    /**
-     * Constructs CodyApp class.
-     */
-    public CodyApp() {}
+    private Ui ui;
+    private Storage storage;
 
     @Override
     public void start(Stage stage) {
-        Ui.getInstance().start(this, stage);
+        ui = new Ui();
+        storage = new Storage();
+
+        ui.start(this, stage);
 
         TaskList tasks;
         try {
-            tasks = Storage.getInstance().load();
+            tasks = storage.load();
         } catch (StorageOperationException e) {
-            Ui.getInstance().showNonFatalError(e.getMessage());
+            Ui.showNonFatalError(e.getMessage());
             tasks = new TaskList();
         }
         this.tasks = tasks;
 
-        Ui.getInstance().showWelcome();
+        ui.showWelcome();
     }
 
     /**
@@ -47,18 +47,18 @@ public class CodyApp extends Application {
      * @param fullCommand the full command string the user typed out
      */
     public void respond(String fullCommand) {
-        Ui.getInstance().showUserCommand(fullCommand);
+        ui.showUserCommand(fullCommand);
         try {
             Command c = Parser.parse(fullCommand);
-            c.execute(tasks);
+            c.execute(tasks, ui, storage);
             if (c.isExit()) {
-                Ui.getInstance().showGoodbye();
+                ui.showGoodbye();
                 // slight delay before closing so goodbye message can be read
                 CompletableFuture.delayedExecutor(800, TimeUnit.MILLISECONDS)
-                        .execute(Ui.getInstance()::close);
+                        .execute(Ui::close);
             }
         } catch (CodyException e) {
-            Ui.getInstance().showCodyResponse(e.getMessage());
+            ui.showCodyResponse(e.getMessage());
         }
     }
 }

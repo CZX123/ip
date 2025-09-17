@@ -18,13 +18,13 @@ public class MarkCommand extends ModifyTaskCommand {
     }
 
     @Override
-    public void execute(TaskList tasks) throws CodyException {
+    public void execute(TaskList tasks, Ui ui, Storage storage) throws CodyException {
         if (isIndexInvalid(tasks, getIndex())) {
             throw new UserInputException(String.format("There is no task numbered %d!", getIndex() + 1));
         }
         Task task = tasks.get(getIndex());
         task.markDone();
-        Ui.getInstance().showCodyResponse("Marked task as done:\n" + task);
-        Storage.getInstance().save(tasks);
+        ui.showCodyResponse("Marked task as done:\n" + task);
+        storage.save(tasks);
     }
 }

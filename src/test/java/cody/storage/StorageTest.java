@@ -36,11 +36,13 @@ class StorageTest {
             E | 0 | "Orientation" | 2025-09-01T09:00 | 2025-09-04T18:00
             """;
 
-    private static List<String> initialFileContents;
+    private static Storage storage;
     private static TaskList tasks;
+    private static List<String> initialFileContents;
 
     @BeforeAll
     public static void setup() {
+        storage = new Storage();
         tasks = new TaskList(List.of(new Todo("Set up desktop"),
                 new Deadline("Submit Quiz 1", LocalDateTime.of(2025, 9, 1, 23, 59)),
                 new Event("Orientation", LocalDateTime.of(2025, 9, 1, 9, 0), LocalDateTime.of(2025, 9, 4, 18, 0))));
@@ -81,8 +83,8 @@ class StorageTest {
     @Test
     public void load_noExistingFile_returnsEmptyTaskList() throws IOException, StorageOperationException {
         resetFilePaths();
-        assertEquals(Storage.getInstance().load(), new TaskList());
-        assertEquals(Storage.getInstance().load(TEST_FILEPATH_TEXT), new TaskList());
+        assertEquals(storage.load(), new TaskList());
+        assertEquals(storage.load(TEST_FILEPATH_TEXT), new TaskList());
         assertFalse(Files.exists(DEFAULT_FILEPATH)); // file shouldn't be created on load
         assertFalse(Files.exists(TEST_FILEPATH)); // file shouldn't be created on load
     }
@@ -93,8 +95,8 @@ class StorageTest {
         Files.writeString(DEFAULT_FILEPATH, TEST_FILE_CONTENT);
         Files.createDirectories(TEST_FILEPATH.getParent());
         Files.writeString(TEST_FILEPATH, TEST_FILE_CONTENT);
-        assertEquals(Storage.getInstance().load(), tasks);
-        assertEquals(Storage.getInstance().load(TEST_FILEPATH_TEXT), tasks);
+        assertEquals(storage.load(), tasks);
+        assertEquals(storage.load(TEST_FILEPATH_TEXT), tasks);
         resetFilePaths();
     }
 
@@ -104,15 +106,15 @@ class StorageTest {
         Files.writeString(DEFAULT_FILEPATH, CORRUPTED_FILE_CONTENT);
         Files.createDirectories(TEST_FILEPATH.getParent());
         Files.writeString(TEST_FILEPATH, CORRUPTED_FILE_CONTENT);
-        assertThrows(StorageOperationException.class, () -> Storage.getInstance().load());
-        assertThrows(StorageOperationException.class, () -> Storage.getInstance().load(TEST_FILEPATH_TEXT));
+        assertThrows(StorageOperationException.class, () -> storage.load());
+        assertThrows(StorageOperationException.class, () -> storage.load(TEST_FILEPATH_TEXT));
         resetFilePaths();
     }
 
     @Test
     public void testSave() throws IOException, StorageOperationException {
-        Storage.getInstance().save(tasks);
-        Storage.getInstance().save(tasks, TEST_FILEPATH_TEXT);
+        storage.save(tasks);
+        storage.save(tasks, TEST_FILEPATH_TEXT);
         String[] actualLinesDefaultFilePath = Files.readAllLines(TEST_FILEPATH).toArray(new String[] {});
         String[] actualLinesTestFilePath = Files.readAllLines(TEST_FILEPATH).toArray(new String[] {});
         String[] expectedLines = TEST_FILE_CONTENT.split("\n");

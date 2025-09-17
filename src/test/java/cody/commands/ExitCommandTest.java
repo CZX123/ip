@@ -17,7 +17,8 @@ class ExitCommandTest {
     @Test
     void testExecute() {
         ExitCommand exitCommand = new ExitCommand();
-        assertDoesNotThrow(() -> exitCommand.execute(null), "Executing ExitCommand should not throw any exception");
+        assertDoesNotThrow(() -> exitCommand.execute(null, null, null),
+                "Executing ExitCommand should not throw any exception");
     }
 
     @Test

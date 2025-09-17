@@ -23,24 +23,9 @@ public class Ui {
     private static final String WELCOME_MSG = "Hello! I'm Cody. \nWhat can I do for you?";
     private static final String GOODBYE_MSG = "Bye. Hope to see you again soon!";
 
-    private static Ui instance;
-
     private MainWindow mainWindow;
     private Image codyImage;
     private Image userImage;
-
-    private Ui() {
-    }
-
-    /**
-     * Gets the currently active {@code Ui} instance.
-     */
-    public static Ui getInstance() {
-        if (instance == null) {
-            instance = new Ui();
-        }
-        return instance;
-    }
 
     /**
      * Starts the application and loads the UI.
@@ -80,9 +65,38 @@ public class Ui {
     }
 
     /**
+     * Creates a JavaFX alert.
+     *
+     * @param message the error message in the alert
+     * @return the alert to be displayed
+     */
+    private static Alert createAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Cody");
+        alert.setHeaderText("An error has occurred!");
+        alert.setContentText(message);
+        return alert;
+    }
+
+    /**
+     * Displays an alert showing the error message. App continues to run after closing the alert.
+     */
+    public static void showNonFatalError(String message) {
+        createAlert(message).show();
+    }
+
+    /**
+     * Displays an alert showing the error message. Closes the application after alert is closed.
+     */
+    public static void showFatalError(String message) {
+        createAlert(message).showAndWait();
+        close();
+    }
+
+    /**
      * Closes the application.
      */
-    public void close() {
+    public static void close() {
         Platform.exit();
     }
 
@@ -100,29 +114,6 @@ public class Ui {
     public void showUserCommand(String text) {
         DialogBox dialog = DialogBox.getUserDialog(text, userImage);
         mainWindow.insertNode(dialog);
-    }
-
-    /**
-     * Displays an alert showing the error message. App continues to run after closing the alert.
-     */
-    public void showNonFatalError(String message) {
-        createAlert(message).show();
-    }
-
-    /**
-     * Displays an alert showing the error message. Closes the application after alert is closed.
-     */
-    public void showFatalError(String message) {
-        createAlert(message).showAndWait();
-        close();
-    }
-
-    private Alert createAlert(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Cody");
-        alert.setHeaderText("An error has occurred!");
-        alert.setContentText(message);
-        return alert;
     }
 
     /**

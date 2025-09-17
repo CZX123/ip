@@ -56,7 +56,7 @@ public class EditCommand extends ModifyTaskCommand {
     }
 
     @Override
-    public void execute(TaskList tasks) throws CodyException {
+    public void execute(TaskList tasks, Ui ui, Storage storage) throws CodyException {
         Task originalTask = tasks.get(getIndex());
         checkValidity(originalTask);
 
@@ -77,10 +77,10 @@ public class EditCommand extends ModifyTaskCommand {
         tasks.remove(getIndex());
         tasks.add(getIndex(), newTask);
 
-        Ui.getInstance().showCodyResponse("Task edited!\n"
+        ui.showCodyResponse("Task edited!\n"
                 + "\nOriginal:\n" + originalTask
                 + "\n\nUpdated:\n" + newTask);
-        Storage.getInstance().save(tasks);
+        storage.save(tasks);
     }
 
     private Todo updateTodo() {

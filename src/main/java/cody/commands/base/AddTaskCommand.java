@@ -23,16 +23,19 @@ public abstract class AddTaskCommand extends Command {
         return description;
     }
 
+    /**
+     * Creates a task to be added to the task list.
+     */
     protected abstract Task createTask();
 
     @Override
-    public void execute(TaskList tasks) throws CodyException {
+    public void execute(TaskList tasks, Ui ui, Storage storage) throws CodyException {
         Task task = createTask();
         tasks.add(task);
         String result = String.format("Added task:\n%s\n\nNow there %s %d task%s!",
                 task, tasks.isSingular() ? "is" : "are", tasks.size(), tasks.isSingular() ? "" : "s");
-        Ui.getInstance().showCodyResponse(result);
-        Storage.getInstance().save(tasks);
+        ui.showCodyResponse(result);
+        storage.save(tasks);
     }
 
     @Override
