@@ -6,6 +6,7 @@
 - Copilot still needed a lot of guidance and corrections, especially when it came to understanding the context of the project. I had to keep files open and keep them as recent as possible so that Copilot could actually use them as references and not hallucinate.
 - Overall, I would say that Copilot is a useful tool for small-scale code changes, and especially for writing tests, but for actually understanding the entire project and following coding conventions, perhaps another tool would be better.
 
+
 > [!IMPORTANT]
 > The section below is wholly written by GitHub Copilot chat.
 ---
