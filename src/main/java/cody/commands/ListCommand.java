@@ -83,4 +83,10 @@ public class ListCommand extends Command {
     public int hashCode() {
         return Objects.hash(super.hashCode(), date);
     }
+
+    @Override
+    public String toString() {
+        return String.format("%s, date=%s}",
+                super.toString().substring(0, super.toString().length() - 1), date);
+    }
 }

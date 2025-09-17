@@ -52,4 +52,9 @@ public abstract class Command {
     public int hashCode() {
         return Objects.hash(name);
     }
+
+    @Override
+    public String toString() {
+        return String.format("%s{name='%s'}", getClass().getSimpleName(), name);
+    }
 }

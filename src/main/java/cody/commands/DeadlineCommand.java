@@ -49,4 +49,10 @@ public class DeadlineCommand extends AddTaskCommand {
     public int hashCode() {
         return Objects.hash(super.hashCode(), by);
     }
+
+    @Override
+    public String toString() {
+        return String.format("%s, by=%s}",
+                super.toString().substring(0, super.toString().length() - 1), by);
+    }
 }

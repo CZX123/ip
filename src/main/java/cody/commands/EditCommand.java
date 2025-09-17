@@ -184,4 +184,9 @@ public class EditCommand extends ModifyTaskCommand {
     public int hashCode() {
         return Objects.hash(super.hashCode(), options);
     }
+
+    @Override
+    public String toString() {
+        return String.format("%s, options=%s}", super.toString().substring(0, super.toString().length() - 1), options);
+    }
 }

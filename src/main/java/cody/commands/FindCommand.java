@@ -61,4 +61,10 @@ public class FindCommand extends Command {
     public int hashCode() {
         return Objects.hash(super.hashCode(), keyword);
     }
+
+    @Override
+    public String toString() {
+        return String.format("%s, keyword='%s'}",
+                super.toString().substring(0, super.toString().length() - 1), keyword);
+    }
 }

@@ -53,4 +53,10 @@ public abstract class ModifyTaskCommand extends Command {
     public int hashCode() {
         return Objects.hash(super.hashCode(), index);
     }
+
+    @Override
+    public String toString() {
+        return String.format("%s, index=%d}",
+                super.toString().substring(0, super.toString().length() - 1), index);
+    }
 }
