@@ -32,7 +32,7 @@ class UnmarkCommandTest {
 
     @Test
     void execute_validIndex_marksTaskAsNotDone() throws CodyException {
-        TaskList tasks = new TaskList(List.of(new Todo("Task 1")));
+        TaskList tasks = new TaskList(new Todo("Task 1"));
         tasks.get(0).markDone(); // Mark the task as done initially
         UiStub ui = new UiStub();
         StorageStub storage = new StorageStub();
@@ -50,7 +50,7 @@ class UnmarkCommandTest {
 
     @Test
     void execute_invalidIndex_throwsException() {
-        TaskList tasks = new TaskList(List.of(new Todo("Task 1")));
+        TaskList tasks = new TaskList(new Todo("Task 1"));
         UiStub ui = new UiStub();
         StorageStub storage = new StorageStub();
 

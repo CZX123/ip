@@ -104,7 +104,7 @@ public class Codec {
             }
             tasks.add(task);
         }
-        return new TaskList(tasks);
+        return new TaskList(tasks.toArray(Task[]::new));
     }
 
     private Todo decodeTodo(String line) throws TaskDecodeException {

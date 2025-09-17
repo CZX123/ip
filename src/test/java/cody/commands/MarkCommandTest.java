@@ -33,7 +33,7 @@ class MarkCommandTest {
 
     @Test
     void execute_validIndex_marksTaskAsDone() throws CodyException {
-        TaskList tasks = new TaskList(List.of(new Todo("Task 1")));
+        TaskList tasks = new TaskList(new Todo("Task 1"));
         UiStub ui = new UiStub();
         StorageStub storage = new StorageStub();
 
@@ -50,7 +50,7 @@ class MarkCommandTest {
 
     @Test
     void execute_invalidIndex_throwsException() {
-        TaskList tasks = new TaskList(List.of(new Todo("Task 1")));
+        TaskList tasks = new TaskList(new Todo("Task 1"));
         UiStub ui = new UiStub();
         StorageStub storage = new StorageStub();
 

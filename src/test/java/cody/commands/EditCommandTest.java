@@ -35,7 +35,7 @@ class EditCommandTest {
 
     @Test
     void execute_validTodoEdit() throws CodyException {
-        TaskList tasks = new TaskList(List.of(new Todo("Task 1")));
+        TaskList tasks = new TaskList(new Todo("Task 1"));
         UiStub ui = new UiStub();
         StorageStub storage = new StorageStub();
 
@@ -53,7 +53,7 @@ class EditCommandTest {
     @Test
     void execute_validDeadlineEdits() throws CodyException {
         LocalDateTime by = LocalDateTime.of(2023, 10, 15, 14, 0);
-        TaskList tasks = new TaskList(List.of(new Deadline("Task 1", by)));
+        TaskList tasks = new TaskList(new Deadline("Task 1", by));
         UiStub ui = new UiStub();
         StorageStub storage = new StorageStub();
 
@@ -98,7 +98,7 @@ class EditCommandTest {
     void execute_validEventEdits() throws CodyException {
         LocalDateTime from = LocalDateTime.of(2023, 10, 15, 14, 0);
         LocalDateTime to = LocalDateTime.of(2023, 10, 15, 16, 0);
-        TaskList tasks = new TaskList(List.of(new Event("Task 1", from, to)));
+        TaskList tasks = new TaskList(new Event("Task 1", from, to));
         UiStub ui = new UiStub();
         StorageStub storage = new StorageStub();
 
@@ -143,10 +143,10 @@ class EditCommandTest {
 
     @Test
     void execute_invalidDates_throwsException() {
-        TaskList tasks = new TaskList(List.of(
+        TaskList tasks = new TaskList(
                 new Deadline("Task 1", LocalDateTime.of(2023, 10, 15, 14, 0)),
                 new Event("Task 2", LocalDateTime.of(2023, 10, 15, 14, 0), LocalDateTime.of(2023, 10, 15, 16, 0))
-        ));
+        );
         UiStub ui = new UiStub();
         StorageStub storage = new StorageStub();
 
@@ -172,7 +172,7 @@ class EditCommandTest {
 
     @Test
     void execute_invalidOption_throwsException() {
-        TaskList tasks = new TaskList(List.of(new Todo("Task 1")));
+        TaskList tasks = new TaskList(new Todo("Task 1"));
         UiStub ui = new UiStub();
         StorageStub storage = new StorageStub();
 
@@ -185,7 +185,7 @@ class EditCommandTest {
 
     @Test
     void execute_invalidIndex_throwsException() {
-        TaskList tasks = new TaskList(List.of(new Todo("Task 1")));
+        TaskList tasks = new TaskList(new Todo("Task 1"));
         UiStub ui = new UiStub();
         StorageStub storage = new StorageStub();
 

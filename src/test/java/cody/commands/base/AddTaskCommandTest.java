@@ -48,7 +48,7 @@ class AddTaskCommandTest {
 
     @Test
     void execute_nonEmptyTaskList_taskAddedCorrectly() throws CodyException {
-        TaskList tasks = new TaskList(List.of(new TaskStub("Existing task")));
+        TaskList tasks = new TaskList(new TaskStub("Existing task"));
         UiStub ui = new UiStub();
         StorageStub storage = new StorageStub();
 

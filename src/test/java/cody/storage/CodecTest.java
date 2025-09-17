@@ -102,7 +102,7 @@ public class CodecTest {
         taskArray[2].markDone();
         taskArray[3].markDone();
         taskArray[5].markDone();
-        tasks = new TaskList(List.of(taskArray));
+        tasks = new TaskList(taskArray);
     }
 
     @Test

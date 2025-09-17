@@ -4,8 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
-import java.util.List;
-
 import org.junit.jupiter.api.Test;
 
 import cody.data.TaskList;
@@ -29,10 +27,7 @@ class FindCommandTest {
 
     @Test
     void execute_noMatchingTasks() {
-        TaskList tasks = new TaskList(List.of(
-                new TaskStub("Task 1"),
-                new TaskStub("Task 2")
-        ));
+        TaskList tasks = new TaskList(new TaskStub("Task 1"), new TaskStub("Task 2"));
         UiStub ui = new UiStub();
         StorageStub storage = new StorageStub();
 
@@ -47,10 +42,7 @@ class FindCommandTest {
 
     @Test
     void execute_singleMatchingTask() {
-        TaskList tasks = new TaskList(List.of(
-                new TaskStub("Task 1"),
-                new TaskStub("Task 2")
-        ));
+        TaskList tasks = new TaskList(new TaskStub("Task 1"), new TaskStub("Task 2"));
         UiStub ui = new UiStub();
         StorageStub storage = new StorageStub();
 
@@ -67,11 +59,11 @@ class FindCommandTest {
 
     @Test
     void execute_multipleMatchingTasks() {
-        TaskList tasks = new TaskList(List.of(
+        TaskList tasks = new TaskList(
                 new TaskStub("Task 1"),
                 new TaskStub("Task 2"),
                 new TaskStub("Task 1 Meeting")
-        ));
+        );
         UiStub ui = new UiStub();
         StorageStub storage = new StorageStub();
 

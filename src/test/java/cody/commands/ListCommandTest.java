@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
@@ -45,7 +44,7 @@ class ListCommandTest {
 
     @Test
     void execute_singleItemTaskList() {
-        TaskList tasks = new TaskList(List.of(new TaskStub("Task 1")));
+        TaskList tasks = new TaskList(new TaskStub("Task 1"));
         UiStub ui = new UiStub();
         StorageStub storage = new StorageStub();
 
@@ -62,7 +61,7 @@ class ListCommandTest {
 
     @Test
     void execute_multipleItemsTaskList() {
-        TaskList tasks = new TaskList(List.of(new TaskStub("Task 1"), new TaskStub("Task 2")));
+        TaskList tasks = new TaskList(new TaskStub("Task 1"), new TaskStub("Task 2"));
         UiStub ui = new UiStub();
         StorageStub storage = new StorageStub();
 
@@ -80,7 +79,7 @@ class ListCommandTest {
 
     @Test
     void execute_filteredTaskList_noTasksOnDate() {
-        TaskList tasks = new TaskList(List.of(new TaskStub("Task 1"), new TaskStub("Task 2")));
+        TaskList tasks = new TaskList(new TaskStub("Task 1"), new TaskStub("Task 2"));
         UiStub ui = new UiStub();
         StorageStub storage = new StorageStub();
 
@@ -96,8 +95,7 @@ class ListCommandTest {
 
     @Test
     void execute_filteredTaskList_singleTaskOnDate() {
-        TaskList tasks = new TaskList(List.of(new TaskStub("Task 1"),
-                new TaskStub("Task 2", true), new TaskStub("Task 3")));
+        TaskList tasks = new TaskList(new TaskStub("Task 1"), new TaskStub("Task 2", true), new TaskStub("Task 3"));
         UiStub ui = new UiStub();
         StorageStub storage = new StorageStub();
 
@@ -115,8 +113,8 @@ class ListCommandTest {
 
     @Test
     void execute_filteredTaskList_multipleTasksOnDate() {
-        TaskList tasks = new TaskList(List.of(new TaskStub("Task 1"),
-                new TaskStub("Task 2", true), new TaskStub("Task 3", true)));
+        TaskList tasks = new TaskList(new TaskStub("Task 1"), new TaskStub("Task 2", true),
+                new TaskStub("Task 3", true));
         UiStub ui = new UiStub();
         StorageStub storage = new StorageStub();
 

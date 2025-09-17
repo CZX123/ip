@@ -5,8 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.List;
-
 import org.junit.jupiter.api.Test;
 
 import cody.data.TaskList;
@@ -32,13 +30,13 @@ class DeleteCommandTest {
 
     @Test
     void execute_validIndex_deletesTask() throws CodyException {
-        TaskList tasks = new TaskList(List.of(new TaskStub("Task 1"), new TaskStub("Task 2")));
+        TaskList tasks = new TaskList(new TaskStub("Task 1"), new TaskStub("Task 2"));
         UiStub ui = new UiStub();
         StorageStub storage = new StorageStub();
 
         DeleteCommand deleteCommand = new DeleteCommand(0);
         String expectedResponse = "Removed task:\n[Stub] Task 1\n\nNow there is 1 task!";
-        TaskList expectedTasks = new TaskList(List.of(new TaskStub("Task 2")));
+        TaskList expectedTasks = new TaskList(new TaskStub("Task 2"));
 
         deleteCommand.execute(tasks, ui, storage);
 
@@ -51,7 +49,7 @@ class DeleteCommandTest {
 
     @Test
     void execute_invalidIndex_throwsException() {
-        TaskList tasks = new TaskList(List.of(new TaskStub("Task 1")));
+        TaskList tasks = new TaskList(new TaskStub("Task 1"));
         UiStub ui = new UiStub();
         StorageStub storage = new StorageStub();
 

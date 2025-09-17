@@ -43,9 +43,9 @@ class StorageTest {
     @BeforeAll
     public static void setup() {
         storage = new Storage();
-        tasks = new TaskList(List.of(new Todo("Set up desktop"),
+        tasks = new TaskList(new Todo("Set up desktop"),
                 new Deadline("Submit Quiz 1", LocalDateTime.of(2025, 9, 1, 23, 59)),
-                new Event("Orientation", LocalDateTime.of(2025, 9, 1, 9, 0), LocalDateTime.of(2025, 9, 4, 18, 0))));
+                new Event("Orientation", LocalDateTime.of(2025, 9, 1, 9, 0), LocalDateTime.of(2025, 9, 4, 18, 0)));
         tasks.get(0).markDone();
         // Gets the initial data file contents, so we can reset it after all tests are finished.
         try {
