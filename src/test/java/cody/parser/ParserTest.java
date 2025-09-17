@@ -21,6 +21,7 @@ import cody.commands.DeleteCommand;
 import cody.commands.EditCommand;
 import cody.commands.EventCommand;
 import cody.commands.ExitCommand;
+import cody.commands.FindCommand;
 import cody.commands.ListCommand;
 import cody.commands.MarkCommand;
 import cody.commands.TodoCommand;
@@ -34,6 +35,8 @@ public class ParserTest {
             "exit",
             "list",
             "list 2025-09-01",
+            "find 1",
+            "find task",
             "mark 1",
             "unmark 2",
             "delete 3",
@@ -48,6 +51,8 @@ public class ParserTest {
             new ExitCommand(),
             new ListCommand(),
             new ListCommand(LocalDate.of(2025, 9, 1)),
+            new FindCommand("1"),
+            new FindCommand("task"),
             new MarkCommand(0),
             new UnmarkCommand(1),
             new DeleteCommand(2),
@@ -67,7 +72,7 @@ public class ParserTest {
             "list 22 June",                                         // wrong date format
             "mark", "unmark", "delete", "edit",                     // missing task id
             "mark Task 5", "unmark e2", "delete four", "edit todo", // invalid task id
-            "todo", "deadline", "event",                            // missing description or other details
+            "todo", "deadline", "event", "find",                    // missing details
             "deadline D",                                           // missing due date
             "deadline D 2025-09-01 2359",                           // invalid format
             "deadline D /by 2025/09/01 11:59pm",                    // wrong date format

@@ -9,6 +9,12 @@ import org.junit.jupiter.api.Test;
 class ExitCommandTest {
 
     @Test
+    void testIsExit() {
+        ExitCommand exitCommand = new ExitCommand();
+        assertTrue(exitCommand.isExit(), "isExit should return true for ExitCommand");
+    }
+
+    @Test
     void testGetName() {
         ExitCommand exitCommand = new ExitCommand();
         assertEquals("exit", exitCommand.getName(), "Command name should be 'exit'");
@@ -22,17 +28,11 @@ class ExitCommandTest {
     }
 
     @Test
-    void testIsExit() {
-        ExitCommand exitCommand = new ExitCommand();
-        assertTrue(exitCommand.isExit(), "isExit should return true for ExitCommand");
-    }
-
-    @Test
     void testEquals() {
         ExitCommand exitCommand1 = new ExitCommand();
         ExitCommand exitCommand2 = new ExitCommand();
 
-        assertEquals(exitCommand1, exitCommand2, "Two ExitCommands should be equal");
+        assertEquals(exitCommand1, exitCommand2, "All ExitCommands should be equal");
     }
 
     @Test

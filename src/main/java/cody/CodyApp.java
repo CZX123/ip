@@ -24,9 +24,19 @@ public class CodyApp extends Application {
 
     @Override
     public void start(Stage stage) {
-        ui = new Ui();
-        storage = new Storage();
+        start(stage, new Ui(), new Storage());
+    }
 
+    /**
+     * Starts the application with the given UI and storage.
+     *
+     * @param stage   the primary stage for this application, supplied by Application.start()
+     * @param ui      the user interface to use
+     * @param storage the storage handler to use
+     */
+    protected void start(Stage stage, Ui ui, Storage storage) {
+        this.ui = ui;
+        this.storage = storage;
         ui.start(this, stage);
 
         TaskList tasks;

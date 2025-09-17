@@ -1,5 +1,7 @@
 package cody.commands;
 
+import java.util.Objects;
+
 import cody.commands.base.Command;
 import cody.commands.base.CommandName;
 import cody.data.TaskList;
@@ -38,5 +40,25 @@ public class FindCommand extends Command {
     @Override
     public boolean isExit() {
         return false;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+        FindCommand that = (FindCommand) o;
+        return Objects.equals(keyword, that.keyword);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), keyword);
     }
 }

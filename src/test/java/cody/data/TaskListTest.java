@@ -9,6 +9,8 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import cody.testutil.TaskStub;
+
 public class TaskListTest {
 
     @Test
@@ -20,8 +22,8 @@ public class TaskListTest {
 
     @Test
     public void constructor_nonEmptyList_constructsTaskListCorrectly() {
-        Task task1 = new Todo("Task 1");
-        Task task2 = new Todo("Task 2");
+        Task task1 = new TaskStub("Task 1");
+        Task task2 = new TaskStub("Task 2");
         TaskList taskList = new TaskList(List.of(task1, task2));
 
         assertFalse(taskList.isEmpty());
@@ -33,7 +35,7 @@ public class TaskListTest {
     @Test
     public void addTask_emptyList_increasesSize() {
         TaskList taskList = new TaskList();
-        Task task = new Todo("Sample Task");
+        Task task = new TaskStub("Sample Task");
 
         taskList.add(task);
 
@@ -44,8 +46,8 @@ public class TaskListTest {
     @Test
     public void addTaskAtSpecificIndex_nonEmptyList_insertsCorrectly() {
         TaskList taskList = new TaskList();
-        Task task1 = new Todo("Task 1");
-        Task task2 = new Todo("Task 2");
+        Task task1 = new TaskStub("Task 1");
+        Task task2 = new TaskStub("Task 2");
 
         taskList.add(task1);
         taskList.add(0, task2);
@@ -57,7 +59,7 @@ public class TaskListTest {
 
     @Test
     public void removeTask_existingTask_decreasesSize() {
-        Task task = new Todo("Sample Task");
+        Task task = new TaskStub("Sample Task");
         TaskList taskList = new TaskList(List.of(task));
 
         taskList.remove(0);
@@ -67,7 +69,7 @@ public class TaskListTest {
 
     @Test
     public void getTask_validIndex_returnsCorrectTask() {
-        Task task = new Todo("Sample Task");
+        Task task = new TaskStub("Sample Task");
         TaskList taskList = new TaskList(List.of(task));
 
         assertEquals(task, taskList.get(0));
@@ -82,29 +84,29 @@ public class TaskListTest {
 
     @Test
     public void isEmpty_nonEmptyList_returnsFalse() {
-        TaskList taskList = new TaskList(List.of(new Todo("Sample Task")));
+        TaskList taskList = new TaskList(List.of(new TaskStub("Sample Task")));
 
         assertFalse(taskList.isEmpty());
     }
 
     @Test
     public void isSingular_singleTask_returnsTrue() {
-        TaskList taskList = new TaskList(List.of(new Todo("Single Task")));
+        TaskList taskList = new TaskList(List.of(new TaskStub("Single Task")));
 
         assertTrue(taskList.isSingular());
     }
 
     @Test
     public void isSingular_multipleTasks_returnsFalse() {
-        TaskList taskList = new TaskList(List.of(new Todo("Task 1"), new Todo("Task 2")));
+        TaskList taskList = new TaskList(List.of(new TaskStub("Task 1"), new TaskStub("Task 2")));
 
         assertFalse(taskList.isSingular());
     }
 
     @Test
     public void filter_matchingTasks_returnsFilteredTaskList() {
-        Task task1 = new Todo("Task 1");
-        Task task2 = new Todo("Task 2");
+        Task task1 = new TaskStub("Task 1");
+        Task task2 = new TaskStub("Task 2");
         TaskList taskList = new TaskList(List.of(task1, task2));
 
         TaskList filteredList = taskList.filter(task -> task.getDescription().equals("Task 1"));
@@ -115,7 +117,7 @@ public class TaskListTest {
 
     @Test
     public void filter_noMatchingTasks_returnsEmptyList() {
-        TaskList taskList = new TaskList(List.of(new Todo("Task 1"), new Todo("Task 2")));
+        TaskList taskList = new TaskList(List.of(new TaskStub("Task 1"), new TaskStub("Task 2")));
 
         TaskList filteredList = taskList.filter(task -> task.getDescription().equals("Nonexistent Task"));
 
@@ -124,11 +126,11 @@ public class TaskListTest {
 
     @Test
     public void toString_nonEmptyList_returnsFormattedString() {
-        Task task1 = new Todo("Task 1");
-        Task task2 = new Todo("Task 2");
+        Task task1 = new TaskStub("Task 1");
+        Task task2 = new TaskStub("Task 2");
         TaskList taskList = new TaskList(List.of(task1, task2));
 
-        String expected = "1. [T][ ] Task 1\n2. [T][ ] Task 2";
+        String expected = "1. [Stub] Task 1\n2. [Stub] Task 2";
         assertEquals(expected, taskList.toString());
     }
 
@@ -141,7 +143,7 @@ public class TaskListTest {
 
     @Test
     public void equals_equalTaskLists_returnsTrue() {
-        Task task = new Todo("Sample Task");
+        Task task = new TaskStub("Sample Task");
         TaskList taskList1 = new TaskList(List.of(task));
         TaskList taskList2 = new TaskList(List.of(task));
 
@@ -150,15 +152,15 @@ public class TaskListTest {
 
     @Test
     public void equals_differentTaskLists_returnsFalse() {
-        TaskList taskList1 = new TaskList(List.of(new Todo("Task 1")));
-        TaskList taskList2 = new TaskList(List.of(new Todo("Task 2")));
+        TaskList taskList1 = new TaskList(List.of(new TaskStub("Task 1")));
+        TaskList taskList2 = new TaskList(List.of(new TaskStub("Task 2")));
 
         assertNotEquals(taskList1, taskList2);
     }
 
     @Test
     public void hashCode_equalTaskLists_consistentWithEquals() {
-        Task task = new Todo("Sample Task");
+        Task task = new TaskStub("Sample Task");
         TaskList taskList1 = new TaskList(List.of(task));
         TaskList taskList2 = new TaskList(List.of(task));
 

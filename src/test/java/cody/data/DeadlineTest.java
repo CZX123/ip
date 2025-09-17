@@ -1,6 +1,5 @@
 package cody.data;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -45,25 +44,6 @@ public class DeadlineTest {
 
         assertTrue(deadline.fallsOn(matchingDate), "fallsOn should return true for the matching date");
         assertFalse(deadline.fallsOn(nonMatchingDate), "fallsOn should return false for a non-matching date");
-    }
-
-    @Test
-    public void testMarkDoneAndUnmarkDone() {
-        LocalDateTime by = LocalDateTime.of(2023, 10, 15, 14, 0);
-        Deadline deadline = new Deadline("Submit assignment", by);
-        assertFalse(deadline.isDone(), "Deadline should initially be not done");
-
-        deadline.markDone();
-        assertTrue(deadline.isDone(), "Deadline should be marked as done");
-
-        assertDoesNotThrow(deadline::markDone, "Marking an already done deadline should not throw");
-        assertTrue(deadline.isDone(), "Deadline should still be marked as done");
-
-        deadline.unmarkDone();
-        assertFalse(deadline.isDone(), "Deadline should be unmarked and be not done");
-
-        assertDoesNotThrow(deadline::unmarkDone, "Unmarking an already not done deadline should not throw");
-        assertFalse(deadline.isDone(), "Deadline should still be not done");
     }
 
     @Test

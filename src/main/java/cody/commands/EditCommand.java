@@ -57,6 +57,9 @@ public class EditCommand extends ModifyTaskCommand {
 
     @Override
     public void execute(TaskList tasks, Ui ui, Storage storage) throws CodyException {
+        if (isIndexInvalid(tasks)) {
+            throw new UserInputException(String.format("There is no task numbered %d!", getIndex() + 1));
+        }
         Task originalTask = tasks.get(getIndex());
         checkValidity(originalTask);
 
@@ -135,7 +138,7 @@ public class EditCommand extends ModifyTaskCommand {
             }
         }
 
-        if (from.isAfter(to)) {
+        if (!from.isBefore(to)) {
             throw new UserInputException("Invalid dates provided!\n"
                     + "The starting date and time occurs after the ending date and time!");
         }

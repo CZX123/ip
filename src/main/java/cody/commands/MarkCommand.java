@@ -19,7 +19,7 @@ public class MarkCommand extends ModifyTaskCommand {
 
     @Override
     public void execute(TaskList tasks, Ui ui, Storage storage) throws CodyException {
-        if (isIndexInvalid(tasks, getIndex())) {
+        if (isIndexInvalid(tasks)) {
             throw new UserInputException(String.format("There is no task numbered %d!", getIndex() + 1));
         }
         Task task = tasks.get(getIndex());
