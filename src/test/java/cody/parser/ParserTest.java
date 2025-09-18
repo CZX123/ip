@@ -45,6 +45,7 @@ public class ParserTest {
             "deadline Submit Quiz 1 /by 2025-09-01 2359",
             "event Orientation /from 2025-09-01 0900 /to 2025-09-04 1800",
             "edit 1 /desc new description",
+            "update 1 /desc new description",
             "edit 999 /option value"};
     private static final Command[] VALID_OUTPUTS = {
             new ExitCommand(),
@@ -61,6 +62,7 @@ public class ParserTest {
             new DeadlineCommand("Submit Quiz 1", LocalDateTime.of(2025, 9, 1, 23, 59)),
             new EventCommand("Orientation", LocalDateTime.of(2025, 9, 1, 9, 0),
                     LocalDateTime.of(2025, 9, 4, 18, 0)),
+            new EditCommand(0, List.of(new EditCommand.Option("desc", "new description"))),
             new EditCommand(0, List.of(new EditCommand.Option("desc", "new description"))),
             new EditCommand(998, List.of(new EditCommand.Option("option", "value")))};
 
