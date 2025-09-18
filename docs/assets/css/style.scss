@@ -1,0 +1,66 @@
+---
+---
+
+$section-headings-color: #67eaa9;
+$body-text-color: rgba(255, 255, 255, .87);
+$body-link-color: #65ace6;
+$blockquote-text-color: rgba(255, 255, 255, .7);
+
+$code-bg-color: rgba(255, 255, 255, .12);
+$code-text-color: rgba(255, 255, 255, .87);
+
+$border-color: #f78166;
+$table-border-color: rgba(255, 255, 255, .12);
+$hr-border-color: rgba(255, 255, 255, .12);
+
+@import "{{ site.theme }}";
+
+html, body {
+    background-color: #181a1b;
+}
+
+.page-header .project-tagline {
+    margin-bottom: 3rem;
+}
+
+.project-info {
+    padding-bottom: 0;
+    text-align: center;
+}
+
+.project-info img.project-ui {
+    display: block;
+    width: 350px;
+    margin-right: auto;
+    margin-bottom: 1em;
+    margin-left: auto;
+    border-radius: 8px;
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.04),
+                0px 5px 4px rgba(0, 0, 0, 0.08),
+                0px 12px 9px rgba(0, 0, 0, 0.12),
+                0px 20px 15px rgba(0, 0, 0, 0.16),
+                0px 32px 24px rgba(0, 0, 0, 0.20);
+
+
+    @include large {
+        margin-top: -6rem;
+    }
+
+    @include medium {
+        margin-top: -5rem;
+    }
+
+    @include small {
+        margin-top: -5rem;
+    }
+}
+
+.project-info p {
+    display: block;
+    max-width: 420px;
+    margin: 2em auto;
+}
+
+.project-info hr {
+    margin-top: 2em;
+}
