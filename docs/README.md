@@ -17,6 +17,7 @@
   - [Editing the data file](#editing-the-data-file)
 - [FAQ](#faq)
 - [Command Summary](#command-summary)
+- [Attributions](#attributions)
 
 ---
 
@@ -242,3 +243,11 @@ Cody's data are saved automatically as a TXT file `[JAR file location]/data/task
 | Edit task (Deadline)  | `edit <index> [/desc <description>] [/by <YYYY-MM-DD HHmm>]`                           |
 | Edit task (Event)     | `edit <index> [/desc <description>] [/from <YYYY-MM-DD HHmm>] [/to <YYYY-MM-DD HHmm>]` |
 | Exit program          | `exit`                                                                                 |
+
+## Attributions
+
+Icons used in the app are sourced from [Flaticon](https://www.flaticon.com/).
+
+| <img src="../src/main/resources/images/cody.png" alt="cody icon" width="48"> | <img src="../src/main/resources/images/user.png" alt="user icon" width="48"> |
+|----------------------|----------------------|
+| <a href="https://www.flaticon.com/free-icons/droid" title="droid icons">Cody icon created by brajaomar_j - Flaticon</a> | <a href="https://www.flaticon.com/free-icons/user" title="user icon">User icon created by Freepik - Flaticon</a> |
