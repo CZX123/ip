@@ -22,7 +22,7 @@ public abstract class ModifyTaskCommand extends Command {
     /**
      * Checks if the index is invalid for the given task list.
      *
-     * @param tasks the active {@code TaskList} instance
+     * @param tasks the active {@code TaskList} instance.
      * @return whether the index is out of bounds of the active task list.
      */
     protected boolean isIndexInvalid(TaskList tasks) {

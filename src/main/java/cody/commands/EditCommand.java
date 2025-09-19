@@ -36,8 +36,8 @@ public class EditCommand extends ModifyTaskCommand {
     /**
      * Represents an option as part of an edit command.
      *
-     * @param name  option name, written in text as "/option-name"
-     * @param value option value, written after option name
+     * @param name  option name, written in text as "/option-name".
+     * @param value option value, written after option name.
      */
     public record Option(String name, String value) {
     }
@@ -47,8 +47,8 @@ public class EditCommand extends ModifyTaskCommand {
     /**
      * Constructs an edit command.
      *
-     * @param index   the index of the task to be edited
-     * @param options the new values for the task to be updated to
+     * @param index   the index of the task to be edited.
+     * @param options the new values for the task to be updated to.
      */
     public EditCommand(int index, List<Option> options) {
         super(CommandName.EDIT.getName(), index);
@@ -149,8 +149,8 @@ public class EditCommand extends ModifyTaskCommand {
     /**
      * Checks that the provided options are valid.
      *
-     * @param task the task to match the options to
-     * @throws UserInputException if there is an invalid option
+     * @param task the task to match the options to.
+     * @throws UserInputException if there is an invalid option.
      */
     private void checkValidity(Task task) throws UserInputException {
         List<String> validOptionNames = VALID_OPTIONS.get(task.getLetter());

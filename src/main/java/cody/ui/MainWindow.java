@@ -51,7 +51,7 @@ public class MainWindow extends AnchorPane {
     /**
      * Updates the main window with the main CodyApp instance.
      *
-     * @param c the main CodyApp
+     * @param c the main CodyApp.
      */
     public void setCody(CodyApp c) {
         codyApp = c;
@@ -60,7 +60,7 @@ public class MainWindow extends AnchorPane {
     /**
      * Inserts a node to the dialog container.
      *
-     * @param node the node to insert
+     * @param node the node to insert.
      */
     @FXML
     public void insertNode(Node node) {

@@ -39,8 +39,8 @@ public class TaskList implements Iterable<Task> {
     /**
      * Adds a task to the list at the specified position.
      *
-     * @param index index at which the specified task is to be inserted
-     * @param task task to be inserted
+     * @param index index at which the specified task is to be inserted.
+     * @param task task to be inserted.
      */
     public void add(int index, Task task) {
         internalList.add(index, task);
@@ -84,8 +84,8 @@ public class TaskList implements Iterable<Task> {
     /**
      * Filters the task list.
      *
-     * @param predicate filter condition
-     * @return a new {@code TaskList} with the tasks filtered
+     * @param predicate filter condition.
+     * @return a new {@code TaskList} with the tasks filtered.
      */
     public TaskList filter(Predicate<Task> predicate) {
         return new TaskList(internalList.stream().filter(predicate).toArray(Task[]::new));
@@ -101,10 +101,25 @@ public class TaskList implements Iterable<Task> {
         internalList.forEach(action);
     }
 
+    /**
+     * Returns a string representation of the task list with numbering.
+     * <p>
+     * Each task is prefixed with its id, and the id values starts from 1.
+     */
     @Override
     public String toString() {
         return IntStream.range(0, internalList.size())
                 .mapToObj(i -> String.format("%d. %s", i + 1, internalList.get(i)))
+                .reduce((a, b) -> a + "\n" + b)
+                .orElse("");
+    }
+
+    /**
+     * Returns a string representation of the task list without numbering.
+     */
+    public String toStringWithoutNumbering() {
+        return internalList.stream()
+                .map(Task::toString)
                 .reduce((a, b) -> a + "\n" + b)
                 .orElse("");
     }

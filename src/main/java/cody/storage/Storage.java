@@ -19,8 +19,8 @@ public class Storage {
     /**
      * Loads task list from storage, located at default file path.
      *
-     * @return task list
-     * @throws StorageOperationException when an IO or decoding error occurs
+     * @return the task list.
+     * @throws StorageOperationException when an IO or decoding error occurs.
      */
     public TaskList load() throws StorageOperationException {
         return load(DEFAULT_FILEPATH);
@@ -29,9 +29,9 @@ public class Storage {
     /**
      * Loads task list from storage, located at given file path.
      *
-     * @param filePath path of the file
-     * @return task list
-     * @throws StorageOperationException when an IO or decoding error occurs
+     * @param filePath path of the file.
+     * @return the task list.
+     * @throws StorageOperationException when an IO or decoding error occurs.
      */
     public TaskList load(String filePath) throws StorageOperationException {
         Path path = Paths.get(filePath);
@@ -41,19 +41,21 @@ public class Storage {
         try {
             return codec.decode(Files.readAllLines(path));
         } catch (Codec.TaskDecodeException e) {
-            throw new StorageOperationException("Error loading file:\n\n" + e.getMessage()
+            throw new StorageOperationException("Error loading file at " + filePath + ":\n\n"
+                    + e.getMessage()
                     + "\n\nNote that adding any tasks now will overwrite the save file!"
-                    + "\nYou can recover your saved tasks at " + filePath);
+                    + "\nYou can recover your saved tasks at " + filePath + " before you continue.");
         } catch (IOException e) {
-            throw new StorageOperationException("Error loading file: " + path);
+            throw new StorageOperationException("An IO error occurred when loading file at " + filePath + "!"
+                    + "Ensure that the read and write permissions are correctly set.");
         }
     }
 
     /**
      * Saves task list into storage, located at default file path.
      *
-     * @param tasks the task list to save
-     * @throws StorageOperationException when an IO or encoding error occurs
+     * @param tasks the task list to save.
+     * @throws StorageOperationException when an IO or encoding error occurs.
      */
     public void save(TaskList tasks) throws StorageOperationException {
         save(tasks, DEFAULT_FILEPATH);
@@ -62,9 +64,9 @@ public class Storage {
     /**
      * Saves task list into storage, located at given file path.
      *
-     * @param tasks    the task list to save
-     * @param filePath the path of the file
-     * @throws StorageOperationException when an IO or encoding error occurs
+     * @param tasks    the task list to save.
+     * @param filePath the path of the file.
+     * @throws StorageOperationException when an IO or encoding error occurs.
      */
     public void save(TaskList tasks, String filePath) throws StorageOperationException {
         Path path = Paths.get(filePath);

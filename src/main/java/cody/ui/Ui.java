@@ -3,7 +3,6 @@ package cody.ui;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.Arrays;
 
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -30,7 +29,7 @@ public class Ui {
     /**
      * Starts the application and loads the UI.
      *
-     * @param stage the main stage of the application
+     * @param stage the main stage of the application.
      */
     public void start(CodyApp cody, Stage stage) {
         Parent mainNode;
@@ -67,8 +66,8 @@ public class Ui {
     /**
      * Creates a JavaFX alert.
      *
-     * @param message the error message in the alert
-     * @return the alert to be displayed
+     * @param message the error message in the alert.
+     * @return the alert to be displayed.
      */
     private static Alert createAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -128,19 +127,5 @@ public class Ui {
      */
     public void showGoodbye() {
         showCodyResponse(GOODBYE_MSG);
-    }
-
-    /**
-     * Removes the numbering that appears by default when displaying task list.
-     * This is needed when listing tasks through a filter, as the number may be
-     * different from the actual task id, which may confuse users.
-     *
-     * @param text the string representation of task list
-     * @return task list string representation without numbering
-     */
-    public String removeNumberingFromTasks(String text) {
-        return Arrays.stream(text.split("\n"))
-                .map(line -> line.substring(line.indexOf('.') + 2))
-                .reduce((a, b) -> a + "\n" + b).orElse("");
     }
 }

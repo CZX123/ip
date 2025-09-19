@@ -26,6 +26,7 @@ public class Codec {
 
     /**
      * Regex used for checking task format.
+     * <p>
      * Checks that the task letter, status digit and description follow the correct format.
      */
     private static final String REGEX_TASK = "[" + Todo.LETTER + "|" + Deadline.LETTER + "|" + Event.LETTER + "]"
@@ -44,9 +45,9 @@ public class Codec {
     /**
      * Encodes the given task list into lines of text used for storage.
      *
-     * @param tasks the task list to encode
-     * @return lines of text representing the task list
-     * @throws TaskEncodeException when a task cannot be encoded
+     * @param tasks the task list to encode.
+     * @return lines of text representing the task list.
+     * @throws TaskEncodeException when a task cannot be encoded.
      */
     public List<String> encode(TaskList tasks) throws TaskEncodeException {
         List<String> lines = new ArrayList<>();
@@ -79,9 +80,9 @@ public class Codec {
     /**
      * Decodes lines of text representing the task list into a {@code TaskList} object.
      *
-     * @param lines lines of text representing the task list
-     * @return a {@code TaskList} object containing all tasks from the lines of text
-     * @throws TaskDecodeException when a line cannot be decoded due to invalid format
+     * @param lines lines of text representing the task list.
+     * @return a {@code TaskList} object containing all tasks from the lines of text.
+     * @throws TaskDecodeException when a line cannot be decoded due to invalid format.
      */
     public TaskList decode(List<String> lines) throws TaskDecodeException {
         List<Task> tasks = new ArrayList<>();
@@ -95,7 +96,8 @@ public class Codec {
                 case Todo.LETTER -> decodeTodo(line);
                 case Deadline.LETTER -> decodeDeadline(line);
                 case Event.LETTER -> decodeEvent(line);
-                default -> throw new TaskDecodeException("Invalid task type: " + line.charAt(0));
+                default -> throw new TaskDecodeException("Invalid task type \"" + line.charAt(0) + "\" in line:\n"
+                        + line);
             };
             // CHECKSTYLE ON: Indentation
             boolean isDone = line.charAt(4) == STATUS_DONE; // status is at index 4

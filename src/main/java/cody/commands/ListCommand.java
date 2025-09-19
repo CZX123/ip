@@ -28,7 +28,7 @@ public class ListCommand extends Command {
     /**
      * Constructs a list command that lists all tasks on the given date.
      *
-     * @param date the date that filters the tasks
+     * @param date the date that filters the tasks.
      */
     public ListCommand(LocalDate date) {
         super(CommandName.LIST.getName());
@@ -53,7 +53,7 @@ public class ListCommand extends Command {
             } else {
                 result = String.format("You have %d task%s on %s!\n%s",
                         filteredTasks.size(), filteredTasks.isSingular() ? "" : "s", date.format(format),
-                                ui.removeNumberingFromTasks(filteredTasks.toString()));
+                                filteredTasks.toStringWithoutNumbering());
             }
         }
         ui.showCodyResponse(result);

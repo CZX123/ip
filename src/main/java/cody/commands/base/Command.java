@@ -8,7 +8,7 @@ import cody.storage.Storage;
 import cody.ui.Ui;
 
 /**
- * Represents an executable command
+ * Represents an executable command.
  */
 public abstract class Command {
     private final String name;
@@ -24,10 +24,10 @@ public abstract class Command {
     /**
      * Executes the command.
      *
-     * @param tasks   the active {@code TaskList} instance
-     * @param ui      the active {@code Ui} instance
-     * @param storage the active {@code Storage} instance
-     * @throws CodyException on any invalid user input or storage operation error
+     * @param tasks   the active {@code TaskList} instance.
+     * @param ui      the active {@code Ui} instance.
+     * @param storage the active {@code Storage} instance.
+     * @throws CodyException on any invalid user input or storage operation error.
      */
     public abstract void execute(TaskList tasks, Ui ui, Storage storage) throws CodyException;
 
@@ -53,6 +53,10 @@ public abstract class Command {
         return Objects.hash(name);
     }
 
+    /**
+     * Returns a string representation of the command.
+     * Only used for testing and debugging.
+     */
     @Override
     public String toString() {
         return String.format("%s{name='%s'}", getClass().getSimpleName(), name);

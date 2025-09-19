@@ -9,6 +9,7 @@ import java.util.Objects;
  * Represents a deadline.
  */
 public class Deadline extends Task {
+
     /**
      * Used to denote task type when storing task in plaintext.
      */
@@ -19,8 +20,8 @@ public class Deadline extends Task {
     /**
      * Constructs a deadline based on the given description and due date.
      *
-     * @param description deadline description
-     * @param by deadline due date
+     * @param description deadline description.
+     * @param by deadline due date.
      */
     public Deadline(String description, LocalDateTime by) {
         super(description);

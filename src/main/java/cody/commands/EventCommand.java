@@ -18,9 +18,9 @@ public class EventCommand extends AddTaskCommand {
     /**
      * Constructs an event command.
      *
-     * @param description event description
-     * @param from event start date and time
-     * @param to event end date and time
+     * @param description event description.
+     * @param from event start date and time.
+     * @param to event end date and time.
      */
     public EventCommand(String description, LocalDateTime from, LocalDateTime to) {
         super(CommandName.DEADLINE.getName(), description);

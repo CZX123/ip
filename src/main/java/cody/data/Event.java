@@ -9,6 +9,7 @@ import java.util.Objects;
  * Represents an event.
  */
 public class Event extends Task {
+
     /**
      * Used to denote task type when storing task in plaintext.
      */
@@ -20,9 +21,9 @@ public class Event extends Task {
     /**
      * Constructs an event based on the given description, start date and end date.
      *
-     * @param description event description
-     * @param from event start date
-     * @param to event end date
+     * @param description event description.
+     * @param from event start date.
+     * @param to event end date.
      */
     public Event(String description, LocalDateTime from, LocalDateTime to) {
         super(description);

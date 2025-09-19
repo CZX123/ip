@@ -34,7 +34,7 @@ public class Parser {
     /**
      * Parses user input, and returns the corresponding command.
      *
-     * @throws UserInputException when there is invalid input
+     * @throws UserInputException when there is invalid input.
      */
     public static Command parse(String fullCommand) throws UserInputException {
         // CHECKSTYLE OFF: Indentation
@@ -173,9 +173,9 @@ public class Parser {
     /**
      * Gets the command name from user input.
      *
-     * @param fullCommand user input
-     * @return the corresponding {@code CommandName} enum
-     * @throws UserInputException if command is invalid
+     * @param fullCommand user input.
+     * @return the corresponding {@code CommandName} enum.
+     * @throws UserInputException if command is invalid.
      */
     private static CommandName getName(String fullCommand) throws UserInputException {
         String firstWord = fullCommand.split(" ", 2)[0];
@@ -189,9 +189,9 @@ public class Parser {
      * Gets task index from user input, for commands which include keying in
      * task id.
      *
-     * @param fullCommand user input
-     * @return index of the task in the task list
-     * @throws UserInputException if the task id given is invalid
+     * @param fullCommand user input.
+     * @return index of the task in the task list.
+     * @throws UserInputException if the task id given is invalid.
      */
     private static int getIndex(String fullCommand) throws UserInputException {
         int index;
@@ -210,9 +210,9 @@ public class Parser {
     /**
      * Parses the given string into a date-time object.
      *
-     * @param text the date and time written as a string, with the format following the default date-time pattern
-     * @return a {@code LocalDateTime} instance representing the given date and time
-     * @throws DateTimeParseException if the text cannot be parsed
+     * @param text the date and time written as a string, with the format following the default date-time pattern.
+     * @return a {@code LocalDateTime} instance representing the given date and time.
+     * @throws DateTimeParseException if the text cannot be parsed.
      */
     public static LocalDateTime parseDateTimeFromString(String text) throws DateTimeParseException {
         return LocalDateTime.parse(text, DateTimeFormatter.ofPattern(DEFAULT_DATE_TIME_PATTERN));

@@ -52,10 +52,24 @@ public class DialogBox extends HBox {
         getStyleClass().add("cody-dialog");
     }
 
+    /**
+     * Creates a dialog box for the user's command.
+     *
+     * @param text The text to display.
+     * @param img The image to display.
+     * @return A dialog box for the user.
+     */
     public static DialogBox getUserDialog(String text, Image img) {
         return new DialogBox(text, img);
     }
 
+    /**
+     * Creates a dialog box for Cody's response.
+     *
+     * @param text The text to display.
+     * @param img The image to display.
+     * @return A dialog box for Cody.
+     */
     public static DialogBox getCodyDialog(String text, Image img) {
         DialogBox dialog = new DialogBox(text, img);
         dialog.flip();

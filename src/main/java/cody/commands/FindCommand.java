@@ -17,7 +17,7 @@ public class FindCommand extends Command {
     /**
      * Constructs a find command with the given keyword.
      *
-     * @param keyword the search keyword
+     * @param keyword the search keyword.
      */
     public FindCommand(String keyword) {
         super(CommandName.FIND.getName());
@@ -33,7 +33,7 @@ public class FindCommand extends Command {
             ui.showCodyResponse(
                     String.format("There %s %d matching task%s:\n%s", filteredTasks.isSingular() ? "is" : "are",
                             filteredTasks.size(), filteredTasks.isSingular() ? "" : "s",
-                            ui.removeNumberingFromTasks(filteredTasks.toString())));
+                            filteredTasks.toStringWithoutNumbering()));
         }
     }
 

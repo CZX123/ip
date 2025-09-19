@@ -17,8 +17,8 @@ public class DeadlineCommand extends AddTaskCommand {
     /**
      * Constructs a deadline command
      *
-     * @param description deadline description
-     * @param by deadline due date and time
+     * @param description deadline description.
+     * @param by deadline due date and time.
      */
     public DeadlineCommand(String description, LocalDateTime by) {
         super(CommandName.DEADLINE.getName(), description);

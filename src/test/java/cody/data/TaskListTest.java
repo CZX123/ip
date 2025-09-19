@@ -140,6 +140,23 @@ public class TaskListTest {
     }
 
     @Test
+    public void toStringWithoutNumbering_nonEmptyList_returnsFormattedString() {
+        Task task1 = new TaskStub("Task 1");
+        Task task2 = new TaskStub("Task 2");
+        TaskList taskList = new TaskList(task1, task2);
+
+        String expected = "[Stub] Task 1\n[Stub] Task 2";
+        assertEquals(expected, taskList.toStringWithoutNumbering());
+    }
+
+    @Test
+    public void toStringWithoutNumbering_emptyList_returnsEmptyString() {
+        TaskList taskList = new TaskList();
+
+        assertEquals("", taskList.toStringWithoutNumbering());
+    }
+
+    @Test
     public void equals_equalTaskLists_returnsTrue() {
         Task task = new TaskStub("Sample Task");
         TaskList taskList1 = new TaskList(task);

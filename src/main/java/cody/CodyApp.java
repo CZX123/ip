@@ -30,9 +30,9 @@ public class CodyApp extends Application {
     /**
      * Starts the application with the given UI and storage.
      *
-     * @param stage   the primary stage for this application, supplied by Application.start()
-     * @param ui      the user interface to use
-     * @param storage the storage handler to use
+     * @param stage   the primary stage for this application, supplied by {@code Application.start()}.
+     * @param ui      the user interface to use.
+     * @param storage the storage handler to use.
      */
     protected void start(Stage stage, Ui ui, Storage storage) {
         this.ui = ui;
@@ -54,7 +54,7 @@ public class CodyApp extends Application {
     /**
      * Responds to the given user command.
      *
-     * @param fullCommand the full command string the user typed out
+     * @param fullCommand the full command string the user typed out.
      */
     public void respond(String fullCommand) {
         ui.showUserCommand(fullCommand);
