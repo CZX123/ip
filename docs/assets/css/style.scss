@@ -19,6 +19,33 @@ html, body {
     background-color: #181a1b;
 }
 
+#content {
+    padding-top: 0 !important;
+}
+
+.main-content hr {
+    margin: 2rem 0 !important;
+}
+
+.main-content p {
+    margin: 1em 0 !important;
+}
+
+.main-content p:has(+ ul) {
+    margin-bottom: 0.6em !important;
+}
+
+.main-content ul li, .main-content ul li p {
+    margin: 0.4em 0 !important;
+}
+
+.main-content code {
+    border-radius: 0.3em;
+    padding: 0.1em 0.3em;
+    font-size: 0.9em;
+    transform: translateY(-0.05em);
+}
+
 .page-header .project-tagline {
     margin-bottom: 3rem;
 }
@@ -32,7 +59,7 @@ html, body {
     display: block;
     width: 350px;
     margin-right: auto;
-    margin-bottom: 1em;
+    margin-bottom: 2rem;
     margin-left: auto;
     border-radius: 8px;
     box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.04),
@@ -58,9 +85,5 @@ html, body {
 .project-info p {
     display: block;
     max-width: 420px;
-    margin: 2em auto;
-}
-
-.project-info hr {
-    margin-top: 2em;
+    margin: 2em auto !important;
 }

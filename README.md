@@ -14,4 +14,4 @@ Prerequisites: JDK 17, update Intellij to the most recent version.
 1. Configure the project to use **JDK 17** (not other versions) as explained in [here](https://www.jetbrains.com/help/idea/sdk.html#set-up-jdk).<br>
    In the same dialog, set the **Project language level** field to the `SDK default` option.
 1. After that, locate the `src/main/java/cody/Cody.java` file, right-click it, and choose `Run Cody.main()` (if the code editor is showing compile errors, try restarting the IDE). If the setup is correct, you should see the below GUI:
-<img width="320" alt="Cody GUI" src="https://github.com/user-attachments/assets/cf2e1242-35f8-438d-849c-56e833dc2f52" />
+<img width="320" alt="Cody GUI" src="docs/Ui.png" />
