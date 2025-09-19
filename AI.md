@@ -1,6 +1,6 @@
 ## Overview
 
-- The main AI tool used in this project is GitHub Copilot chat, which itself uses OpenAI's GPT-4 model.
+- The main AI tool used in the later part of the project is GitHub Copilot chat, which itself uses OpenAI's GPT-4 model.
 - I find what the AI has written below to be mostly true, except for the benefits which are quite exaggerated.
 - Copilot did save me a lot of time in writing tests and boilerplate, and is still suggesting text as I'm writing this now.
 - Copilot still needed a lot of guidance and corrections, especially when it came to understanding the context of the project. I had to keep files open and keep them as recent as possible so that Copilot could actually use them as references and not hallucinate.

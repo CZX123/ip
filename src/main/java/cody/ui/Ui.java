@@ -36,7 +36,9 @@ public class Ui {
         try {
             URL fxmlUrl = getClass().getResource("/view/MainWindow.fxml");
             InputStream fontStream = getClass().getResourceAsStream("/fonts/ubuntu-mono.ttf");
+            // Source: https://www.flaticon.com/free-icon/development_15414154
             InputStream codyImageStream = getClass().getResourceAsStream("/images/cody.png");
+            // Source: https://www.flaticon.com/free-icon/user_1077012
             InputStream userImageStream = getClass().getResourceAsStream("/images/user.png");
 
             assert fxmlUrl != null;

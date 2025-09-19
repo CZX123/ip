@@ -248,6 +248,6 @@ Cody's data are saved automatically as a TXT file `[JAR file location]/data/task
 
 Icons used in the app are sourced from [Flaticon](https://www.flaticon.com/).
 
-| <img src="../src/main/resources/images/cody.png" alt="cody icon" width="48"> | <img src="../src/main/resources/images/user.png" alt="user icon" width="48"> |
-|----------------------|----------------------|
-| <a href="https://www.flaticon.com/free-icons/droid" title="droid icons">Cody icon created by brajaomar_j - Flaticon</a> | <a href="https://www.flaticon.com/free-icons/user" title="user icon">User icon created by Freepik - Flaticon</a> |
+| <img src="assets/images/cody.png" alt="cody icon" width="48"> | <img src="assets/images/user.png" alt="user icon" width="48"> |
+|---------------------------------------------------------------|---------------------------------------------------------------|
+| <a href="https://www.flaticon.com/free-icon/development_15414154" title="droid icons">Cody icon created by brajaomar_j - Flaticon</a> | <a href="https://www.flaticon.com/free-icon/user_1077012" title="user icon">User icon created by Freepik - Flaticon</a> |

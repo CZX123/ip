@@ -15,3 +15,15 @@ Prerequisites: JDK 17, update Intellij to the most recent version.
    In the same dialog, set the **Project language level** field to the `SDK default` option.
 1. After that, locate the `src/main/java/cody/Cody.java` file, right-click it, and choose `Run Cody.main()` (if the code editor is showing compile errors, try restarting the IDE). If the setup is correct, you should see the below GUI:
 <img width="320" alt="Cody GUI" src="docs/Ui.png" />
+
+## Attributions
+
+Icons used in the app are sourced from [Flaticon](https://www.flaticon.com/).
+
+| <img src="src/main/resources/images/cody.png" alt="cody icon" width="48"> | <img src="src/main/resources/images/user.png" alt="user icon" width="48"> |
+|----------------------|----------------------|
+| <a href="https://www.flaticon.com/free-icon/development_15414154" title="droid icons">Cody icon created by brajaomar_j - Flaticon</a> | <a href="https://www.flaticon.com/free-icon/user_1077012" title="user icon">User icon created by Freepik - Flaticon</a> |
+
+## AI Use
+
+GitHub Copilot was mainly used for writing test code, as part of the `A-MoreTesting` increment. Further details can be found in [AI.md](AI.md).
