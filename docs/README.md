@@ -244,6 +244,8 @@ Cody's data are saved automatically as a TXT file `[JAR file location]/data/task
 | Edit task (Event)     | `edit <index> [/desc <description>] [/from <YYYY-MM-DD HHmm>] [/to <YYYY-MM-DD HHmm>]` |
 | Exit program          | `exit`                                                                                 |
 
+---
+
 ## Attributions
 
 Icons used in the app are sourced from [Flaticon](https://www.flaticon.com/).
